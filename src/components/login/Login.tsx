@@ -3,7 +3,7 @@ import React from 'react';
 const Login = () => {
 
     return (
-        <>LoginPage</>
+        <div className={"main"}>LoginPage</div>
 
     )
 }

@@ -3,7 +3,7 @@ import React from 'react';
 const RecoveryPassword = () => {
 
     return (
-        <>RecoveryPassword</>
+        <div className={"main"}>RecoveryPassword</div>
 
     )
 }

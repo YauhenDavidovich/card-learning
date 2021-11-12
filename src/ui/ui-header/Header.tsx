@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 const Header = () => {
 
     return (
-        <div>
+        <div className={"header"}>
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/new-password">New Password</NavLink>
             <NavLink to="/recovery-password">Recovery Password</NavLink>

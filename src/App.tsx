@@ -5,10 +5,10 @@ import Main from "./ui/ui-main/Main";
 
 function App() {
     return (
-        <>
+        <div className={"App"}>
             <Header/>
             <Main/>
-        </>
+        </div>
     )
 }
 
