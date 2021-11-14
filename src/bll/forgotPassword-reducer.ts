@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {restorePasswordApi} from "../dll/restorePasswordApi";
+import {restorePasswordApi} from "../dal/restorePasswordApi";
 
 let initialState = {
     IsRequestNewPasswordSent: false,
@@ -11,7 +11,11 @@ export type LoginInitialStateType = typeof initialState;
 
 //Reducer
 export const forgotPasswordReducer = (state = initialState, action: ActionTypes): LoginInitialStateType => {
-    switch (action.type) {
+    switch(action.type) {
+        case IS_REQUEST_NEW_PASSWORD_SENT :
+            return {...state, IsRequestNewPasswordSent: action.IsRequestNewPasswordSent}
+        case SET_REQUEST_MESSAGE:
+            return {...state, message: action.message}
         default:
             return state;
     }
@@ -27,6 +31,7 @@ export const setRequestMessage = (message: string | null) => ({ type: SET_REQUES
 
 //thunks
 export const requestForgotPasswordTC = (email: string, from: string, message: string) => (dispatch: Dispatch) => {
+debugger
     restorePasswordApi.requestForgotPassword({ email, from, message })
         .then(res => {
             console.log(res.data)
