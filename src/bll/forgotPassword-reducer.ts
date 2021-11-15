@@ -31,7 +31,6 @@ export const setRequestMessage = (message: string | null) => ({ type: SET_REQUES
 
 //thunks
 export const requestForgotPasswordTC = (email: string, from: string, message: string) => (dispatch: Dispatch) => {
-debugger
     restorePasswordApi.requestForgotPassword({ email, from, message })
         .then(res => {
             console.log(res.data)

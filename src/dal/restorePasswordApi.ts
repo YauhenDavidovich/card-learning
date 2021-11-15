@@ -1,14 +1,13 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0",
+    baseURL: process.env.REACT_APP_API_PATH,
     withCredentials: true
 });
 
 export const restorePasswordApi = {
 
     requestForgotPassword(data: ForgotRequestDataType) {
-        debugger
         return instance.post<CheckEmailResponseType>('auth/forgot', data )
     },
     setNewPassword(data: NewPasswordRequestType) {

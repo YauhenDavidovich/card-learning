@@ -37,53 +37,70 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
     });
 
 
-    return <Container maxWidth="lg" style={{background: "linear-gradient(45deg, white, blue)", height: "50vh"}}>
-        <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
-            <Grid item xs={4}>
-                <form onSubmit={formik.handleSubmit}>
-                    <Box component="span" display="block" style={{marginTop: "20px", marginBottom: "10px"}}>
-                        <FormLabel htmlFor="email" filled={true} focused={true}
-                                   style={{fontSize: "40px", color: "white"}}>Forgot Password</FormLabel>
-                    </Box>
+    return <div className={"main"}>
+        <Container maxWidth="sm" style={{background: "#F9F9FE", height: "50vh", borderRadius: "8px"}}>
+            <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"} spacing={3}>
+                <Grid item style={{
+                    marginTop: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: 'center',
+                    alignItems: "center"
+                }}>
+                    <form onSubmit={formik.handleSubmit}>
+                        <Box component="span" sx={{marginTop: "20px", marginBottom: "10px"}}>
+                            <h2 style={{textAlign: 'center'}}>Forgot your password?</h2>
+                        </Box>
 
-                    <Box component="span" display="block">
-                        <TextField
-                            variant={"outlined"}
-                            style={{marginTop: "20px", width: "100%"}}
-                            id={"outlined-basic"}
-                            type={"email"}
-                            color={"primary"}
-                            placeholder={"Email"}
-                            {...formik.getFieldProps("email")}
-
-                        />
-                    </Box>
-
-
-                    <Button variant="contained"
-                            color="primary"
-                            type="submit"
-                            style={{marginTop: "20px", width: "100%"}}
+                        <Box component="span" display="block">
+                            <TextField
+                                variant={"outlined"}
+                                style={{marginTop: "20px", width: "100%"}}
+                                id={"outlined-basic"}
+                                type={"email"}
+                                color={"primary"}
+                                placeholder={"Email"}
+                                {...formik.getFieldProps("email")}
+                            />
+                        </Box>
+                        <Box>
+                            <h4>Enter your email address and we will send you further instructions</h4>
+                        </Box>
+                        <Button variant="contained"
+                                color="primary"
+                                type="submit"
+                                style={{
+                                    borderRadius: "30px",
+                                    background: "#73926C",
+                                    marginTop: "30px",
+                                    width: "100%",
+                                    boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
+                                }}
                             // disabled={forgotStatus === "loading"}
-                    >Send</Button>
-                </form>
+                        >Send Instructions</Button>
+                    </form>
+                    <Box>
+                        <h4>Did you remember your password?</h4>
+                    </Box>
 
-                <Button variant={"outlined"} color={"primary"}
-                        style={{
-                            border: "1px solid blue",
-                            background: "linear-gradient(45deg, orange, pink)",
-                            marginTop: "30px",
-                            width: "100%"
-                        }}
-                        onClick={() => {
-                            history('/login')
-                        }}>Login
-                </Button>
+                    <Button variant={"contained"} color={"primary"}
+                            style={{
+                                borderRadius: "30px",
+                                background: "#EDA909",
+                                marginTop: "30px",
+                                width: "100%",
+                                boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
+                            }}
+                            onClick={() => {
+                                history('/login')
+                            }}>Try logging in
+                    </Button>
 
 
+                </Grid>
             </Grid>
-        </Grid>
-    </Container>
+        </Container></div>
+
 });
 
 
