@@ -12,7 +12,7 @@ const Main = () => {
         <Routes >
             <Route path='/login' element={<Login/>}/>
             <Route path='/new-password' element={<NewPassword/>}/>
-            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/profile' element={<Profile />}/>
             <Route path='/recovery-password' element={<RecoveryPassword/>}/>
             <Route path='/registration' element={<Registration/>}/>
             {/*<Route path='/404' element={<NotFound/>}/>*/}

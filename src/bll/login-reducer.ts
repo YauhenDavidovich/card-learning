@@ -1,14 +1,36 @@
-let initialState = {
+import {Dispatch} from "redux";
+import {authApi, LoginParamsType, ResponseUserType} from "../dal/authApi";
+
+let initialState:LoginInitialStateType = {
     email: "",
     login: "",
     idUser: "",
-    isAuth: false
+    isAuth: false,
+    user: {
+        _id:'',
+        email:'',
+        name:'',
+        avatar:'',
+        publicCardPacksCount: 0,
+        created: new Date,
+        updated: new Date,
+        isAdmin: false,
+        verified: false,
+        rememberMe: false,
+        error: ''
+    }
 };
 
-export type LoginInitialStateType = typeof initialState;
+export type LoginInitialStateType = {
+    email: string
+    login: string
+    idUser:string
+    isAuth: boolean
+    user: ResponseUserType
+}
 
 //Reducer
-export const loginReducer = (state = initialState, action: ActionsTypes): LoginInitialStateType => {
+export const loginReducer = (state:LoginInitialStateType = initialState, action: ActionsTypes): LoginInitialStateType => {
     switch (action.type) {
         case LOGIN:
             return {
@@ -24,22 +46,28 @@ export const loginReducer = (state = initialState, action: ActionsTypes): LoginI
                 idUser: action._id,
                 isAuth: action.isAuth,
             }
+        case SETUSER:
+            debugger
+            return {
+                ...state,
+                user: action.data
+            }
         default:
             return state;
     }
 };
 
 // actions
-const LOGIN   = 'card-learning/login/LOG-IN';
-const LOGOUT   = 'card-learning/login/LOG-IN';
-
+const LOGIN = 'card-learning/login/LOG-IN';
+const LOGOUT = 'card-learning/login/LOG-OUT';
+const SETUSER = 'card-learning/login/SET-USER';
 
 // Action Creators
-export const SetIsLoggedIn = (email: string, _id: string, isAuth: boolean) => ({
+export const SetIsLoggedIn = (email: string, _id: string,isAuth: boolean) => ({
     type: LOGIN,
     email,
     _id,
-    isAuth
+    isAuth,
 } as const);
 
 export const SetIsLoggedOut = (email: string, _id: string, isAuth: boolean) => ({
@@ -49,6 +77,29 @@ export const SetIsLoggedOut = (email: string, _id: string, isAuth: boolean) => (
     isAuth
 } as const);
 
+export const SetUserAC = (data:ResponseUserType) => ({
+    type: SETUSER,
+    data,
+} as const);
+
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
+    debugger
+    authApi.logIn(data)
+
+        .then(res => {
+            dispatch(SetIsLoggedIn(res.data.email, res.data._id,true))
+            dispatch(SetUserAC(res.data))
+        })
+        .catch(err => {
+            console.log(err.response.data.error)
+            // console.log({...err})
+            // const error = err.res ?
+            //     err.res.data.error :
+            //     (err.message + ', more details in the console')
+        })
+}
+
+export type SetUserType = ReturnType<typeof SetUserAC>
 export type SetIsLoggedInType = ReturnType<typeof SetIsLoggedIn>;
 export type SetIsLoggedOutType = ReturnType<typeof SetIsLoggedOut>;
-type ActionsTypes = SetIsLoggedOutType | SetIsLoggedInType
+type ActionsTypes = SetIsLoggedOutType | SetIsLoggedInType | SetUserType
