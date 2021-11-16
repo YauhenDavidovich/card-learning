@@ -50,7 +50,7 @@ const RecoveryPassword: React.FC<RecoveryProps> = React.memo(() => {
     }
     return <div className={"main"}>
         <Container maxWidth="sm" style={{background: "#F9F9FE", height: "50vh", borderRadius: "8px"}}>
-            <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"} spacing={3}>
+            <Grid container spacing={3}>
                 <Grid item style={{
                     marginTop: "20px",
                     display: "flex",
@@ -58,11 +58,14 @@ const RecoveryPassword: React.FC<RecoveryProps> = React.memo(() => {
                     justifyContent: 'center',
                     alignItems: "center"
                 }}>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center"
+                    }}>
                         <Box component="span" sx={{marginTop: "20px", marginBottom: "20px"}}>
                             <h2 style={{textAlign: 'center'}}>Create new password</h2>
                         </Box>
-
                         <Box component="span" display="block">
                             <TextField
                                 variant={"outlined"}
@@ -86,7 +89,7 @@ const RecoveryPassword: React.FC<RecoveryProps> = React.memo(() => {
                                     borderRadius: "30px",
                                     background: "#73926C",
                                     marginTop: "30px",
-                                    width: "100%",
+                                    alignSelf: 'center',
                                     boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
                                 }}
                             // disabled={forgotStatus === "loading"}

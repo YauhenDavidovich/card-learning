@@ -60,7 +60,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
     return <div className={"main"}>
         <Container maxWidth="sm" style={{background: "#F9F9FE", height: "50vh", borderRadius: "8px"}}>
-            <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"} spacing={3}>
+            <Grid container spacing={3}>
                 <Grid item style={{
                     marginTop: "20px",
                     display: "flex",
@@ -68,12 +68,16 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                     justifyContent: 'center',
                     alignItems: "center"
                 }}>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Box component="span" sx={{marginTop: "20px", marginBottom: "20px"}}>
+                    <form onSubmit={formik.handleSubmit} style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center"
+                    }}>
+                        <Box component="span" sx={{marginTop: "20px", marginBottom: "10px"}}>
                             <h2 style={{textAlign: 'center'}}>Forgot your password?</h2>
                         </Box>
 
-                        <Box component="span" display="block">
+                        <Box component="span" >
                             <TextField
                                 variant={"outlined"}
                                 style={{marginTop: "20px", width: "100%"}}
@@ -95,8 +99,8 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                 style={{
                                     borderRadius: "30px",
                                     background: "#73926C",
-                                    marginTop: "30px",
-                                    width: "100%",
+                                    marginTop: "20px",
+                                    alignSelf: 'center',
                                     boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
                                 }}
                             // disabled={forgotStatus === "loading"}
@@ -105,19 +109,22 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                     <Box>
                         <h4>Did you remember your password?</h4>
                     </Box>
-
-                    <Button variant={"contained"} color={"primary"}
+                    <Button variant="contained"
+                            color="primary"
+                            type="submit"
                             style={{
                                 borderRadius: "30px",
                                 background: "#EDA909",
-                                marginTop: "30px",
-                                width: "100%",
+                                marginTop: "20px",
+                                alignSelf: 'center',
                                 boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
                             }}
+                        // disabled={forgotStatus === "loading"}
                             onClick={() => {
                                 history('/login' )
                             }}>Try logging in
                     </Button>
+
 
 
                 </Grid>
