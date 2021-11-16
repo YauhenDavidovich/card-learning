@@ -6,6 +6,7 @@ import Profile from "../../components/profile/Profile";
 import RecoveryPassword from "../../components/recoveryPassword/RecoveryPassword";
 import Registration from "../../components/registration/Registration";
 import NotFound from "../../components/notFound/NotFound";
+import CheckEmail from "../../components/forgotPassword/CheckEmail";
 
 const Main = () => {
 
@@ -14,9 +15,10 @@ const Main = () => {
             <Route path='/login' element={<Login/>}/>
             <Route path='/forgot-password' element={<ForgotPassword/>}/>
             <Route path='/profile' element={<Profile/>}/>
-            <Route path='/recovery-password' element={<RecoveryPassword/>}/>
+            <Route path='/recovery-password/:token' element={<RecoveryPassword/>}/>
             <Route path='/registration' element={<Registration/>}/>
             <Route path='/404' element={<NotFound/>}/>*/
+            <Route path='/check-email/:email' element={<CheckEmail/>}/>*/
             <Route path="*" element={<Navigate to="/404" />}/>
         </Routes>
 

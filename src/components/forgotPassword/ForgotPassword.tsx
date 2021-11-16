@@ -1,40 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {RequestStatusType} from "../../bll/app-reducer";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {requestForgotPasswordTC} from "../../bll/forgotPassword-reducer";
 import Grid from "@material-ui/core/Grid";
-import FormLabel from '@material-ui/core/FormLabel';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 type ForgotProps = {}
+type FormikErrorType = {
+    email?: string
+}
 
 const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
     //ForgotPassword component state
-    const forgotStatus = useSelector<AppStateType, boolean>(state => state.forgot.IsRequestNewPasswordSent);
+    const isEmailRequestSend = useSelector<AppStateType, boolean>(state => state.forgot.IsRequestNewPasswordSent);
+    const responseError = useSelector<AppStateType, string | null>(state => state.forgot.message)
     const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
+
 
     const message =
         `<div style="background-color: lime; padding: 15px">
             password recovery link:
-            <a href="http://localhost:3000/#/set-new-password/$token$">link</a> 
+            <a href="http://localhost:3000/recovery-password/$token$">link</a> 
           </div>`
-    //hooks
+
     let history = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             email: '',
         },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Please type your email!';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+            return errors;
+
+        },
         onSubmit: values => {
             dispatch(requestForgotPasswordTC(values.email, "davidovich336@gmail.com", message))
+            setEmail("/check-email/"+ values.email)
+            formik.resetForm()
         },
     });
+
+    if(isEmailRequestSend) {
+        return <Navigate to={email} />
+    }
 
 
     return <div className={"main"}>
@@ -48,7 +69,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                     alignItems: "center"
                 }}>
                     <form onSubmit={formik.handleSubmit}>
-                        <Box component="span" sx={{marginTop: "20px", marginBottom: "10px"}}>
+                        <Box component="span" sx={{marginTop: "20px", marginBottom: "20px"}}>
                             <h2 style={{textAlign: 'center'}}>Forgot your password?</h2>
                         </Box>
 
@@ -62,6 +83,8 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                 placeholder={"Email"}
                                 {...formik.getFieldProps("email")}
                             />
+                            {formik.touched.email && formik.errors.email && <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                            {responseError &&  <div style={{color: 'red'}}>{responseError}</div>}
                         </Box>
                         <Box>
                             <h4>Enter your email address and we will send you further instructions</h4>
@@ -92,7 +115,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                 boxShadow: '0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)'
                             }}
                             onClick={() => {
-                                history('/login')
+                                history('/login' )
                             }}>Try logging in
                     </Button>
 

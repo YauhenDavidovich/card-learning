@@ -22,7 +22,7 @@ export const forgotPasswordReducer = (state = initialState, action: ActionTypes)
 };
 
 // actions
-const IS_REQUEST_NEW_PASSWORD_SENT   = 'card-learning/forgot/IS_REQUEST_NEW_PASSWORD_SENT ';
+const IS_REQUEST_NEW_PASSWORD_SENT   = 'card-learning/forgot/IS_REQUEST_NEW_PASSWORD_SENT';
 const SET_REQUEST_MESSAGE   = 'card-learning/forgot/SET_MESSAGE';
 
 // action Creators
@@ -31,19 +31,24 @@ export const setRequestMessage = (message: string | null) => ({ type: SET_REQUES
 
 //thunks
 export const requestForgotPasswordTC = (email: string, from: string, message: string) => (dispatch: Dispatch) => {
+
     restorePasswordApi.requestForgotPassword({ email, from, message })
+        // @ts-ignore
         .then(res => {
-            console.log(res.data)
             if(res.data.success) {
                 dispatch(checkIsRequestNewPasswordSent(true))
                 dispatch(setRequestMessage("Check your email please"))
             } else {
                 dispatch(setRequestMessage("Something went wrong"))
             }
-        })
+        }
+        )
         .catch(error => {
+            console.log(error)
             dispatch(setRequestMessage(error.message ? error.message :"Network error occurred!"));
         })
+
+
 }
 
 
