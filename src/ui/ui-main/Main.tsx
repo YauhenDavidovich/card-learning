@@ -1,21 +1,25 @@
 import React from 'react';
-import {Route, Routes} from "react-router-dom";
-import NewPassword from "../../components/newPassword/NewPassword";
+import {Navigate, Route, Routes} from "react-router-dom";
+import ForgotPassword from "../../components/forgotPassword/ForgotPassword";
 import Login from "../../components/login/Login";
 import Profile from "../../components/profile/Profile";
 import RecoveryPassword from "../../components/recoveryPassword/RecoveryPassword";
 import Registration from "../../components/registration/Registration";
+import NotFound from "../../components/notFound/NotFound";
+import CheckEmail from "../../components/forgotPassword/CheckEmail";
 
 const Main = () => {
 
     return (
         <Routes >
             <Route path='/login' element={<Login/>}/>
-            <Route path='/new-password' element={<NewPassword/>}/>
-            <Route path='/profile' element={<Profile />}/>
-            <Route path='/recovery-password' element={<RecoveryPassword/>}/>
+            <Route path='/forgot-password' element={<ForgotPassword/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/recovery-password/:token' element={<RecoveryPassword/>}/>
             <Route path='/registration' element={<Registration/>}/>
-            {/*<Route path='/404' element={<NotFound/>}/>*/}
+            <Route path='/404' element={<NotFound/>}/>*/
+            <Route path='/check-email/:email' element={<CheckEmail/>}/>*/
+            <Route path="*" element={<Navigate to="/404" />}/>
         </Routes>
 
 
