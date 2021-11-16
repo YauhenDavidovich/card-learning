@@ -7,15 +7,20 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {useFormik} from "formik";
 import {Box} from "@mui/material";
+import {useDispatch} from "react-redux";
+import { registrationTC } from "../../bll/registration-reducer";
 
 
 type FormikErrorType = {
     email?: string
     password?: string
-    confirmPassword?: boolean
+    confirmPassword?: string
 }
 
 const Registration = () => {
+
+
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -33,12 +38,17 @@ const Registration = () => {
             if (!values.password) {
                 errors.password = "Required";
             } else if (values.password.length < 3) {
-                errors.password = "Password must be more 2"
+                errors.password = "Password must be more than two characters"
+            }
+            if (!values.confirmPassword) {
+                errors.confirmPassword = "Required";
+            } else if (values.confirmPassword !== values.password) {
+                errors.confirmPassword = "Passwords must match"
             }
             return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(registrationTC(values.email, values.password))
             formik.resetForm()
         },
     });
@@ -48,7 +58,8 @@ const Registration = () => {
     }
 
     return (
-
+        <div className='main'>
+            <div className='mainBlock'>
         <Grid container justifyContent={"center"}>
             <Grid item justifyContent={"center"}>
                 <form onSubmit={formik.handleSubmit}>
@@ -85,13 +96,13 @@ const Registration = () => {
                             <Box
 
                                 sx={{
-                                    "& > :not(style)": {m: 1, width: "30ch"},
+                                    "& > :not(style)": {m: 1, width: "34ch"},
                                 }}
                             >
                                 <Grid container justifyContent={"space-between"}>
                                     <Button onClick={resetHandler} variant={"contained"}
                                             color={"primary"}>Cancel</Button>
-                                    <Button type={"submit"} variant={"contained"} color={"primary"}>Login</Button>
+                                    <Button type={"submit"} variant={"contained"} color={"primary"}>Register</Button>
                                 </Grid>
                             </Box>
                         </FormGroup>
@@ -99,7 +110,8 @@ const Registration = () => {
                 </form>
             </Grid>
         </Grid>
-
+        </div>
+        </div>
     )
 }
 

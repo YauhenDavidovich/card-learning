@@ -1,3 +1,6 @@
+import { authAPI } from "../dal/initialize-api";
+import {Dispatch} from "redux";
+
 const initialState = {
     status: "idle",
     isInitialized: false
@@ -21,6 +24,19 @@ export const appReducer = (state = initialState, action: any): AppInitialStateTy
 // Action Creators
 export const setAppStatusAC = (status: RequestStatusType) => ({type: "APP/SET-STATUS", status} as const)
 export const setIsInitializedAC = (isInitialazed: boolean) => ({type: "APP/INITIALAZE", isInitialazed} as const)
+
+//thunks
+
+export const initializeAppTC = () => (dispatch: Dispatch) => {
+    authAPI.me()
+        .then(res => {
+    })
+        .catch(()=> {
+            alert('you are not authorized')
+        }).finally(()=>{
+        dispatch(setIsInitializedAC(true))
+    })
+}
 
 
 //types

@@ -20,3 +20,12 @@
     background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
     height: calc(100vh - 60px);
 }
+.mainBlock{
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+.mainBlock button {
+    margin: 40px 0;
+    border-radius: 40px;
+}
