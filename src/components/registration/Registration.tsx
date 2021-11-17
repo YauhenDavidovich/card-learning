@@ -77,17 +77,17 @@ const Registration = () => {
 
                                 </FormLabel>
                                 <FormGroup>
-                                    <TextField variant="standard" label="Email"
+                                    <TextField label="Email"
                                                margin="normal" {...formik.getFieldProps("email")}/>
                                     {formik.touched.email && formik.errors.email &&
                                     <div style={{color: "red"}}>{formik.errors.email}</div>}
-                                    <TextField variant="standard" type="password" label="Password"
+                                    <TextField type="password" label="Password"
                                                margin="normal" {...formik.getFieldProps("password")}
                                     />
                                     {formik.touched.password && formik.errors.password &&
                                     <div style={{color: "red"}}>{formik.errors.password}</div>}
 
-                                    <TextField variant="standard" type="password" label="Confirm password"
+                                    <TextField type="password" label="Confirm password"
                                                margin="normal" {...formik.getFieldProps("confirmPassword")}
                                     />
                                     {formik.touched.confirmPassword && formik.errors.confirmPassword &&

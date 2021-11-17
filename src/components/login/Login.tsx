@@ -6,7 +6,9 @@ import {AppStateType} from "../../bll/store";
 import {Button, FormControl, FormGroup, FormLabel, Paper, TextField} from "@mui/material";
 import {Navigate} from 'react-router-dom';
 import {loginTC} from "../../bll/login-reducer";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {Link} from "@material-ui/core";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom"
 
 
 const Login = () => {
@@ -46,59 +48,69 @@ const Login = () => {
         return <Navigate to={'/profile'}/>
     }
 
+    return (
+        <div className='main'>
+            <div className='mainBlock'>
+                <Grid container justifyContent={"center"}>
+                    <Grid item justifyContent={"center"}>
+                        <form onSubmit={formik.handleSubmit}>
+                            <FormControl>
+                                <FormLabel>
+                                    <h2 style={{padding: '20px'}}>SIGN-IN</h2>
+                                </FormLabel>
+                                <FormGroup>
+                                    <Grid container justifyContent={"center"}  direction={"column"}>
 
-    return <Grid container justifyContent={'center'} style={{padding: '30px'}}>
-        <Grid item justifyContent={'center'}>
-            <Paper style={{padding: '30px'}}>
-                <form onSubmit={formik.handleSubmit}>
-                    <FormControl>
-                        <FormLabel style={{textAlign:'center', color:'blue'}}>
-                            <h2 style={{padding: '30px'}}>IT-INCUBATOR</h2>
-                            <h2 style={{padding: '20px'}}>SIGN-IN</h2>
-                        </FormLabel>
-                        <FormGroup>
-                            <TextField label='Email'
-                                       margin='normal'
-                                       {...formik.getFieldProps('email')}
-                                       value={formik.values.email}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}/>
-                            {formik.touched.email && formik.errors.email
-                                ? <div style={{color: 'red'}}>
-                                    {formik.errors.email}
-                                </div> : null}
-                            <TextField type='password'
-                                       label='Password'
-                                       margin='normal'
-                                       {...formik.getFieldProps('password')}
-                                       value={formik.values.password}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}/>
-                            {formik.touched.password && formik.errors.password
-                                ? <div style={{color: 'red'}}>
-                                    {formik.errors.password}
-                                </div>
-                                : null}
-                            <Button onClick={() => {
-                                history('/recovery-password')
-                            }} variant='text'>Forgot Password</Button>
-                            <Button type={'submit'}
-                                    variant={'contained'}
-                                    color={'primary'}>
-                                Login
-                            </Button>
-                            <div> Don`t have an account?</div>
-                            <Button onClick={()=>{history('/registration')}}
-                                variant='text' >Sign Up</Button>
+                                    <TextField label='Email'
+                                               margin='normal'
+                                               {...formik.getFieldProps('email')}
+                                               value={formik.values.email}
+                                               onChange={formik.handleChange}
+                                               onBlur={formik.handleBlur}/>
+                                    {formik.touched.email && formik.errors.email
+                                        ? <div style={{color: 'red'}}>
+                                            {formik.errors.email}
+                                        </div> : null}
+                                    <TextField type='password'
+                                               label='Password'
+                                               margin='normal'
+                                               {...formik.getFieldProps('password')}
+                                               value={formik.values.password}
+                                               onChange={formik.handleChange}
+                                               onBlur={formik.handleBlur}/>
+                                    {formik.touched.password && formik.errors.password
+                                        ? <div style={{color: 'red'}}>
+                                            {formik.errors.password}
+                                        </div>
+                                        : null}
+                                        <Link component={RouterLink} to="/forgot-password" color="secondary">
+                                            {'Forgot Password'}
+                                        </Link>
+                                    <Button type={'submit'}
+                                            variant={'contained'}
+                                            color={'primary'}>
+                                        Login
+                                    </Button>
+                                    <div> Don`t have an account?</div>
+                                    <Button onClick={() => {
+                                        history('/registration')
+                                    }}
+                                            variant={'contained'}
+                                            color={'secondary'}
+                                    >Sign Up</Button>
 
-                            {/*<div className={"main"}>LoginPage</div>*/}
+                                    {/*<div className={"main"}>LoginPage</div>*/}
 
-                        </FormGroup>
-                    </FormControl>
-                </form>
-            </Paper>
-        </Grid>
-    </Grid>
+                                                </Grid>
+                                </FormGroup>
+                            </FormControl>
+                        </form>
+
+                    </Grid>
+                </Grid>
+            </div>
+        </div>
+    )
 }
 
 export default Login;

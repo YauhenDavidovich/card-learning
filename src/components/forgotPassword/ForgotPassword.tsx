@@ -66,11 +66,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
             <div className='mainBlock'>
                 <Grid container justifyContent={"center"}>
                     <Grid item justifyContent={"center"}>
-                        <form onSubmit={formik.handleSubmit} style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center"
-                        }}>
+                        <form onSubmit={formik.handleSubmit}                        >
                             <FormControl>
                                 <FormLabel>
                                     <Box component="span" sx={{marginTop: "20px", marginBottom: "10px"}}>
@@ -81,11 +77,8 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                 <FormGroup>
                                     <Grid container justifyContent={"space-between"} direction={"column"}
                                           alignItems={'center'}>
-                                        <TextField
-                                            variant="standard"
-                                            style={{marginTop: "20px", width: "100%"}}
-                                            id={"outlined-basic"}
-                                            type={"email"}
+                                        <TextField  type="email" label="Email"
+                                                   margin="normal"
                                             color={"primary"}
                                             placeholder={"Email"}
                                             {...formik.getFieldProps("email")}
@@ -94,9 +87,11 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                         <div style={{color: 'red'}}>{formik.errors.email}</div>}
                                         {responseError && <div style={{color: 'red'}}>{responseError}</div>}
 
-                                        <Box>
+                                        <Grid container justifyContent={"center"}>
+                                            <Grid item justifyContent={"center"}>
                                             <h4>Enter your email address and we will send you further instructions</h4>
-                                        </Box>
+                                            </Grid>
+                                            </Grid>
                                         <Button variant="contained"
                                                 color="primary"
                                                 type="submit"

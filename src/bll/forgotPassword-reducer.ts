@@ -44,7 +44,6 @@ export const requestForgotPasswordTC = (email: string, from: string, message: st
         }
         )
         .catch(error => {
-            console.log(error)
             dispatch(setRequestMessage(error.message ? error.message :"Network error occurred!"));
         })
 

@@ -32,7 +32,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         .then(res => {
     })
         .catch(()=> {
-            alert('you are not authorized')
         }).finally(()=>{
         dispatch(setIsInitializedAC(true))
     })
