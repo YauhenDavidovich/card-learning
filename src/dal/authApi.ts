@@ -6,11 +6,14 @@ export type LoginParamsType={
     password: string
 }
 
+const instance = axios.create({
+    baseURL: "https://neko-back.herokuapp.com/2.0",
+    withCredentials: true,
+})
 
-export const authApi={
-    logIn(data:LoginParamsType){
-        debugger
-        return axios.post<LoginParamsType, AxiosResponse<ResponseUserType>>('https://neko-back.herokuapp.com/2.0/auth/login',data)
+export const authApi = {
+    logIn(data:LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseUserType>>('/auth/login',data)
     },
 }
 

@@ -83,7 +83,6 @@ export const SetUserAC = (data:ResponseUserType) => ({
 } as const);
 
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-    debugger
     authApi.logIn(data)
 
         .then(res => {

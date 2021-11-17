@@ -8,8 +8,7 @@ import Button from "@mui/material/Button";
 import {useFormik} from "formik";
 import {Box} from "@mui/material";
 import {useDispatch} from "react-redux";
-import { registrationTC } from "../../bll/registration-reducer";
-
+import {registrationTC} from "../../bll/registration-reducer";
 
 type FormikErrorType = {
     email?: string
@@ -60,57 +59,58 @@ const Registration = () => {
     return (
         <div className='main'>
             <div className='mainBlock'>
-        <Grid container justifyContent={"center"}>
-            <Grid item justifyContent={"center"}>
-                <form onSubmit={formik.handleSubmit}>
-                    <FormControl>
-                        <FormLabel>
-                            <Grid container justifyContent={"center"}>
-                                <Grid item justifyContent={"center"}>
-                                    <h1>It-incubator</h1>
+                <Grid container justifyContent={"center"}>
+                    <Grid item justifyContent={"center"}>
+                        <form onSubmit={formik.handleSubmit}>
+                            <FormControl>
+                                <FormLabel>
                                     <Grid container justifyContent={"center"}>
                                         <Grid item justifyContent={"center"}>
-                                            <h3>Sign up</h3>
+                                            <h1>It-incubator</h1>
+                                            <Grid container justifyContent={"center"}>
+                                                <Grid item justifyContent={"center"}>
+                                                    <h3>Sign up</h3>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                            </Grid>
 
-                        </FormLabel>
-                        <FormGroup>
-                            <TextField variant="standard" label="Email"
-                                       margin="normal" {...formik.getFieldProps("email")}/>
-                            {formik.touched.email && formik.errors.email &&
-                            <div style={{color: "red"}}>{formik.errors.email}</div>}
-                            <TextField variant="standard" type="password" label="Password"
-                                       margin="normal" {...formik.getFieldProps("password")}
-                            />
-                            {formik.touched.password && formik.errors.password &&
-                            <div style={{color: "red"}}>{formik.errors.password}</div>}
+                                </FormLabel>
+                                <FormGroup>
+                                    <TextField variant="standard" label="Email"
+                                               margin="normal" {...formik.getFieldProps("email")}/>
+                                    {formik.touched.email && formik.errors.email &&
+                                    <div style={{color: "red"}}>{formik.errors.email}</div>}
+                                    <TextField variant="standard" type="password" label="Password"
+                                               margin="normal" {...formik.getFieldProps("password")}
+                                    />
+                                    {formik.touched.password && formik.errors.password &&
+                                    <div style={{color: "red"}}>{formik.errors.password}</div>}
 
-                            <TextField variant="standard" type="password" label="Confirm password"
-                                       margin="normal" {...formik.getFieldProps("confirmPassword")}
-                            />
-                            {formik.touched.confirmPassword && formik.errors.confirmPassword &&
-                            <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
-                            <Box
+                                    <TextField variant="standard" type="password" label="Confirm password"
+                                               margin="normal" {...formik.getFieldProps("confirmPassword")}
+                                    />
+                                    {formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                                    <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
+                                    <Box
 
-                                sx={{
-                                    "& > :not(style)": {m: 1, width: "34ch"},
-                                }}
-                            >
-                                <Grid container justifyContent={"space-between"}>
-                                    <Button onClick={resetHandler} variant={"contained"}
-                                            color={"primary"}>Cancel</Button>
-                                    <Button type={"submit"} variant={"contained"} color={"primary"}>Register</Button>
-                                </Grid>
-                            </Box>
-                        </FormGroup>
-                    </FormControl>
-                </form>
-            </Grid>
-        </Grid>
-        </div>
+                                        sx={{
+                                            "& > :not(style)": {m: 1, width: "34ch"},
+                                        }}
+                                    >
+                                        <Grid container justifyContent={"space-between"}>
+                                            <Button onClick={resetHandler} variant={"contained"}
+                                                    color={"secondary"} className={'button-primary'}>Cancel</Button>
+                                            <Button type={"submit"} variant={"contained"}
+                                                    color={"primary"}>Register</Button>
+                                        </Grid>
+                                    </Box>
+                                </FormGroup>
+                            </FormControl>
+                        </form>
+                    </Grid>
+                </Grid>
+            </div>
         </div>
     )
 }
