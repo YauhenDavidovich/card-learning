@@ -40,6 +40,7 @@ export const loginReducer = (state:LoginInitialStateType = initialState, action:
                 isAuth: action.isAuth,
             }
         case LOGOUT:
+            debugger
             return {
                 ...state,
                 email: action.email,
@@ -47,7 +48,6 @@ export const loginReducer = (state:LoginInitialStateType = initialState, action:
                 isAuth: action.isAuth,
             }
         case SETUSER:
-            debugger
             return {
                 ...state,
                 user: action.data
@@ -70,7 +70,7 @@ export const SetIsLoggedIn = (email: string, _id: string,isAuth: boolean) => ({
     isAuth,
 } as const);
 
-export const SetIsLoggedOut = (email: string, _id: string, isAuth: boolean) => ({
+export const SetIsLoggedOut = ( email: string, _id: string,isAuth: boolean) => ({
     type: LOGOUT,
     email,
     _id,
@@ -98,6 +98,16 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
             //     (err.message + ', more details in the console')
         })
 }
+
+export const logOutTC=()=>(dispatch: Dispatch)=>{
+    debugger
+    authApi.logOut()
+        .then(res => {
+            dispatch(SetIsLoggedOut('','',false))
+
+        })
+}
+
 
 export type SetUserType = ReturnType<typeof SetUserAC>
 export type SetIsLoggedInType = ReturnType<typeof SetIsLoggedIn>;

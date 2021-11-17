@@ -12,7 +12,6 @@ const Profile = () => {
     return ( <div> {user ? <div>
             <img src={user.avatar}/>
             {user.name}
-
         </div>: '' }</div>
     )
 }

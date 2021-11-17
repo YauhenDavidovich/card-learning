@@ -9,7 +9,7 @@ const initialState = {
 export type AppInitialStateType = typeof initialState;
 
 //Reducer
-export const appReducer = (state = initialState, action: any): AppInitialStateType => {
+export const appReducer = (state = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
         case "APP/SET-STATUS":
             return {...state, status: action.status}
@@ -32,7 +32,7 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         .then(res => {
     })
         .catch(()=> {
-            alert('you are not authorized')
+            // alert('you are not authorized')
         }).finally(()=>{
         dispatch(setIsInitializedAC(true))
     })

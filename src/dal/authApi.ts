@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 
 
+
 export type LoginParamsType={
     email:string
     password: string
@@ -9,8 +10,11 @@ export type LoginParamsType={
 
 export const authApi={
     logIn(data:LoginParamsType){
-        debugger
         return axios.post<LoginParamsType, AxiosResponse<ResponseUserType>>('https://neko-back.herokuapp.com/2.0/auth/login',data)
+    },
+    logOut(){
+        debugger
+        return axios.delete('https://neko-back.herokuapp.com/2.0/auth/me')
     },
 }
 
