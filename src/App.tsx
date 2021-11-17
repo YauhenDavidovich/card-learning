@@ -7,9 +7,22 @@ import {initializeAppTC} from "./bll/app-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import {AppStateType} from "./bll/store";
 import {useNavigate} from "react-router-dom";
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
+
+
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#73926C',
+        },
+        secondary: {
+            main: '#EDA909',
+        },
+    },
+});
 
 function App() {
-
     const dispatch = useDispatch()
     const isInitialized = useSelector<AppStateType, boolean>(state => state.app.isInitialized)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
@@ -32,10 +45,12 @@ function App() {
 
 
     return (
-        <div className={"App"}>
-            <Header/>
-            <Main/>
-        </div>
+        <MuiThemeProvider  theme={theme}>
+            <div className={"App"}>
+                <Header/>
+                <Main/>
+            </div>
+        </MuiThemeProvider >
     )
 }
 

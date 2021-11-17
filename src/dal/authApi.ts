@@ -1,21 +1,23 @@
 import axios, { AxiosResponse } from 'axios'
 
 
-
 export type LoginParamsType={
     email:string
     password: string
 }
 
+const instance = axios.create({
+    baseURL: "https://neko-back.herokuapp.com/2.0",
+    withCredentials: true,
+})
 
-export const authApi={
-    logIn(data:LoginParamsType){
-        return axios.post<LoginParamsType, AxiosResponse<ResponseUserType>>('https://neko-back.herokuapp.com/2.0/auth/login',data)
+export const authApi = {
+    logIn(data:LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseUserType>>('/auth/login',data)
     },
     logOut(){
-        debugger
-        return axios.delete('https://neko-back.herokuapp.com/2.0/auth/me')
-    },
+        return instance.delete('/auth/me')
+    }
 }
 
 export type ResponseUserType = {
