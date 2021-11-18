@@ -1,13 +1,13 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
+import Grid from "@material-ui/core/Grid";
+import Box from '@material-ui/core/Box';
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import {useFormik} from "formik";
-import {Box} from "@mui/material";
+import Button from '@material-ui/core/Button';
 import {useDispatch} from "react-redux";
+import {useFormik} from "formik";
 import {registrationTC} from "../../bll/registration-reducer";
 
 type FormikErrorType = {
@@ -92,15 +92,10 @@ const Registration = () => {
                                     />
                                     {formik.touched.confirmPassword && formik.errors.confirmPassword &&
                                     <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
-                                    <Box
-
-                                        sx={{
-                                            "& > :not(style)": {m: 1, width: "34ch"},
-                                        }}
-                                    >
+                                    <Box>
                                         <Grid container justifyContent={"space-between"}>
                                             <Button onClick={resetHandler} variant={"contained"}
-                                                    color={"secondary"} className={'button-primary'}>Cancel</Button>
+                                                    color={"secondary"}>Cancel</Button>
                                             <Button type={"submit"} variant={"contained"}
                                                     color={"primary"}>Register</Button>
                                         </Grid>
