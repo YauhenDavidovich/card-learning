@@ -101,7 +101,6 @@ export const logOutTC=()=>(dispatch: Dispatch)=>{
         .then(res => {
             dispatch(SetIsLoggedOut('','',false))
             dispatch(SetUserAC(res.data))
-
         })}
 
 

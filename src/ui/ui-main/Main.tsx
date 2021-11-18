@@ -7,6 +7,8 @@ import RecoveryPassword from "../../components/recoveryPassword/RecoveryPassword
 import Registration from "../../components/registration/Registration";
 import NotFound from "../../components/notFound/NotFound";
 import CheckEmail from "../../components/forgotPassword/CheckEmail";
+import MyTheme from "../../MyTheme";
+import {MuiThemeProvider} from "@material-ui/core";
 
 const Main = () => {
 
@@ -21,8 +23,6 @@ const Main = () => {
             <Route path='/check-email/:email' element={<CheckEmail/>}/>*/
             <Route path="*" element={<Navigate to="/404" />}/>
         </Routes>
-
-
     )
 }
 

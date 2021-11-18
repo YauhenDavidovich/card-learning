@@ -3,12 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {Navigate, useParams} from "react-router-dom";
 import {useFormik} from "formik";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import {setNewPasswordTC} from "../../bll/setNewPassword-reducer";
+import Grid from "@material-ui/core/Grid";
+import Box from '@material-ui/core/Box';
+import TextField from "@mui/material/TextField";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
 type RecoveryProps = {}
 type FormikErrorType = {

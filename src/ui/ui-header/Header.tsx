@@ -1,11 +1,9 @@
-import React, {useEffect} from 'react';
-import {NavLink, useNavigate} from "react-router-dom";
+import React from 'react';
+import {NavLink} from "react-router-dom";
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import {logOutTC} from "../../bll/login-reducer";
-import {initializeAppTC} from "../../bll/app-reducer";
-import CircularProgress from "@mui/material/CircularProgress";
 
 const Header = () => {
     const dispatch = useDispatch()
