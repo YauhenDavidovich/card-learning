@@ -1,24 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import {logOutTC} from "../../bll/login-reducer";
+import {initializeAppTC} from "../../bll/app-reducer";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Header = () => {
-    let isAuth = useSelector<AppStateType>(state => state.login.isAuth)
-    const history = useNavigate();
     const dispatch = useDispatch()
+    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
     function handleLogout() {
-        // @ts-ignore
-        dispatch(logOutTC()).then(
-            (res: any) => {
-                history("/login");
-            }
-        )
+        dispatch(logOutTC())
     }
-
-
 
 
     return (
@@ -29,8 +23,7 @@ const Header = () => {
             <NavLink to="/profile">Profile</NavLink>
             <NavLink to="/registration">Registration</NavLink>
             {isAuth && <Button color='inherit' onClick={handleLogout}>Logout</Button>}
-
-            </div>
+        </div>
     )
 }
 
