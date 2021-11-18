@@ -23,27 +23,6 @@ const theme = createTheme({
 });
 
 function App() {
-    const dispatch = useDispatch()
-    const isInitialized = useSelector<AppStateType, boolean>(state => state.app.isInitialized)
-    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
-    let navigate = useNavigate();
-
-
-    useEffect(() => {
-        dispatch(initializeAppTC())
-        if (!isAuth) {
-            navigate('/login')
-        }
-    }, [])
-
-    if (!isInitialized) {
-        return <div
-            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-            <CircularProgress/>
-        </div>
-    }
-
-
     return (
         <MuiThemeProvider  theme={theme}>
             <div className={"App"}>

@@ -45,9 +45,9 @@ const RecoveryPassword: React.FC<RecoveryProps> = React.memo(() => {
         },
     });
 
-    // if(isNewPasswordSend) {
-    //     return <Navigate to='/login' />
-    // }
+    if(isNewPasswordSend) {
+        return <Navigate to='/login' />
+    }
     return <div className={"main"}>
         <Container maxWidth="sm" style={{background: "#F9F9FE", height: "50vh", borderRadius: "8px"}}>
             <Grid container spacing={3}>

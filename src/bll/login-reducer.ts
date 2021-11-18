@@ -97,11 +97,11 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 }
 
 export const logOutTC=()=>(dispatch: Dispatch)=>{
-
-    return authApi.logOut()
+     authApi.logOut()
         .then(res => {
             dispatch(SetIsLoggedOut('','',false))
-            return res
+            dispatch(SetUserAC(res.data))
+
         })}
 
 
