@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
@@ -23,7 +23,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
     const responseError = useSelector<AppStateType, string | null>(state => state.forgot.message)
     const dispatch = useDispatch();
-    const [email, setEmail] = useState("")
+    const emailSent = useSelector<AppStateType, string>(state => state.forgot.email)
 
 
     const message =
@@ -50,21 +50,19 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
         },
         onSubmit: values => {
             dispatch(requestForgotPasswordTC(values.email, "davidovich336@gmail.com", message))
-            setEmail("/check-email/" + values.email)
             formik.resetForm()
         },
     });
 
 
+
+    if (isEmailRequestSend) {
+        debugger
+        return <Navigate to={"/check-email/"+emailSent}/>
+    }
     if (isAuth) {
         return <Navigate to={"/profile"}/>
     }
-
-
-    if (isEmailRequestSend) {
-        return <Navigate to={email}/>
-    }
-
 
     return (
         <div className={"main"}>

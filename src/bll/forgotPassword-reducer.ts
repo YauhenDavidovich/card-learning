@@ -4,6 +4,7 @@ import {setAppStatusAC} from "./app-reducer";
 
 let initialState = {
     IsRequestNewPasswordSent: false,
+    email: "",
     message: null as string | null
 
 };
@@ -14,7 +15,7 @@ export type LoginInitialStateType = typeof initialState;
 export const forgotPasswordReducer = (state = initialState, action: ActionTypes): LoginInitialStateType => {
     switch (action.type) {
         case IS_REQUEST_NEW_PASSWORD_SENT :
-            return {...state, IsRequestNewPasswordSent: action.IsRequestNewPasswordSent}
+            return {...state, email: action.email, IsRequestNewPasswordSent: action.IsRequestNewPasswordSent}
         case SET_REQUEST_MESSAGE:
             return {...state, message: action.message}
         default:
@@ -27,8 +28,9 @@ const IS_REQUEST_NEW_PASSWORD_SENT = 'card-learning/forgot/IS_REQUEST_NEW_PASSWO
 const SET_REQUEST_MESSAGE = 'card-learning/forgot/SET_MESSAGE';
 
 // action Creators
-export const checkIsRequestNewPasswordSent = (IsRequestNewPasswordSent: boolean) => ({
+export const checkIsRequestNewPasswordSent = (email: string, IsRequestNewPasswordSent: boolean) => ({
     type: IS_REQUEST_NEW_PASSWORD_SENT,
+    email,
     IsRequestNewPasswordSent
 } as const);
 export const setRequestMessage = (message: string | null) => ({type: SET_REQUEST_MESSAGE, message} as const);
@@ -38,13 +40,9 @@ export const requestForgotPasswordTC = (email: string, from: string, message: st
     dispatch(setAppStatusAC("loading"))
     restorePasswordApi.requestForgotPassword({email, from, message})
         .then(res => {
-                if (res.data.success) {
-                    dispatch(checkIsRequestNewPasswordSent(true))
+                    dispatch(checkIsRequestNewPasswordSent(email,true))
                     dispatch(setRequestMessage("Check your email please"))
-                } else {
-                    dispatch(setRequestMessage("Something went wrong"))
-                }
-                dispatch(setAppStatusAC("succeeded"))
+                    dispatch(setAppStatusAC("succeeded"))
             }
         )
         .catch(error => {
