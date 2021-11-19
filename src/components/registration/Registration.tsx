@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from '@material-ui/core/Box';
 import FormControl from "@mui/material/FormControl";
@@ -6,9 +6,13 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from '@material-ui/core/Button';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {registrationTC} from "../../bll/registration-reducer";
+import {AppStateType} from "../../bll/store";
+import CircularProgress from "@mui/material/CircularProgress";
+import {initializeAppTC} from "../../bll/app-reducer";
+import {useNavigate} from "react-router-dom";
 
 type FormikErrorType = {
     email?: string
@@ -17,8 +21,8 @@ type FormikErrorType = {
 }
 
 const Registration = () => {
-
-
+    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
+    let navigate = useNavigate();
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -55,6 +59,16 @@ const Registration = () => {
     const resetHandler = () => {
         formik.resetForm()
     }
+
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+        if (isAuth) {
+            navigate('/profile')
+        }
+    }, [isAuth])
+
+
 
     return (
         <div className='main'>

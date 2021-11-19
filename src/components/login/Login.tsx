@@ -101,9 +101,6 @@ const Login = () => {
                                                 variant={'contained'}
                                                 color={'secondary'}
                                         >Sign Up</Button>
-
-                                        {/*<div className={"main"}>LoginPage</div>*/}
-
                                     </Grid>
                                 </FormGroup>
                             </FormControl>

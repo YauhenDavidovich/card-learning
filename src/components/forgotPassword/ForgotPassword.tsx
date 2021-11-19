@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
@@ -11,6 +11,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from '@material-ui/core/Button';
+import {initializeAppTC} from "../../bll/app-reducer";
 
 type ForgotProps = {}
 type FormikErrorType = {
@@ -19,8 +20,9 @@ type FormikErrorType = {
 
 const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
-    //ForgotPassword component state
     const isEmailRequestSend = useSelector<AppStateType, boolean>(state => state.forgot.IsRequestNewPasswordSent);
+    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
+    const navigate = useNavigate();
     const responseError = useSelector<AppStateType, string | null>(state => state.forgot.message)
     const dispatch = useDispatch();
     const [email, setEmail] = useState('')
@@ -29,10 +31,10 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
     const message =
         `<div style="background-color: lime; padding: 15px">
             password recovery link:
-            <a href="http://localhost:3000/recovery-password/$token$">link</a> 
+            <a href="https://yauhendavidovich.github.io/card-learning/#/recovery-password/$token$">link</a> 
           </div>`
 
-    let history = useNavigate();
+    const history = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -54,6 +56,15 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
             formik.resetForm()
         },
     });
+
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+        if (isAuth) {
+            navigate('/profile')
+        }
+    }, [isAuth])
+
 
     if (isEmailRequestSend) {
         return <Navigate to={email}/>
