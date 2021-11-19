@@ -60,7 +60,6 @@ export const SetUserAC = (data:ResponseUserType) => ({
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC("loading"))
     authApi.logIn(data)
-
         .then(res => {
             dispatch(SetIsLoggedIn(true))
             dispatch(SetUserAC(res.data))

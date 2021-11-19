@@ -12,7 +12,6 @@ import Preloader from "./components/utils/Preloader";
 function App() {
     const isLoading = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch()
-debugger
     useEffect(() => {
         debugger
         dispatch(initializeAppTC())
