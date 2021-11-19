@@ -19,10 +19,8 @@ const Main = () => {
             <Route path='/registration' element={<Registration/>}/>
             <Route path='/404' element={<NotFound/>}/>*/
             <Route path='/check-email/:email' element={<CheckEmail/>}/>*/
-            <Route path="*" element={<Navigate to="/404" />}/>
+            <Route path="*" element={<Navigate to="/login" />}/>
         </Routes>
-
-
     )
 }
 

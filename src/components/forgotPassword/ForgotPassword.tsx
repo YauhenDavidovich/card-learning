@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React from "react";
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {Navigate, useNavigate} from "react-router-dom";
 import {requestForgotPasswordTC} from "../../bll/forgotPassword-reducer";
 import Grid from "@material-ui/core/Grid";
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
 type ForgotProps = {}
 type FormikErrorType = {
@@ -20,78 +19,83 @@ type FormikErrorType = {
 
 const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
-    //ForgotPassword component state
     const isEmailRequestSend = useSelector<AppStateType, boolean>(state => state.forgot.IsRequestNewPasswordSent);
+    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
     const responseError = useSelector<AppStateType, string | null>(state => state.forgot.message)
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('')
+    const emailSent = useSelector<AppStateType, string>(state => state.forgot.email)
 
 
     const message =
         `<div style="background-color: lime; padding: 15px">
             password recovery link:
-            <a href="http://localhost:3000/recovery-password/$token$">link</a> 
+            <a href="https://yauhendavidovich.github.io/card-learning/#/recovery-password/$token$">link</a> 
           </div>`
 
-    let history = useNavigate();
+    const history = useNavigate();
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            email: "",
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.email) {
-                errors.email = 'Please type your email!';
+                errors.email = "Please type your email!";
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
+                errors.email = "Invalid email address";
             }
             return errors;
 
         },
         onSubmit: values => {
             dispatch(requestForgotPasswordTC(values.email, "davidovich336@gmail.com", message))
-            setEmail("/check-email/" + values.email)
             formik.resetForm()
         },
     });
 
-    if (isEmailRequestSend) {
-        return <Navigate to={email}/>
-    }
 
+
+    if (isEmailRequestSend) {
+        debugger
+        return <Navigate to={"/check-email/"+emailSent}/>
+    }
+    if (isAuth) {
+        return <Navigate to={"/profile"}/>
+    }
 
     return (
         <div className={"main"}>
-            <div className='mainBlock'>
+            <div className="mainBlock">
                 <Grid container justifyContent={"center"}>
                     <Grid item justifyContent={"center"}>
-                        <form onSubmit={formik.handleSubmit}                        >
+                        <form onSubmit={formik.handleSubmit}>
                             <FormControl>
                                 <FormLabel>
                                     <Box component="span" sx={{marginTop: "20px", marginBottom: "10px"}}>
-                                        <h2 style={{textAlign: 'center'}}>Forgot your password?</h2>
+                                        <h2 style={{textAlign: "center"}}>Forgot your password?</h2>
                                     </Box>
                                 </FormLabel>
 
                                 <FormGroup>
                                     <Grid container justifyContent={"space-between"} direction={"column"}
-                                          alignItems={'center'}>
-                                        <TextField  type="email" label="Email"
+                                          alignItems={"center"}>
+                                        <TextField type="email" label="Email"
                                                    margin="normal"
-                                            color={"primary"}
-                                            placeholder={"Email"}
-                                            {...formik.getFieldProps("email")}
+                                                   color={"primary"}
+                                                   placeholder={"Email"}
+                                                   {...formik.getFieldProps("email")}
                                         />
                                         {formik.touched.email && formik.errors.email &&
-                                        <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                                        {responseError && <div style={{color: 'red'}}>{responseError}</div>}
+                                        <div style={{color: "red"}}>{formik.errors.email}</div>}
+                                        {responseError && <div style={{color: "red"}}>{responseError}</div>}
 
                                         <Grid container justifyContent={"center"}>
                                             <Grid item justifyContent={"center"}>
-                                            <h4>Enter your email address and we will send you further instructions</h4>
+                                                <h4>Enter your email address and we will send you further
+                                                    instructions</h4>
                                             </Grid>
-                                            </Grid>
+                                        </Grid>
                                         <Button variant="contained"
                                                 color="primary"
                                                 type="submit"
@@ -104,7 +108,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                                 color="secondary"
                                             // disabled={forgotStatus === "loading"}
                                                 onClick={() => {
-                                                    history('/login')
+                                                    history("/login")
                                                 }}>Try logging in
                                         </Button>
                                     </Grid>

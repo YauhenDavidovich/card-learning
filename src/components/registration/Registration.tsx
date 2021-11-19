@@ -1,14 +1,16 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import Button from "@material-ui/core/Button";
+import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {Box} from "@mui/material";
-import {useDispatch} from "react-redux";
 import {registrationTC} from "../../bll/registration-reducer";
+import {AppStateType} from "../../bll/store";
+import {Navigate} from "react-router-dom";
 
 type FormikErrorType = {
     email?: string
@@ -17,8 +19,7 @@ type FormikErrorType = {
 }
 
 const Registration = () => {
-
-
+    const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -56,9 +57,15 @@ const Registration = () => {
         formik.resetForm()
     }
 
+
+    if (isAuth) {
+        return <Navigate to={"/profile"}/>
+    }
+
+
     return (
-        <div className='main'>
-            <div className='mainBlock'>
+        <div className="main">
+            <div className="mainBlock">
                 <Grid container justifyContent={"center"}>
                     <Grid item justifyContent={"center"}>
                         <form onSubmit={formik.handleSubmit}>
@@ -92,15 +99,10 @@ const Registration = () => {
                                     />
                                     {formik.touched.confirmPassword && formik.errors.confirmPassword &&
                                     <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
-                                    <Box
-
-                                        sx={{
-                                            "& > :not(style)": {m: 1, width: "34ch"},
-                                        }}
-                                    >
+                                    <Box>
                                         <Grid container justifyContent={"space-between"}>
                                             <Button onClick={resetHandler} variant={"contained"}
-                                                    color={"secondary"} className={'button-primary'}>Cancel</Button>
+                                                    color={"secondary"}>Cancel</Button>
                                             <Button type={"submit"} variant={"contained"}
                                                     color={"primary"}>Register</Button>
                                         </Grid>

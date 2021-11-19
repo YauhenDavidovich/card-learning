@@ -1,10 +1,8 @@
 import {Dispatch} from "redux";
 import {authApi, LoginParamsType, ResponseUserType} from "../dal/authApi";
+import {setAppStatusAC} from "./app-reducer";
 
 let initialState:LoginInitialStateType = {
-    email: "",
-    login: "",
-    idUser: "",
     isAuth: false,
     user: {
         _id:'',
@@ -22,9 +20,6 @@ let initialState:LoginInitialStateType = {
 };
 
 export type LoginInitialStateType = {
-    email: string
-    login: string
-    idUser:string
     isAuth: boolean
     user: ResponseUserType
 }
@@ -35,15 +30,6 @@ export const loginReducer = (state:LoginInitialStateType = initialState, action:
         case LOGIN:
             return {
                 ...state,
-                email: action.email,
-                idUser: action._id,
-                isAuth: action.isAuth,
-            }
-        case LOGOUT:
-            return {
-                ...state,
-                email: action.email,
-                idUser: action._id,
                 isAuth: action.isAuth,
             }
         case SETUSER:
@@ -58,22 +44,12 @@ export const loginReducer = (state:LoginInitialStateType = initialState, action:
 
 // actions
 const LOGIN = 'card-learning/login/LOG-IN';
-const LOGOUT = 'card-learning/login/LOG-OUT';
 const SETUSER = 'card-learning/login/SET-USER';
 
 // Action Creators
-export const SetIsLoggedIn = (email: string, _id: string,isAuth: boolean) => ({
+export const SetIsLoggedIn = (isAuth: boolean) => ({
     type: LOGIN,
-    email,
-    _id,
     isAuth,
-} as const);
-
-export const SetIsLoggedOut = (email: string, _id: string, isAuth: boolean) => ({
-    type: LOGOUT,
-    email,
-    _id,
-    isAuth
 } as const);
 
 export const SetUserAC = (data:ResponseUserType) => ({
@@ -82,13 +58,15 @@ export const SetUserAC = (data:ResponseUserType) => ({
 } as const);
 
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC("loading"))
     authApi.logIn(data)
-
         .then(res => {
-            dispatch(SetIsLoggedIn(res.data.email, res.data._id,true))
+            dispatch(SetIsLoggedIn(true))
             dispatch(SetUserAC(res.data))
+            dispatch(setAppStatusAC("succeeded"))
         })
         .catch(err => {
+            dispatch(setAppStatusAC("failed"))
             // console.log({...err})
             // const error = err.res ?
             //     err.res.data.error :
@@ -99,13 +77,11 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 export const logOutTC=()=>(dispatch: Dispatch)=>{
      authApi.logOut()
         .then(res => {
-            dispatch(SetIsLoggedOut('','',false))
+            dispatch(SetIsLoggedIn(false))
             dispatch(SetUserAC(res.data))
-
         })}
 
 
 export type SetUserType = ReturnType<typeof SetUserAC>
 export type SetIsLoggedInType = ReturnType<typeof SetIsLoggedIn>;
-export type SetIsLoggedOutType = ReturnType<typeof SetIsLoggedOut>;
-type ActionsTypes = SetIsLoggedOutType | SetIsLoggedInType | SetUserType
+type ActionsTypes = SetIsLoggedInType | SetUserType

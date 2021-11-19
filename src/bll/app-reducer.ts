@@ -1,9 +1,9 @@
-import { authAPI } from "../dal/initialize-api";
+import {authAPI} from "../dal/initialize-api";
 import {Dispatch} from "redux";
+import {SetIsLoggedIn, SetUserAC} from "./login-reducer";
 
 const initialState = {
-    status: "idle",
-    isInitialized: false
+    status: "idle" as RequestStatusType
 };
 
 export type AppInitialStateType = typeof initialState;
@@ -13,8 +13,7 @@ export const appReducer = (state = initialState, action: any): AppInitialStateTy
     switch (action.type) {
         case "APP/SET-STATUS":
             return {...state, status: action.status}
-        case "APP/INITIALAZE":
-            return {...state, isInitialized: action.isInitialazed}
+
         default:
             return {...state}
     }
@@ -28,12 +27,18 @@ export const setIsInitializedAC = (isInitialazed: boolean) => ({type: "APP/INITI
 //thunks
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     authAPI.me()
         .then(res => {
+            dispatch(SetIsLoggedIn(true))
+            dispatch(SetUserAC(res.data))
+            dispatch(setAppStatusAC("succeeded"))
+            debugger
     })
         .catch(()=> {
+            dispatch(setAppStatusAC("failed"))
         }).finally(()=>{
-        dispatch(setIsInitializedAC(true))
+        // dispatch(setIsInitializedAC(true))
     })
 }
 
