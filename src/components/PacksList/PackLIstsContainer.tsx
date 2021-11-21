@@ -10,11 +10,11 @@ const PacksListsContainer = () => {
     return (
     <div className={"main"}>
         <div className="mainBlock">
-            <Search/>
-            <PacksToggle/>
+            {/*<Search/>*/}
+            {/*<PacksToggle/>*/}
             <PacksTable/>
-            <Paginator/>
-            <ShowItemsPerPage/>
+            {/*<Paginator/>*/}
+            {/*<ShowItemsPerPage/>*/}
         </div>
         </div>
 
