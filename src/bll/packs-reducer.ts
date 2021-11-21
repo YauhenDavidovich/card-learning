@@ -1,8 +1,8 @@
-import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
+import {GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {Dispatch} from "redux";
 
-const InitialState: InitialCardsStateType= {
-        cardsPacks: [
+const InitialState = {
+        cardPacks: [
             {
                 _id: '',
                 user_id: '',
@@ -19,25 +19,13 @@ const InitialState: InitialCardsStateType= {
 
 }
 
-export type InitialCardsStateType={
-    cardsPacks: CardsPack[]
-    cardPacksTotalCount: number
-    maxCardsCount: number
-    minCardsCount: number
-    page: number
-    pageCount: number
-}
-
-
-
-
-export const packsReducer=(state:InitialCardsStateType=InitialState, action: ActionsType):InitialCardsStateType=>{
+export const packsReducer=(state=InitialState, action: ActionsType):ResponsePacksType=>{
     switch(action.type){
         case GETPACKS:
 
             return {
                 ...state,
-                cardsPacks: action.data.cardPacks,
+                cardPacks: action.data.cardPacks,
                 cardPacksTotalCount: action.data.cardPacksTotalCount,
                 maxCardsCount: action.data.maxCardsCount,
                 minCardsCount: action.data.minCardsCount,
