@@ -22,7 +22,6 @@ const InitialState = {
 export const packsReducer=(state=InitialState, action: ActionsType):ResponsePacksType=>{
     switch(action.type){
         case GETPACKS:
-
             return {
                 ...state,
                 cardPacks: action.data.cardPacks,
@@ -40,13 +39,18 @@ export const packsReducer=(state=InitialState, action: ActionsType):ResponsePack
 
 const GETPACKS= 'card-learning/cards/GET-CARDS'
 
+
+
 export const GetCardsAC=(data:ResponsePacksType )=>({
     type:GETPACKS,
     data: data,
 } as const);
 
 
+
+
 export const getCardsTC=(data:GetPacksParamsType)=>(dispatch:Dispatch)=>{
+   debugger
     packsListAPI.getPacks(data)
         .then(res=>{
             dispatch(GetCardsAC(res.data))
