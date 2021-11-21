@@ -10,7 +10,8 @@ import TextField from "@mui/material/TextField";
 import Button from '@material-ui/core/Button';
 import {Link as RouterLink, Navigate, useNavigate} from 'react-router-dom';
 import {loginTC} from "../../bll/login-reducer";
-import {Link} from "@material-ui/core";
+import {Checkbox, Link} from "@material-ui/core";
+import {FormControlLabel} from "@mui/material";
 
 
 const Login = () => {
@@ -85,6 +86,14 @@ const Login = () => {
                                                 {formik.errors.password}
                                             </div>
                                             : null}
+                                        <FormControlLabel
+                                            label={'Remember me'}
+                                            control={<Checkbox
+                                                name="rememberMe"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.rememberMe}
+                                            />}
+                                        />
                                         <Link component={RouterLink} to="/forgot-password" color="secondary">
                                             {'Forgot Password'}
                                         </Link>
