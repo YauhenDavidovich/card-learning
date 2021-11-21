@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import "./App.css";
 import Header from "./ui/ui-header/Header";
 import Main from "./ui/ui-main/Main";
-import {MuiThemeProvider} from '@material-ui/core/styles';
+import {MuiThemeProvider} from "@material-ui/core/styles";
 import MyTheme from "./MyTheme";
 import {initializeAppTC, RequestStatusType} from "./bll/app-reducer";
 import {useDispatch, useSelector} from "react-redux";

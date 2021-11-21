@@ -1,0 +1,9 @@
+.table{
+    margin: 0 auto;
+    width: 500px;
+}
+.range{
+    display: flex;
+    justify-content: center;
+   margin: 0 auto;
+}
