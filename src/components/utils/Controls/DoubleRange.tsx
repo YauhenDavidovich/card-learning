@@ -11,6 +11,7 @@ type DoubleRangePropsType = {
 
 const DoubleRange = (props: DoubleRangePropsType) => {
     const [value, setValue] = useState<number[]>([props.minimumCards, props.maximumCards]);
+    console.log([props.minimumCards, props.maximumCards])
     const handleChange = (event: any, newValue: number | number[]) => {
         setValue(newValue as number[]);
         dispatch(getCardsTC({min:value[0], max:value[1]}))
@@ -22,6 +23,7 @@ const DoubleRange = (props: DoubleRangePropsType) => {
         <Slider
             value={value}
             onChangeCommitted={handleChange}
+            defaultValue={[props.minimumCards, props.maximumCards]}
             valueLabelDisplay="on"
             aria-labelledby="range-slider"
             min={props.minimumCards}
