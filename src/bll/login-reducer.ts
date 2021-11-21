@@ -67,10 +67,6 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
         })
         .catch(err => {
             dispatch(setAppStatusAC("failed"))
-            // console.log({...err})
-            // const error = err.res ?
-            //     err.res.data.error :
-            //     (err.message + ', more details in the console')
         })
 }
 

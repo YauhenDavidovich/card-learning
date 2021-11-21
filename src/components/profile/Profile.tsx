@@ -14,10 +14,15 @@ const Profile = () => {
     }
 
     return (
-        <div> {user ? <div>
-            <img src={user.avatar}/>{user.name}
-        </div> : ''}
+        <div className={"main"}>
+            <div className="mainBlock">
+                <div>
+                    <h4>{user.name}</h4>
+                    <div><img src={user.avatar}/></div>
+                </div>
+            </div>
         </div>
+
     )
 }
 

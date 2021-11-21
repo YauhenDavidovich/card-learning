@@ -59,7 +59,6 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
 
     if (isEmailRequestSend) {
-        debugger
         return <Navigate to={"/check-email/"+emailSent}/>
     }
     if (isAuth) {
