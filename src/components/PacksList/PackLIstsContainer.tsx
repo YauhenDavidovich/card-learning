@@ -13,16 +13,19 @@ import {CardsPack} from "../../dal/packsListApi";
 
 const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
+    const minimunCards = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
+    const maximunCards = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        debugger
         dispatch(getCardsTC({}))
     }, [])
 
     return (
     <div className={"main"}>
         <div className="mainBlock">
-            <DoubleRange/>
+            <DoubleRange minimumCards={minimunCards} maximumCards={maximunCards}/>
             <Search/>
             <PacksToggle/>
             <PacksTable packs={packs}/>

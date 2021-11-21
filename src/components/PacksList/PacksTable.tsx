@@ -16,7 +16,6 @@ const PacksTable = (props: PacksPropsType) => {
                     <div>{c.cardsCount}</div>
                     <div>{c.updated.substring(0, 10)}</div>
                     <div>{c.created.substring(0, 10)}</div>
-
                 </div>)}
             <div><b>Cards Total Count:{}</b></div>
 
