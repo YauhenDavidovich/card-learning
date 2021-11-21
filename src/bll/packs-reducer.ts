@@ -23,13 +23,9 @@ export const packsReducer=(state=InitialState, action: ActionsType):ResponsePack
     switch(action.type){
         case GETPACKS:
             return {
+
                 ...state,
-                cardPacks: action.data.cardPacks,
-                cardPacksTotalCount: action.data.cardPacksTotalCount,
-                maxCardsCount: action.data.maxCardsCount,
-                minCardsCount: action.data.minCardsCount,
-                page: action.data.page,
-                pageCount: action.data.pageCount
+                ...action.data
             }
         default:
             return state;
@@ -50,7 +46,8 @@ export const GetCardsAC=(data:ResponsePacksType )=>({
 
 
 export const getCardsTC=(data:GetPacksParamsType)=>(dispatch:Dispatch)=>{
-   debugger
+    debugger
+    console.log(data)
     packsListAPI.getPacks(data)
         .then(res=>{
             dispatch(GetCardsAC(res.data))
