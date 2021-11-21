@@ -13,7 +13,6 @@ function App() {
     const isLoading = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch()
     useEffect(() => {
-        debugger
         dispatch(initializeAppTC())
     }, [])
 
