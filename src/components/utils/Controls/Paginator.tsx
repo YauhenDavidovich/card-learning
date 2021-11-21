@@ -23,28 +23,28 @@ const Paginator = () => {
     let leftPortionNumber = (portionNumber - 1) * page + 1
     let rightPortionPageNumber = portionNumber * page
 
-    const dispatch=useDispatch()
-    const onPageChanged=(page:number)=>{
-        dispatch(getCardsTC({page}))
+    const dispatch = useDispatch()
+    const onPageChanged = (page: number) => {
+        dispatch(getCardsTC({page:page, pageCount:10}))
     }
 
     return <div className={styles.paginator}>
-        {portionNumber>1 && <button className={styles.arrowLeft} onClick={()=> {
-        setPortionNumber(portionNumber-1)
+        {portionNumber > 1 && <button className={styles.arrowLeft} onClick={() => {
+            setPortionNumber(portionNumber - 1)
         }}></button>}
-        {pages.filter(p=>p>=leftPortionNumber && p <=rightPortionPageNumber)
-            .map((p)=>{
+        {pages.filter(p => p >= leftPortionNumber && p <= rightPortionPageNumber)
+            .map((p) => {
                 return <span className={cn({
-                    [styles.selectedPage]: currentPage=== p
+                    [styles.selectedPage]: currentPage === p
                 }, styles.pageNumber)}
                              key={p}
-                             onClick={(e)=>{
-                             onPageChanged(p)
+                             onClick={(e) => {
+                                 onPageChanged(p)
                              }}>{p}</span>
             })}
         {portionCount > portionNumber &&
-        <button className={styles.arrowRight} onClick={()=>{
-         setPortionNumber(portionNumber+1)
+        <button className={styles.arrowRight} onClick={() => {
+            setPortionNumber(portionNumber + 1)
         }}></button>}
     </div>
 

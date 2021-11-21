@@ -16,10 +16,11 @@ const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
     const minimumCards = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
     const maximumCards = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getCardsTC({pageCount:10}))
+        dispatch(getCardsTC({}))
     }, [minimumCards, maximumCards])
 
     return (
