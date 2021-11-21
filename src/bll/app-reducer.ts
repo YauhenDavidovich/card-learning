@@ -33,7 +33,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(SetIsLoggedIn(true))
             dispatch(SetUserAC(res.data))
             dispatch(setAppStatusAC("succeeded"))
-            debugger
     })
         .catch(()=> {
             dispatch(setAppStatusAC("failed"))
