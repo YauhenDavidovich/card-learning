@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Slider} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC} from "../../../bll/packs-reducer";
+import {getCardsTC, PacksParamsType} from "../../../bll/packs-reducer";
 import {AppStateType} from "../../../bll/store";
 
+type DoubleRangePropsType = {}
 
-const DoubleRange = () => {
-    const minimumCards = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
-    const maximumCards = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
-    const [value, setValue] = useState<number[]>([0, 0]);
 
-    const handleChange = (event: any, newValue: any) => {
-        setValue(newValue);
-        // dispatch(getCardsTC({min: newValue[0], max: newValue[1]}))
+const DoubleRange = (props: DoubleRangePropsType) => {
+    const {max, min} = useSelector<AppStateType, PacksParamsType>(state => state.packs.packsParams)
+    const [value, setValue] = useState<number[]>([min, max]);
+    const handleChange = (event: any, newValue: number | number[]) => {
+        setValue(newValue as number[]);
+        // @ts-ignore
+        dispatch(getCardsTC({min: newValue[0], max: newValue[1]}))
     };
 
     const dispatch = useDispatch()
@@ -23,8 +24,8 @@ const DoubleRange = () => {
             onChangeCommitted={handleChange}
             valueLabelDisplay="on"
             aria-labelledby="range-slider"
-            min={minimumCards}
-            max={maximumCards}
+            min={min}
+            max={max}
         />
     )
 
