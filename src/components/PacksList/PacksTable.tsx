@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Button from "@mui/material/Button";
 import {AppStateType} from "../../bll/store";
 import {CardsPack, packsListAPI} from "../../dal/packsListApi";
-import {getCardsTC} from "../../bll/packs-reducer";
+import {getCardsTC, PacksParamsType} from "../../bll/packs-reducer";
 
 
 type PacksPropsType = {
@@ -22,11 +22,6 @@ type PacksPropsType = {
 const PacksTable = (props: PacksPropsType) => {
 
     const userID = useSelector<AppStateType, string>(state => state.login.user._id)
-    const max = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
-    const min = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
-    const page = useSelector<AppStateType, number>(state => state.packs.page)
-    const pageCount = useSelector<AppStateType, number>(state => state.packs.pageCount)
-
 
 
     const [name, setName] = useState(true)
@@ -37,9 +32,9 @@ const PacksTable = (props: PacksPropsType) => {
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getCardsTC({sortPacks: `${1}${sortName}`, max, min, page, pageCount}))
+            dispatch(getCardsTC({sortPacks: `${1}${sortName}`}))
         } else {
-            dispatch(getCardsTC({sortPacks: `${0}${sortName}`, max, min, page, pageCount}))
+            dispatch(getCardsTC({sortPacks: `${0}${sortName}`}))
         }
     }
 

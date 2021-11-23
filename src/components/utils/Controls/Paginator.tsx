@@ -3,18 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/store";
 import styles from "./Paginator.module.css"
 import cn from "classnames";
-import {getCardsTC} from "../../../bll/packs-reducer";
+import {getCardsTC, PacksParamsType} from "../../../bll/packs-reducer";
 
 const Paginator = () => {
-    const pageCount: number = useSelector<AppStateType, number>(state => state.packs.pageCount)
+    const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
     const cardPacksTotalCount: number = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
-    const currentPage: number = useSelector<AppStateType, number>(state => state.packs.page)
-
-
-    const max = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
-    const min = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
-    const sortPacks = useSelector<AppStateType, string>(state => state.packs.sortPacks)
-
+    const currentPage: number = useSelector<AppStateType, number>(state => state.packs.packsParams.page)
 
 
     let pagesCount = Math.ceil(cardPacksTotalCount / pageCount)
@@ -23,7 +17,7 @@ const Paginator = () => {
     for (let i = 1; i < pagesCount; i++) {
         pages.push(i)
     }
-    let page = 15;
+    let page = 10;
     let portionCount = Math.ceil(pagesCount / page)
     let [portionNumber, setPortionNumber] = useState(1)
     let leftPortionNumber = (portionNumber - 1) * page + 1
@@ -31,7 +25,7 @@ const Paginator = () => {
 
     const dispatch = useDispatch()
     const onPageChanged = (page: number) => {
-        dispatch(getCardsTC({page, max, min, sortPacks}))
+        dispatch(getCardsTC({page}))
     }
 
     return <div className={styles.paginator}>
