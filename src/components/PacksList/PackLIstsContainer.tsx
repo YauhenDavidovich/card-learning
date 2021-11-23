@@ -21,7 +21,7 @@ const PacksListsContainer = () => {
 
     useEffect(() => {
         dispatch(getCardsTC({}))
-    }, [minimumCards, maximumCards])
+    }, [])
 
     return (
     <div className={"main"}>

@@ -12,7 +12,6 @@ import Preloader from "./components/utils/Preloader";
 function App() {
     const isLoading = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch()
-    debugger
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
@@ -21,11 +20,9 @@ function App() {
     return (
         <MuiThemeProvider theme={MyTheme}>
             <div className={"App"}>
-                {isLoading === "loading" ? <Preloader/>
-                    : <>
-                        <Header/>
-                        <Main/>
-                    </>}
+                {isLoading === 'loading' && <Preloader/>}
+                <Header/>
+                <Main/>
             </div>
         </MuiThemeProvider>
     )

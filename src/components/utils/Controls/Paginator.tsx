@@ -11,6 +11,12 @@ const Paginator = () => {
     const currentPage: number = useSelector<AppStateType, number>(state => state.packs.page)
 
 
+    const max = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
+    const min = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
+    const sortPacks = useSelector<AppStateType, string>(state => state.packs.sortPacks)
+
+
+
     let pagesCount = Math.ceil(cardPacksTotalCount / pageCount)
     let pages = []
 
@@ -25,7 +31,7 @@ const Paginator = () => {
 
     const dispatch = useDispatch()
     const onPageChanged = (page: number) => {
-        dispatch(getCardsTC({page:page, pageCount:10}))
+        dispatch(getCardsTC({page, max, min, sortPacks}))
     }
 
     return <div className={styles.paginator}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Slider} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {getCardsTC} from "../../../bll/packs-reducer";
@@ -11,7 +11,6 @@ type DoubleRangePropsType = {
 
 const DoubleRange = (props: DoubleRangePropsType) => {
     const [value, setValue] = useState<number[]>([props.minimumCards, props.maximumCards]);
-    console.log([props.minimumCards, props.maximumCards])
     const handleChange = (event: any, newValue: number | number[]) => {
         setValue(newValue as number[]);
         dispatch(getCardsTC({min:value[0], max:value[1]}))
