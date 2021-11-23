@@ -13,6 +13,8 @@ const InitialState = {
             updated: ""
         }],
     cardPacksTotalCount: 0,
+    maxCardsCount: 0,
+    minCardsCount: 0,
     packsParams: {
         max: 0,
         min: 0,
@@ -26,6 +28,8 @@ type InitialStateType = {
     cardPacks: CardsPack[]
     cardPacksTotalCount: number
     packsParams: PacksParamsType
+    maxCardsCount: number
+    minCardsCount: number
 }
 export type PacksParamsType = {
     max: number,
@@ -42,10 +46,10 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
                 ...state,
                 cardPacks: action.data.cardPacks,
                 cardPacksTotalCount: action.data.cardPacksTotalCount,
+                maxCardsCount: action.data.maxCardsCount,//from here we get max allowed value for slider
+                minCardsCount: action.data.minCardsCount,//from here we get min allowed value for slider
                 packsParams: {
                     ...state.packsParams,
-                    max: action.data.maxCardsCount,
-                    min: action.data.minCardsCount,
                     page: action.data.page,
                     pageCount: action.data.pageCount
                 }

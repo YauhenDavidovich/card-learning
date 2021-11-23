@@ -14,7 +14,6 @@ import {CardsPack} from "../../dal/packsListApi";
 
 const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
