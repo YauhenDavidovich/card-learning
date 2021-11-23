@@ -12,9 +12,6 @@ import {CardsPack} from "../../dal/packsListApi";
 
 
 const PacksListsContainer = () => {
-    const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
-    const store =  useSelector<AppStateType, any>(state => state.packs)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,7 +23,8 @@ const PacksListsContainer = () => {
                 <DoubleRange/>
                 <Search/>
                 <PacksToggle/>
-                <PacksTable packs={packs}/>
+                {/*<PacksTable packs={packs}/>*/}
+                <PacksTable />
                 <Paginator/>
                 <ShowItemsPerPage/>
             </div>

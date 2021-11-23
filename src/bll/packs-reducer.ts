@@ -1,5 +1,6 @@
 import {GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {Dispatch} from "redux";
+import {setAppStatusAC} from "./app-reducer";
 
 const InitialState = {
         cardPacks: [
@@ -23,17 +24,25 @@ export const packsReducer=(state=InitialState, action: ActionsType):ResponsePack
     switch(action.type){
         case GETPACKS:
             return {
-
                 ...state,
                 ...action.data
             }
+        case SET_RANGE:
+            return {
+                ...state,
+                maxCardsCount: action.maxCardsCount,
+                minCardsCount: action.minCardsCount,
+
+            }
+
         default:
             return state;
     }
 }
 
 
-const GETPACKS= 'card-learning/cards/GET-CARDS'
+const GETPACKS = 'card-learning/cards/GET-CARDS'
+const SET_RANGE = 'card-learning/cards/SET-RANGE'
 
 
 
@@ -42,20 +51,34 @@ export const GetCardsAC=(data:ResponsePacksType )=>({
     data: data,
 } as const);
 
-
+export const SetRangeAC=(min:number, max:number )=>({
+    type: SET_RANGE,
+    minCardsCount: min,
+    maxCardsCount: max,
+} as const);
 
 
 export const getCardsTC=(data:GetPacksParamsType)=>(dispatch:Dispatch)=>{
-    debugger
-    console.log(data)
+
+    dispatch(setAppStatusAC("loading"))
     packsListAPI.getPacks(data)
         .then(res=>{
             dispatch(GetCardsAC(res.data))
-        })
+            dispatch(setAppStatusAC("succeeded"))
+        }).catch(()=> {
+        dispatch(setAppStatusAC("failed"))
+    })
+}
+
+export const setGetPacksParamsTC=(data:any)=>(dispatch:Dispatch)=>{
+
+
+
+
 }
 
 
-
 export type GetPacksType = ReturnType<typeof GetCardsAC>
+export type SetRangeType = ReturnType<typeof SetRangeAC>
 
-type ActionsType = GetPacksType
+type ActionsType = GetPacksType | SetRangeType

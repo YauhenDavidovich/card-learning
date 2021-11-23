@@ -8,13 +8,11 @@ import App from "./App";
 import store from "./bll/store";
 //comment
 ReactDOM.render(
-    <React.StrictMode>
         <HashRouter>
             <Provider store={store}>
                 <App />
             </Provider>
-        </HashRouter>
-    </React.StrictMode>,
+        </HashRouter>,
     document.getElementById('root')
 );
 

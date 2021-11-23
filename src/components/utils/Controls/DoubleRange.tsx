@@ -8,13 +8,11 @@ import {AppStateType} from "../../../bll/store";
 const DoubleRange = () => {
     const minimumCards = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
     const maximumCards = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
-    const [value, setValue] = useState<number[]>([minimumCards, maximumCards]);
+    const [value, setValue] = useState<number[]>([0, 0]);
 
-    const handleChange = (event: any, newValue: number | number[]) => {
-
-        setValue(newValue as number[]);
-        debugger
-        dispatch(getCardsTC({min:value[0], max:value[1]}))
+    const handleChange = (event: any, newValue: any) => {
+        setValue(newValue);
+        // dispatch(getCardsTC({min: newValue[0], max: newValue[1]}))
     };
 
     const dispatch = useDispatch()
@@ -24,7 +22,6 @@ const DoubleRange = () => {
             value={value}
             onChangeCommitted={handleChange}
             valueLabelDisplay="on"
-            defaultValue={[minimumCards,maximumCards]}
             aria-labelledby="range-slider"
             min={minimumCards}
             max={maximumCards}
