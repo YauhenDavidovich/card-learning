@@ -1,6 +1,7 @@
 import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk"
+import {setAppStatusAC} from "./app-reducer";
 
 const InitialState = {
     cardPacks: [
@@ -21,6 +22,7 @@ const InitialState = {
         page: 0,
         pageCount: 0,
         sortPacks: "",
+        user_id: "",
     },
 }
 //types
@@ -36,7 +38,8 @@ export type PacksParamsType = {
     min: number,
     page: number,
     pageCount: number,
-    sortPacks: string
+    sortPacks: string,
+    user_id: string,
 }
 
 export const packsReducer = (state = InitialState, action: ActionsType): InitialStateType => {
@@ -66,6 +69,10 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             return {
                 ...state, packsParams: {...state.packsParams, min: action.min, max: action.max}
             }
+        case SET_PACKS_CARD_OWNER_FILTER:
+            return {
+                ...state, packsParams: {...state.packsParams, user_id: action.owner}
+            }
         default:
             return state;
     }
@@ -76,6 +83,7 @@ const GETPACKS = "card-learning/cards/GET-CARDS"
 const SET_SORT_VALUE = "card-learning/cards/SET_SORT_VALUE"
 const SET_PACKS_PAGE = "card-learning/cards/SET_PACKS_PAGE"
 const SET_PACKS_CARD_RANGE = "card-learning/cards/SET_PACKS_CARD_RANGE"
+const SET_PACKS_CARD_OWNER_FILTER = "card-learning/cards/SET_PACKS_CARD_OWNER_FILTER"
 
 
 export const GetCardsAC = (data: ResponsePacksType) => ({
@@ -99,6 +107,12 @@ export const SetPacksCardRangeAC = (min: number, max: number) => ({
     max
 } as const);
 
+export const SetPacksCardOwnerFilterAC = (owner: string) => ({
+    type: SET_PACKS_CARD_OWNER_FILTER,
+    owner
+} as const);
+
+
 
 export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
     if (data.sortPacks && data.sortPacks !== getState().packs.packsParams.sortPacks) {
@@ -107,8 +121,15 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
     if (data.page) {
         dispatch(SetPacksPageAC(data.page))
     }
-    if (data.min && data.max) {
+    if (data.min !== undefined && data.max !== undefined) {
         dispatch(SetPacksCardRangeAC(data.min, data.max))
+    }
+    if (data.user_id) {
+        if (data.user_id === "all") {
+            dispatch(SetPacksCardOwnerFilterAC(""))
+        } else {
+            dispatch(SetPacksCardOwnerFilterAC(data.user_id))
+        }
     }
     const state = getState().packs.packsParams
     packsListAPI.getPacks(state)
@@ -122,11 +143,14 @@ export type GetPacksType = ReturnType<typeof GetCardsAC>
 export type SetSortValueType = ReturnType<typeof SetSortValueAC>
 export type SetPacksPageType = ReturnType<typeof SetPacksPageAC>
 export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>
+export type SetPacksCardOwnerFilterType = ReturnType<typeof SetPacksCardOwnerFilterAC>
+
 
 type ActionsType = GetPacksType
     | SetSortValueType
     | SetPacksPageType
     | SetPacksCardRangeType
+    | SetPacksCardOwnerFilterType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>

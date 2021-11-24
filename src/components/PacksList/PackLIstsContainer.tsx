@@ -9,30 +9,33 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {getCardsTC} from "../../bll/packs-reducer";
 import {CardsPack} from "../../dal/packsListApi";
-//fff
 
 
 const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(getCardsTC({}))
     }, [])
 
     return (
-    <div className={"main"}>
-        <div className="mainBlock">
-            <DoubleRange />
-            <Search/>
-            <PacksToggle/>
-            <PacksTable packs={packs}/>
-            <Paginator/>
-            <ShowItemsPerPage/>
-        </div>
+        <div className={"main"}>
+            <div className="mainBlock">
+                <div className={'left__panel'}>
+                    <PacksToggle/>
+                    <DoubleRange/>
+                </div>
+                <div>
+                    <Search/>
+                    <PacksTable packs={packs}/>
+                    <div>
+                        <Paginator/>
+                        <ShowItemsPerPage/></div>
+                </div>
+            </div>
         </div>
 
-)
+    )
 }
 
 export default PacksListsContainer

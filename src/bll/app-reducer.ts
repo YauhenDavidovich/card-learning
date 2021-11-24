@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {SetIsLoggedIn, SetUserAC} from "./login-reducer";
 
 const initialState = {
-    status: "idle" as RequestStatusType
+    status: "loading" as RequestStatusType
 };
 
 export type AppInitialStateType = typeof initialState;
@@ -36,6 +36,7 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(setAppStatusAC("succeeded"))
     })
         .catch(()=> {
+            dispatch(SetIsLoggedIn(false))
             dispatch(setAppStatusAC("failed"))
         })
 }

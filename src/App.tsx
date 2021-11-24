@@ -16,11 +16,12 @@ function App() {
         dispatch(initializeAppTC())
     }, [])
 
+    if (isLoading === 'loading')
+        return <Preloader />
 
     return (
         <MuiThemeProvider theme={MyTheme}>
             <div className={"App"}>
-                {isLoading === 'loading' && <Preloader/>}
                 <Header/>
                 <Main/>
             </div>
