@@ -21,6 +21,9 @@ const InitialState = {
         sortPacks: "",
     },
 }
+
+
+
 //types
 type InitialStateType = {
     cardPacks: CardsPack[]
