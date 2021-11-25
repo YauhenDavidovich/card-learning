@@ -28,9 +28,9 @@ const PacksListsContainer = () => {
                 <div>
                     <Search/>
                     <PacksTable packs={packs}/>
-                    <div>
-                        <Paginator/>
-                        <ShowItemsPerPage/></div>
+                    <span>
+                        <Paginator/><ShowItemsPerPage/>
+                        </span>
                 </div>
             </div>
         </div>
