@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC} from "../../../bll/packs-reducer";
+import {getCardsTC, PacksParamsType} from "../../../bll/packs-reducer";
 import {AppStateType} from "../../../bll/store";
 
-const Search = () => {
+type SearchType = {
+    searchResult: number
+    getSearchResult:(searchTerm: string)=> void
+}
+
+
+const Search = (props: SearchType) => {
     const [searchTerm, setSearchTerm] = useState('')
     const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
-    const dispatch = useDispatch()
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            dispatch(getCardsTC({packName: searchTerm, page: 1}))
+            props.getSearchResult(searchTerm)
         }, 700)
 
         return () => clearTimeout(delayDebounceFn)

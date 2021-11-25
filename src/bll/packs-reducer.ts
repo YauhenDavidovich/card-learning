@@ -79,7 +79,7 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             }
         case SET_PACKS_SEARCH_NAME:
             return {
-                ...state, packsParams: {...state.packsParams, packName: action.packName}
+                ...state, packsParams: {...state.packsParams, packName: action.packName, page: 1}
             }
         default:
             return state;
