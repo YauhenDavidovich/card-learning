@@ -1,6 +1,7 @@
 import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk"
+import {setAppStatusAC} from "./app-reducer";
 
 const InitialState = {
     cardPacks: [
@@ -104,7 +105,6 @@ const SET_PACKS_CARD_OWNER_FILTER = "card-learning/packs/SET_PACKS_CARD_OWNER_FI
 const SET_PACKS_SEARCH_NAME = "card-learning/packs/SET_PACKS_SEARCH_NAME"
 const SET_PAGE_COUNT = 'card-learning/packs/SET-PAGE_COUNT'
 const DELETE_PACK = 'card-learning/packs/DELETE_PACK'
-const UPDATE_PACK = 'card-learning/packs/UPDATE_PACK'
 
 export const GetCardsAC = (data: ResponsePacksType) => ({
     type: GET_PACKS,
@@ -174,9 +174,12 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         dispatch(SetPageCountAC(data.pageCount))
     }
     const state = getState().packs.packsParams
+    // @ts-ignore
     packsListAPI.getPacks(state)
         .then(res => {
             dispatch(GetCardsAC(res.data))
+            // @ts-ignore
+
         })
 }
 
@@ -197,13 +200,26 @@ export const updatePackTC = (_id: string, name: string):GetThunk => (dispatch, g
     const userId = getState().login.user._id
     packsListAPI.updatePack({name:name, _id: _id})
         .then(() => {
-            dispatch(getCardsTC({user_id: userId}))
+            dispatch(getCardsTC({}))
         })
         .catch(error => {
             // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
             // dispatch(setForgotStatus("failed"))
         })
 }
+
+export const addPackTC = (name: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+
+    packsListAPI.addPack({cardsPack:{name:name}} )
+        .then(() => {
+            dispatch(getCardsTC({}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+
 
 export type GetPacksType = ReturnType<typeof GetCardsAC>
 export type SetSortValueType = ReturnType<typeof SetSortValueAC>

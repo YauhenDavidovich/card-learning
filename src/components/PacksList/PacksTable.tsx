@@ -84,6 +84,16 @@ const PacksTable = (props: PacksPropsType) => {
         backgroundColor: "#8CE0EB"
     }
 
+    interface DateTimeFormatOptions {
+        weekday?: "long" | "short" | "narrow";
+        year?: "numeric" | "2-digit";
+        month?: "numeric" | "2-digit" |"long" | "short" | "narrow";
+        day?: "numeric" | "2-digit";
+        hour?: "numeric" | "2-digit";
+        minute?: "numeric" | "2-digit";
+    }
+
+    const dateOptions:DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long',day:"numeric", hour: "numeric", minute: "numeric" };
 
     return (
         <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000, marginTop: 20}}>
@@ -131,8 +141,8 @@ const PacksTable = (props: PacksPropsType) => {
                                 {row.name}
                             </TableCell>
                             <TableCell align="left">{row.cardsCount}</TableCell>
-                            <TableCell align="left">{row.created.substring(0, 10)}</TableCell>
-                            <TableCell align="left">{row.updated.substring(0, 10)}</TableCell>
+                            <TableCell align="left">{new Date(row.created).toLocaleDateString("en-US",dateOptions)}</TableCell>
+                            <TableCell align="left">{new Date(row.updated).toLocaleDateString("en-US",dateOptions)}</TableCell>
                             <TableCell align="left">
                                 <IconButton style={row.user_id !== userID
                                     ?
