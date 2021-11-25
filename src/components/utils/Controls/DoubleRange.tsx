@@ -23,13 +23,15 @@ const DoubleRange = () => {
             <div>
                 <h4>Number of cards</h4>
             </div>
-            <Slider
-                value={value}
-                onChangeCommitted={handleChange}
-                min={min}
-                max={max}
-                valueLabelDisplay="on"
-            />
+            <div style={{padding: 15}}>
+                <Slider
+                    value={value}
+                    onChangeCommitted={handleChange}
+                    min={min}
+                    max={max}
+                    valueLabelDisplay="on"
+                />
+            </div>
         </div>
 
     )

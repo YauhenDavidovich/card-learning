@@ -48,7 +48,7 @@ export type PacksParamsType = {
 
 export const packsReducer = (state = InitialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case GETPACKS:
+        case GET_PACKS:
             return {
                 ...state,
                 cardPacks: action.data.cardPacks,
@@ -85,23 +85,29 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             return {
                 ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
             }
+        case DELETE_PACK:
+            return {
+                ...state,
+                cardPacks: state.cardPacks.filter((cardPack) => cardPack._id === action.packId)
+            }
         default:
             return state;
     }
 }
 
 
-const GETPACKS = "card-learning/cards/GET-CARDS"
-const SET_SORT_VALUE = "card-learning/cards/SET_SORT_VALUE"
-const SET_PACKS_PAGE = "card-learning/cards/SET_PACKS_PAGE"
-const SET_PACKS_CARD_RANGE = "card-learning/cards/SET_PACKS_CARD_RANGE"
-const SET_PACKS_CARD_OWNER_FILTER = "card-learning/cards/SET_PACKS_CARD_OWNER_FILTER"
-const SET_PACKS_SEARCH_NAME = "card-learning/cards/SET_PACKS_SEARCH_NAME"
-
-const SET_PAGE_COUNT = 'card-learning/cards/SET-PAGE_COUNT'
+const GET_PACKS = "card-learning/packs/GET-CARDS"
+const SET_SORT_VALUE = "card-learning/packs/SET_SORT_VALUE"
+const SET_PACKS_PAGE = "card-learning/packs/SET_PACKS_PAGE"
+const SET_PACKS_CARD_RANGE = "card-learning/packs/SET_PACKS_CARD_RANGE"
+const SET_PACKS_CARD_OWNER_FILTER = "card-learning/packs/SET_PACKS_CARD_OWNER_FILTER"
+const SET_PACKS_SEARCH_NAME = "card-learning/packs/SET_PACKS_SEARCH_NAME"
+const SET_PAGE_COUNT = 'card-learning/packs/SET-PAGE_COUNT'
+const DELETE_PACK = 'card-learning/packs/DELETE_PACK'
+const UPDATE_PACK = 'card-learning/packs/UPDATE_PACK'
 
 export const GetCardsAC = (data: ResponsePacksType) => ({
-    type: GETPACKS,
+    type: GET_PACKS,
     data: data,
 } as const);
 
@@ -135,6 +141,12 @@ export const SetPacksSearchNameAC = (packName: string) => ({
     packName
 } as const);
 
+export const DeletePackAC = (packId: string) => ({
+    type: DELETE_PACK,
+    packId
+} as const)
+
+
 
 
 export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
@@ -155,7 +167,6 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         }
     }
     if (data.packName || data.packName==="") {
-        debugger
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
@@ -169,6 +180,30 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         })
 }
 
+export const deletePackTC = (packId: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+    const userId = getState().login.user._id
+    packsListAPI.deletePack(packId)
+        .then(() => {
+            dispatch(DeletePackAC(packId))
+            dispatch(getCardsTC({user_id: userId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+
+export const updatePackTC = (_id: string, name: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+    const userId = getState().login.user._id
+    packsListAPI.updatePack({name:name, _id: _id})
+        .then(() => {
+            dispatch(getCardsTC({user_id: userId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
 
 export type GetPacksType = ReturnType<typeof GetCardsAC>
 export type SetSortValueType = ReturnType<typeof SetSortValueAC>
@@ -177,6 +212,7 @@ export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>
 export type SetPacksCardOwnerFilterType = ReturnType<typeof SetPacksCardOwnerFilterAC>
 export type SetPacksSearchNameType = ReturnType<typeof SetPacksSearchNameAC>
 export type SetPageCountType = ReturnType<typeof SetPageCountAC>
+export type DeletePackType = ReturnType<typeof DeletePackAC>
 
 
 type ActionsType = GetPacksType
@@ -186,6 +222,7 @@ type ActionsType = GetPacksType
     | SetPacksCardOwnerFilterType
     | SetPacksSearchNameType
     | SetPageCountType
+    | DeletePackType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>

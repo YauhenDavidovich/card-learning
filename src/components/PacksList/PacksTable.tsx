@@ -10,20 +10,20 @@ import Paper from "@mui/material/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@mui/material/Button";
 import {AppStateType} from "../../bll/store";
-import {CardsPack, packsListAPI} from "../../dal/packsListApi";
-import {getCardsTC, PacksParamsType} from "../../bll/packs-reducer";
-
+import {CardsPack} from "../../dal/packsListApi";
+import {deletePackTC, getCardsTC, updatePackTC} from "../../bll/packs-reducer";
+import {IconButton} from "@mui/material";
+import SchoolIcon from '@mui/icons-material/School';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type PacksPropsType = {
     packs: Array<CardsPack>
 }
 
-
 const PacksTable = (props: PacksPropsType) => {
 
     const userID = useSelector<AppStateType, string>(state => state.login.user._id)
-
-
     const [name, setName] = useState(true)
     const [cardsCount, setCardsCount] = useState(true)
     const [created, setCreated] = useState(true)
@@ -62,51 +62,52 @@ const PacksTable = (props: PacksPropsType) => {
         alert(cardsId)
     }
 
-    const addPackHandler = () => {
-        packsListAPI.addPack({cardsPack: {name: "INGVARR"}}).then(response => alert(response))
-    }
-
-
     const deletePackHandler = (packId: string) => {
-        if (packId === props.packs[0].user_id) {
-            alert(packId)
-        }
+        return props.packs.map(pack => {
+            if(pack.user_id === userID) {
+                dispatch(deletePackTC(packId))
+            }
+        })
     }
+    const updatePackHandler = (_id:string, name:string) => {
+                dispatch(updatePackTC(_id,name))
+    }
+
     const styleHeaderButton = {
         color: "black"
     }
     const styleActionsButton = {
-        backgroundColor: "#D7D8EF",
         marginLeft: "10px"
+    }
+
+    const styleHeader = {
+        backgroundColor: "#8CE0EB"
     }
 
 
     return (
         <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000, marginTop: 20}}>
-            <Table aria-label="simple table">
-                <TableHead style={{backgroundColor: "#8CE0EB"}}>
-                    <TableRow>
-                        <TableCell align="left">
+            <Table aria-label="simple table" stickyHeader={true}>
+                <TableHead>
+                    <TableRow style={{}}>
+                        <TableCell align="left" style={styleHeader}>
                             <Button style={styleHeaderButton} variant="text"
                                     onClick={() => onSortHandler("name")}>Name⮃</Button>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" style={styleHeader}>
                             <Button style={styleHeaderButton} variant="text"
                                     onClick={() => onSortHandler("cardsCount")}>Cards⮃</Button>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" style={styleHeader}>
                             <Button style={styleHeaderButton} variant="text"
                                     onClick={() => onSortHandler("created")}>Created⮃</Button>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" style={styleHeader}>
                             <Button style={styleHeaderButton} variant="text"
                                     onClick={() => onSortHandler("updated")}>Updated⮃</Button>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" style={styleHeader}>
                             ACTIONS
-                        </TableCell>
-                        <TableCell align="left">
-                            <Button onClick={addPackHandler}>ADD+</Button>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -121,34 +122,38 @@ const PacksTable = (props: PacksPropsType) => {
                             }}
                         >
                             <TableCell component="th" scope="row" align="left"
-                                       style={{maxWidth: 100, minWidth: 100, wordWrap: "break-word"}}>
+                                       style={{
+                                           maxWidth: 150,
+                                           width: 150,
+                                           textOverflow: "ellipsis",
+                                           overflow: "hidden"
+                                       }}>
                                 {row.name}
                             </TableCell>
                             <TableCell align="left">{row.cardsCount}</TableCell>
                             <TableCell align="left">{row.created.substring(0, 10)}</TableCell>
                             <TableCell align="left">{row.updated.substring(0, 10)}</TableCell>
                             <TableCell align="left">
-                                <Button style={row.user_id !== userID
+                                <IconButton style={row.user_id !== userID
                                     ?
                                     {
-                                        backgroundColor: "red",
-                                        color: "white",
+                                        color: "red",
                                         opacity: 0.3
                                     }
                                     :
-                                    {backgroundColor: "red", color: "white"}}
-                                        disabled={row.user_id !== userID}
-                                        onClick={() => deletePackHandler(row.user_id)}>Delete
-                                </Button>
-                                <Button style={styleActionsButton} disabled={row.user_id !== userID}
-                                        onClick={() => deletePackHandler(row.user_id)}>Edit
-                                </Button>
-                                <Button
+                                    {color: "red"}}
+                                            disabled={row.user_id !== userID}
+                                            onClick={() => deletePackHandler(row._id)}><DeleteIcon/>
+                                </IconButton>
+                                <IconButton style={styleActionsButton} disabled={row.user_id !== userID}
+                                            onClick={() => updatePackHandler(row._id, "super new Pack_name")}>
+                                    <EditIcon/>
+                                </IconButton>
+                                <IconButton
                                     style={styleActionsButton}
-                                    onClick={() => getCardsHandler(row.user_id)}>Cards
-                                </Button>
-                            </TableCell>
-                            <TableCell align="left">
+                                    onClick={() => getCardsHandler(row.user_id)}>
+                                    <SchoolIcon/>
+                                </IconButton>
                             </TableCell>
                         </TableRow>
                     ))}

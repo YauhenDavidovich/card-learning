@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {getCardsTC} from "../../bll/packs-reducer";
 import {CardsPack} from "../../dal/packsListApi";
+import AddPack from "../utils/Controls/AddPack";
 
 
 const PacksListsContainer = () => {
@@ -27,11 +28,12 @@ const PacksListsContainer = () => {
                 <div className={"left__panel"}>
                     <PacksToggle/>
                     <DoubleRange/>
+                    <AddPack/>
                 </div>
                 <div>
                     <Search getSearchResult={getPacks} searchResult={packsAmount}/>
                     <PacksTable packs={packs}/>
-                    <div>
+                    <div className={"bottom__panel"}>
                         <Paginator/>
                         <ShowItemsPerPage/>
                     </div>

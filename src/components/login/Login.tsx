@@ -53,7 +53,7 @@ const Login = () => {
 
     return (
         <div className='main'>
-            <div className='mainBlock'>
+            <div className='mainBlock authBlock'>
                 <Grid container justifyContent={"center"}>
                     <Grid item justifyContent={"center"}>
                         <form onSubmit={formik.handleSubmit}>

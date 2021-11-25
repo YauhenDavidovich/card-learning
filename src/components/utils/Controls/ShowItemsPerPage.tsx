@@ -25,12 +25,12 @@ const ShowItemsPerPage = () => {
 
     return (<div className={styles.select}>
     <FormControl sx={{ minWidth: 80 }}>
-        <InputLabel id="pageCount">Cards</InputLabel>
+        <InputLabel id="pageCount">Per page</InputLabel>
         <Select
             labelId="pageCount"
             id="pageCount"
             value={page.toString()}
-            label="Cards"
+            label="Per Page"
             onChange={handleChange}
         >
             <MenuItem value={5}>5</MenuItem>
