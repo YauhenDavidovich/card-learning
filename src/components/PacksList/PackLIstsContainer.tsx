@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Search from "../utils/Controls/Search";
 import PacksToggle from "../utils/Controls/PacksToggle";
 import Paginator from "../utils/Controls/Paginator";

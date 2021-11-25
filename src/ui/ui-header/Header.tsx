@@ -2,10 +2,8 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import {AppStateType} from "../../bll/store";
 import {useDispatch, useSelector} from "react-redux";
-import Button from "@material-ui/core/Button";
 import {logOutTC} from "../../bll/login-reducer";
-import PacksListsContainer from "../../components/PacksList/PackLIstsContainer";
-import PacksToggle from "../../components/utils/Controls/PacksToggle";
+import Button from "@mui/material/Button";
 
 const Header = () => {
     const dispatch = useDispatch()
