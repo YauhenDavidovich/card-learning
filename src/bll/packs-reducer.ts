@@ -20,7 +20,7 @@ const InitialState = {
         max: 0,
         min: 0,
         page: 0,
-        pageCount: 0,
+        pageCount: 10,
         sortPacks: "",
         user_id: "",
     },
@@ -76,6 +76,10 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             return {
                 ...state, packsParams: {...state.packsParams, user_id: action.owner}
             }
+        case SET_PAGE_COUNT:
+            return {
+                ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
+            }
         default:
             return state;
     }
@@ -87,7 +91,7 @@ const SET_SORT_VALUE = "card-learning/cards/SET_SORT_VALUE"
 const SET_PACKS_PAGE = "card-learning/cards/SET_PACKS_PAGE"
 const SET_PACKS_CARD_RANGE = "card-learning/cards/SET_PACKS_CARD_RANGE"
 const SET_PACKS_CARD_OWNER_FILTER = "card-learning/cards/SET_PACKS_CARD_OWNER_FILTER"
-
+const SET_PAGE_COUNT = 'card-learning/cards/SET-PAGE_COUNT'
 
 export const GetCardsAC = (data: ResponsePacksType) => ({
     type: GETPACKS,
@@ -114,6 +118,10 @@ export const SetPacksCardOwnerFilterAC = (owner: string) => ({
     type: SET_PACKS_CARD_OWNER_FILTER,
     owner
 } as const);
+export const SetPageCountAC = (pageCount: number) => ({
+    type: SET_PAGE_COUNT,
+    pageCount,
+} as const);
 
 
 
@@ -134,6 +142,9 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
             dispatch(SetPacksCardOwnerFilterAC(data.user_id))
         }
     }
+    if( data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
+        dispatch(SetPageCountAC(data.pageCount))
+    }
     const state = getState().packs.packsParams
     packsListAPI.getPacks(state)
         .then(res => {
@@ -147,6 +158,7 @@ export type SetSortValueType = ReturnType<typeof SetSortValueAC>
 export type SetPacksPageType = ReturnType<typeof SetPacksPageAC>
 export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>
 export type SetPacksCardOwnerFilterType = ReturnType<typeof SetPacksCardOwnerFilterAC>
+export type SetPageCountType = ReturnType<typeof SetPageCountAC>
 
 
 type ActionsType = GetPacksType
@@ -154,6 +166,7 @@ type ActionsType = GetPacksType
     | SetPacksPageType
     | SetPacksCardRangeType
     | SetPacksCardOwnerFilterType
+    | SetPageCountType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
