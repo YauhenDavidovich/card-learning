@@ -3,13 +3,13 @@ import {Dispatch} from "redux";
 import {SetIsLoggedIn, SetUserAC} from "./login-reducer";
 
 const initialState = {
-    status: "idle" as RequestStatusType
+    status: "loading" as RequestStatusType
 };
 
 export type AppInitialStateType = typeof initialState;
 
 //Reducer
-export const appReducer = (state = initialState, action: any): AppInitialStateType => {
+export const appReducer = (state = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
         case "APP/SET-STATUS":
             return {...state, status: action.status}
@@ -27,6 +27,7 @@ export const setIsInitializedAC = (isInitialazed: boolean) => ({type: "APP/INITI
 //thunks
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
+
     dispatch(setAppStatusAC('loading'))
     authAPI.me()
         .then(res => {
@@ -35,10 +36,9 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(setAppStatusAC("succeeded"))
     })
         .catch(()=> {
+            dispatch(SetIsLoggedIn(false))
             dispatch(setAppStatusAC("failed"))
-        }).finally(()=>{
-        // dispatch(setIsInitializedAC(true))
-    })
+        })
 }
 
 

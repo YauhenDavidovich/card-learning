@@ -24,17 +24,23 @@
 }
 
 .mainBlock{
+    display: flex;
     background-color: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 18px rgba(115, 146, 108, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
-.mainBlock button {
-    margin: 40px 0;
-    border-radius: 40px;
-    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+.left__panel {
+    min-width: 240px;
+    padding: 25px;
 }
+
+/*.mainBlock button {*/
+/*    margin: 40px 0;*/
+/*    border-radius: 40px;*/
+/*    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);*/
+/*}*/
 
 .button__primary {
     background-color: chartreuse;

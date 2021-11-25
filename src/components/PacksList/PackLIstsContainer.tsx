@@ -11,31 +11,31 @@ import {getCardsTC} from "../../bll/packs-reducer";
 import {CardsPack} from "../../dal/packsListApi";
 
 
-
 const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
-    const minimumCards = useSelector<AppStateType, number>(state => state.packs.minCardsCount)
-    const maximumCards = useSelector<AppStateType, number>(state => state.packs.maxCardsCount)
-
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(getCardsTC({}))
-    }, [minimumCards, maximumCards])
+    }, [])
 
     return (
-    <div className={"main"}>
-        <div className="mainBlock">
-            <DoubleRange minimumCards={minimumCards} maximumCards={maximumCards}/>
-            <Search/>
-            <PacksToggle/>
-            <PacksTable packs={packs}/>
-            <Paginator/>
-            <ShowItemsPerPage/>
-        </div>
+        <div className={"main"}>
+            <div className="mainBlock">
+                <div className={'left__panel'}>
+                    <PacksToggle/>
+                    <DoubleRange/>
+                </div>
+                <div>
+                    <Search/>
+                    <PacksTable packs={packs}/>
+                    <div>
+                        <Paginator/>
+                        <ShowItemsPerPage/></div>
+                </div>
+            </div>
         </div>
 
-)
+    )
 }
 
 export default PacksListsContainer

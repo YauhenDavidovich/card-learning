@@ -56,7 +56,6 @@ export type ResponsePacksType = {
 
 export const packsListAPI = {
     getPacks(params: GetPacksParamsType){
-        debugger
         return instance.get<GetPacksParamsType, AxiosResponse<ResponsePacksType>>('cards/pack', {
             params: {...params}
         })},
