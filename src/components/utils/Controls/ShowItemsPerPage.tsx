@@ -24,8 +24,7 @@ const ShowItemsPerPage = () => {
     }, [pageCount])
 
     return (<div className={styles.select}>
-        {/*<Box sx={{ minWidth: 120 }}>*/}
-    <FormControl sx={{ minWidth: 120 }}>
+    <FormControl sx={{ minWidth: 80 }}>
         <InputLabel id="pageCount">Cards</InputLabel>
         <Select
             labelId="pageCount"
@@ -39,7 +38,6 @@ const ShowItemsPerPage = () => {
             <MenuItem value={15}>15</MenuItem>
         </Select>
     </FormControl>
-        {/*</Box>*/}
     </div>)
 
 }
