@@ -29,9 +29,9 @@ const Paginator = () => {
     }
 
     return <div className={styles.paginator}>
-        {portionNumber > 1 && <button className={styles.arrowLeft} onClick={() => {
+         <button disabled={portionNumber===1} className={styles.arrowLeft} onClick={() => {
             setPortionNumber(portionNumber - 1)
-        }}></button>}
+        }}></button>
         {pages.filter(p => p >= leftPortionNumber && p <= rightPortionPageNumber)
             .map((p) => {
                 return <span className={cn({

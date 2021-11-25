@@ -13,28 +13,31 @@ import {CardsPack} from "../../dal/packsListApi";
 
 const PacksListsContainer = () => {
     const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
+    const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getCardsTC({}))
-    }, [])
+    const getPacks = (searchTerm: string) => dispatch(getCardsTC({packName: searchTerm}))
+    // const dispatch = useDispatch()
+    // useEffect(() => {
+    //     dispatch(getCardsTC({}))
+    // }, [])
 
     return (
         <div className={"main"}>
             <div className="mainBlock">
-                <div className={'left__panel'}>
+                <div className={"left__panel"}>
                     <PacksToggle/>
                     <DoubleRange/>
                 </div>
                 <div>
-                    <Search/>
+                    <Search getSearchResult={getPacks} searchResult={packsAmount}/>
                     <PacksTable packs={packs}/>
                     <div>
                         <Paginator/>
-                        <ShowItemsPerPage/></div>
+                        <ShowItemsPerPage/>
+                    </div>
                 </div>
             </div>
         </div>
-
     )
 }
 

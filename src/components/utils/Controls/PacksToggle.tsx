@@ -6,20 +6,20 @@ import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 
 const PacksToggle = () => {
-    const [packOwner, setAlignment] = React.useState('all');
+    const [packOwner, setPackOwner] = React.useState('all');
     const dispatch = useDispatch()
     const id = useSelector<AppStateType, string>(state => state.login.user._id)
 
     const handleChange = (event: React.MouseEvent<HTMLElement>, packOwner: string) => {
         if (packOwner !== null) {
+
             if (packOwner === "all") {
                 dispatch(getCardsTC({user_id: packOwner}))
             }
             if (packOwner === "my") {
                 dispatch(getCardsTC({user_id: id}))
             }
-
-            setAlignment(packOwner);
+            setPackOwner(packOwner);
 
         }
     };
