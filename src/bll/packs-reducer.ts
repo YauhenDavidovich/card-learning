@@ -19,7 +19,7 @@ const InitialState = {
         max: 0,
         min: 0,
         page: 0,
-        pageCount: 0,
+        pageCount: 10,
         sortPacks: "",
         user_id: "",
         packName: "",
@@ -81,6 +81,10 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             return {
                 ...state, packsParams: {...state.packsParams, packName: action.packName, page: 1}
             }
+        case SET_PAGE_COUNT:
+            return {
+                ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
+            }
         default:
             return state;
     }
@@ -94,6 +98,7 @@ const SET_PACKS_CARD_RANGE = "card-learning/cards/SET_PACKS_CARD_RANGE"
 const SET_PACKS_CARD_OWNER_FILTER = "card-learning/cards/SET_PACKS_CARD_OWNER_FILTER"
 const SET_PACKS_SEARCH_NAME = "card-learning/cards/SET_PACKS_SEARCH_NAME"
 
+const SET_PAGE_COUNT = 'card-learning/cards/SET-PAGE_COUNT'
 
 export const GetCardsAC = (data: ResponsePacksType) => ({
     type: GETPACKS,
@@ -119,6 +124,10 @@ export const SetPacksCardRangeAC = (min: number, max: number) => ({
 export const SetPacksCardOwnerFilterAC = (owner: string) => ({
     type: SET_PACKS_CARD_OWNER_FILTER,
     owner
+} as const);
+export const SetPageCountAC = (pageCount: number) => ({
+    type: SET_PAGE_COUNT,
+    pageCount,
 } as const);
 
 export const SetPacksSearchNameAC = (packName: string) => ({
@@ -150,6 +159,9 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
+    if( data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
+        dispatch(SetPageCountAC(data.pageCount))
+    }
     const state = getState().packs.packsParams
     packsListAPI.getPacks(state)
         .then(res => {
@@ -164,6 +176,7 @@ export type SetPacksPageType = ReturnType<typeof SetPacksPageAC>
 export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>
 export type SetPacksCardOwnerFilterType = ReturnType<typeof SetPacksCardOwnerFilterAC>
 export type SetPacksSearchNameType = ReturnType<typeof SetPacksSearchNameAC>
+export type SetPageCountType = ReturnType<typeof SetPageCountAC>
 
 
 type ActionsType = GetPacksType
@@ -172,6 +185,7 @@ type ActionsType = GetPacksType
     | SetPacksCardRangeType
     | SetPacksCardOwnerFilterType
     | SetPacksSearchNameType
+    | SetPageCountType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
