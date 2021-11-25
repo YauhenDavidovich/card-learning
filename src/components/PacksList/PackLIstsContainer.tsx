@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {getCardsTC} from "../../bll/packs-reducer";
 import {CardsPack} from "../../dal/packsListApi";
-//fff
+
 
 
 const PacksListsContainer = () => {
