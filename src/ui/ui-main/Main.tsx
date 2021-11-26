@@ -8,6 +8,7 @@ import Registration from "../../components/registration/Registration";
 import NotFound from "../../components/notFound/NotFound";
 import CheckEmail from "../../components/forgotPassword/CheckEmail";
 import PacksListsContainer from "../../components/PacksList/PackLIstsContainer";
+import CardListsContainer from "../../components/PacksList/CardLIstsContainer";
 
 const Main = () => {
 
@@ -19,6 +20,7 @@ const Main = () => {
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/recovery-password/:token' element={<RecoveryPassword/>}/>
             <Route path='/packs-list' element={<PacksListsContainer/>}/>
+            <Route path='/cards-list/:packId' element={<CardListsContainer/>}/>
             <Route path='/registration' element={<Registration/>}/>
             <Route path='/404' element={<NotFound/>}/>
             <Route path='/check-email/:email' element={<CheckEmail/>}/>

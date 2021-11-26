@@ -3,15 +3,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/store";
 import styles from "./Paginator.module.css"
 import cn from "classnames";
-import {getCardsTC, PacksParamsType} from "../../../bll/packs-reducer";
 
-const Paginator = () => {
-    const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
-    const cardPacksTotalCount: number = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
-    const currentPage: number = useSelector<AppStateType, number>(state => state.packs.packsParams.page)
+type PaginatorPropsType ={
+    changePage:(page: number) => void
+    currentPage: number
+    pageCount: number
+    itemTotalCount: number
+}
+
+const Paginator = (props: PaginatorPropsType) => {
+    //const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
+    //const cardPacksTotalCount: number = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
+    //const currentPage: number = useSelector<AppStateType, number>(state => state.packs.packsParams.page)
 
 
-    let pagesCount = Math.ceil(cardPacksTotalCount / pageCount)
+    let pagesCount = Math.ceil(props.itemTotalCount / props.pageCount)
     let pages = []
 
     for (let i = 1; i < pagesCount; i++) {
@@ -25,7 +31,8 @@ const Paginator = () => {
 
     const dispatch = useDispatch()
     const onPageChanged = (page: number) => {
-        dispatch(getCardsTC({page}))
+        props.changePage(page)
+
     }
 
     return <div className={styles.paginator}>
@@ -35,7 +42,7 @@ const Paginator = () => {
         {pages.filter(p => p >= leftPortionNumber && p <= rightPortionPageNumber)
             .map((p) => {
                 return <span className={cn({
-                    [styles.selectedPage]: currentPage === p
+                    [styles.selectedPage]: props.currentPage === p
                 }, styles.pageNumber)}
                              key={p}
                              onClick={(e) => {

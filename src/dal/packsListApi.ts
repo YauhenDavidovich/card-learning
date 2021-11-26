@@ -8,12 +8,12 @@ const instance = axios.create({
 
 export type GetPacksParamsType = {
     packName?: string
-    min?:number
-    max?:number
-    sortPacks?:string
-    page?:number
-    pageCount?:number
-    user_id?:string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
 }
 
 export type AddPackParamsType = {
@@ -35,17 +35,17 @@ export type UpdatePackParamsType = {
 }
 
 
-export type CardsPack = {
-    _id:string
-    user_id:string
-    name:string
-    cardsCount:number
+export type Pack = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
     created: string
     updated: string
 }
 
 export type ResponsePacksType = {
-    cardPacks: CardsPack[]
+    cardPacks: Pack[]
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number
@@ -55,17 +55,18 @@ export type ResponsePacksType = {
 
 
 export const packsListAPI = {
-    getPacks(params: GetPacksParamsType){
-        return instance.get<GetPacksParamsType, AxiosResponse<ResponsePacksType>>('cards/pack', {
+    getPacks(params: GetPacksParamsType) {
+        return instance.get<GetPacksParamsType, AxiosResponse<ResponsePacksType>>("cards/pack", {
             params: {...params}
-        })},
-    addPack(pack:AddPackParamsType){
-        return instance.post<AddPackParamsType, AxiosResponse<ResponsePacksType>>('/cards/pack', {...pack})
+        })
     },
-    deletePack(packId: string){
-        return instance.delete<AxiosResponse<ResponsePacksType>>('/cards/pack', {params: {id: packId}})
+    addPack(pack: AddPackParamsType) {
+        return instance.post<AddPackParamsType, AxiosResponse<ResponsePacksType>>("/cards/pack", {...pack})
+    },
+    deletePack(packId: string) {
+        return instance.delete<AxiosResponse<ResponsePacksType>>("/cards/pack", {params: {id: packId}})
     },
     updatePack(params: UpdatePackParamsType) {
-        return instance.put<AddPackParamsType, AxiosResponse<ResponsePacksType>>('cards/pack', {cardsPack:{...params}})
+        return instance.put<AddPackParamsType, AxiosResponse<ResponsePacksType>>("cards/pack", {cardsPack: {...params}})
     }
 }

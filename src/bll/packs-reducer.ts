@@ -1,7 +1,6 @@
-import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
+import {GetPacksParamsType, Pack, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk"
-import {setAppStatusAC} from "./app-reducer";
 
 const InitialState = {
     cardPacks: [
@@ -20,7 +19,7 @@ const InitialState = {
         max: 0,
         min: 0,
         page: 0,
-        pageCount: 10,
+        pageCount: 5,
         sortPacks: "",
         user_id: "",
         packName: "",
@@ -31,7 +30,7 @@ const InitialState = {
 
 //types
 type InitialStateType = {
-    cardPacks: CardsPack[]
+    cardPacks: Pack[]
     cardPacksTotalCount: number
     packsParams: PacksParamsType
     maxCardsCount: number
@@ -84,7 +83,7 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             }
         case SET_PAGE_COUNT:
             return {
-                ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
+                ...state, packsParams: {...state.packsParams, pageCount: action.pageCount}
             }
         case DELETE_PACK:
             return {
@@ -106,7 +105,7 @@ const SET_PACKS_SEARCH_NAME = "card-learning/packs/SET_PACKS_SEARCH_NAME"
 const SET_PAGE_COUNT = 'card-learning/packs/SET-PAGE_COUNT'
 const DELETE_PACK = 'card-learning/packs/DELETE_PACK'
 
-export const GetCardsAC = (data: ResponsePacksType) => ({
+export const GetPacksAC = (data: ResponsePacksType) => ({
     type: GET_PACKS,
     data: data,
 } as const);
@@ -149,7 +148,7 @@ export const DeletePackAC = (packId: string) => ({
 
 
 
-export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
+export const getPacksTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
     if (data.sortPacks && data.sortPacks !== getState().packs.packsParams.sortPacks) {
         dispatch(SetSortValueAC(data.sortPacks))
     }
@@ -170,14 +169,14 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
-    if( data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
+    if (data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
         dispatch(SetPageCountAC(data.pageCount))
     }
     const state = getState().packs.packsParams
     // @ts-ignore
     packsListAPI.getPacks(state)
         .then(res => {
-            dispatch(GetCardsAC(res.data))
+            dispatch(GetPacksAC(res.data))
             // @ts-ignore
 
         })
@@ -188,7 +187,7 @@ export const deletePackTC = (packId: string):GetThunk => (dispatch, getState: ()
     packsListAPI.deletePack(packId)
         .then(() => {
             dispatch(DeletePackAC(packId))
-            dispatch(getCardsTC({user_id: userId}))
+            dispatch(getPacksTC({user_id: userId}))
         })
         .catch(error => {
             // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
@@ -200,7 +199,7 @@ export const updatePackTC = (_id: string, name: string):GetThunk => (dispatch, g
     const userId = getState().login.user._id
     packsListAPI.updatePack({name:name, _id: _id})
         .then(() => {
-            dispatch(getCardsTC({}))
+            dispatch(getPacksTC({}))
         })
         .catch(error => {
             // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
@@ -212,7 +211,7 @@ export const addPackTC = (name: string):GetThunk => (dispatch, getState: () => A
 
     packsListAPI.addPack({cardsPack:{name:name}} )
         .then(() => {
-            dispatch(getCardsTC({}))
+            dispatch(getPacksTC({}))
         })
         .catch(error => {
             // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
@@ -221,7 +220,7 @@ export const addPackTC = (name: string):GetThunk => (dispatch, getState: () => A
 }
 
 
-export type GetPacksType = ReturnType<typeof GetCardsAC>
+export type GetPacksType = ReturnType<typeof GetPacksAC>
 export type SetSortValueType = ReturnType<typeof SetSortValueAC>
 export type SetPacksPageType = ReturnType<typeof SetPacksPageAC>
 export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>

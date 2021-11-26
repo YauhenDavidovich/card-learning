@@ -10,16 +10,16 @@ import Paper from "@mui/material/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@mui/material/Button";
 import {AppStateType} from "../../bll/store";
-import {CardsPack} from "../../dal/packsListApi";
-import {deletePackTC, getCardsTC, updatePackTC} from "../../bll/packs-reducer";
+import {Pack} from "../../dal/packsListApi";
+import {deletePackTC, getPacksTC, updatePackTC} from "../../bll/packs-reducer";
 import {IconButton} from "@mui/material";
 import SchoolIcon from '@mui/icons-material/School';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 type PacksPropsType = {
-    packs: Array<CardsPack>
+    packs: Array<Pack>
 }
 
 const PacksTable = (props: PacksPropsType) => {
@@ -30,12 +30,13 @@ const PacksTable = (props: PacksPropsType) => {
     const [created, setCreated] = useState(true)
     const [updated, setUpdated] = useState(true)
     const dispatch = useDispatch()
+    const nav = useNavigate()
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getCardsTC({sortPacks: `${1}${sortName}`}))
+            dispatch(getPacksTC({sortPacks: `${1}${sortName}`}))
         } else {
-            dispatch(getCardsTC({sortPacks: `${0}${sortName}`}))
+            dispatch(getPacksTC({sortPacks: `${0}${sortName}`}))
         }
     }
 
@@ -60,8 +61,8 @@ const PacksTable = (props: PacksPropsType) => {
 
     }
     const getCardsHandler = (cardsId: string) => {
-
-        return <Navigate to={"/cards/"+cardsId}/>
+        //return <Navigate to={"/cards-list/"+cardsId}/>
+        nav("/cards-list/"+cardsId)
     }
 
     const deletePackHandler = (packId: string) => {
