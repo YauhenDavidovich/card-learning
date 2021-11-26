@@ -1,4 +1,4 @@
-import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
+import {Pack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk"
 
@@ -19,7 +19,7 @@ const InitialState = {
         max: 0,
         min: 0,
         page: 0,
-        pageCount: 10,
+        pageCount: 5,
         sortPacks: "",
         user_id: "",
         packName: "",
@@ -27,10 +27,9 @@ const InitialState = {
 }
 
 
-
 //types
 type InitialStateType = {
-    cardPacks: CardsPack[]
+    cardPacks: Pack[]
     cardPacksTotalCount: number
     packsParams: PacksParamsType
     maxCardsCount: number
@@ -83,7 +82,7 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             }
         case SET_PAGE_COUNT:
             return {
-                ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
+                ...state, packsParams: {...state.packsParams, pageCount: action.pageCount}
             }
         default:
             return state;
@@ -91,16 +90,16 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
 }
 
 
-const GETPACKS = "card-learning/cards/GET-CARDS"
+const GETPACKS = "card-learning/cards/GET-PACKS"
 const SET_SORT_VALUE = "card-learning/cards/SET_SORT_VALUE"
 const SET_PACKS_PAGE = "card-learning/cards/SET_PACKS_PAGE"
 const SET_PACKS_CARD_RANGE = "card-learning/cards/SET_PACKS_CARD_RANGE"
 const SET_PACKS_CARD_OWNER_FILTER = "card-learning/cards/SET_PACKS_CARD_OWNER_FILTER"
 const SET_PACKS_SEARCH_NAME = "card-learning/cards/SET_PACKS_SEARCH_NAME"
 
-const SET_PAGE_COUNT = 'card-learning/cards/SET-PAGE_COUNT'
+const SET_PAGE_COUNT = "card-learning/cards/SET-PAGE_COUNT"
 
-export const GetCardsAC = (data: ResponsePacksType) => ({
+export const GetPacksAC = (data: ResponsePacksType) => ({
     type: GETPACKS,
     data: data,
 } as const);
@@ -137,7 +136,7 @@ export const SetPacksSearchNameAC = (packName: string) => ({
 
 
 //thunks
-export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
+export const getPacksTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
     if (data.sortPacks && data.sortPacks !== getState().packs.packsParams.sortPacks) {
         dispatch(SetSortValueAC(data.sortPacks))
     }
@@ -154,23 +153,22 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
             dispatch(SetPacksCardOwnerFilterAC(data.user_id))
         }
     }
-    if (data.packName || data.packName==="") {
-        debugger
+    if (data.packName || data.packName === "") {
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
-    if( data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
+    if (data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
         dispatch(SetPageCountAC(data.pageCount))
     }
     const state = getState().packs.packsParams
     packsListAPI.getPacks(state)
         .then(res => {
-            dispatch(GetCardsAC(res.data))
+            dispatch(GetPacksAC(res.data))
         })
 }
 
 //types
-export type GetPacksType = ReturnType<typeof GetCardsAC>
+export type GetPacksType = ReturnType<typeof GetPacksAC>
 export type SetSortValueType = ReturnType<typeof SetSortValueAC>
 export type SetPacksPageType = ReturnType<typeof SetPacksPageAC>
 export type SetPacksCardRangeType = ReturnType<typeof SetPacksCardRangeAC>

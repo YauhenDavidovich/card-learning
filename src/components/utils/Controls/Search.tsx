@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC, PacksParamsType} from "../../../bll/packs-reducer";
-import {AppStateType} from "../../../bll/store";
 
 type SearchType = {
     searchResult: number
-    getSearchResult:(searchTerm: string)=> void
+    getSearchResult: (searchTerm: string) => void
+    title: string
 }
 
 
 const Search = (props: SearchType) => {
-    const [searchTerm, setSearchTerm] = useState('')
-    const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
+    const [searchTerm, setSearchTerm] = useState("")
+    //const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -24,10 +22,10 @@ const Search = (props: SearchType) => {
 
 
     return (
-        <div style={{display: "flex", flexDirection: "row", justifyContent:"space-between"}}>
-            <TextField id="outlined-basic" label="Search pack" variant="outlined"
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+            <TextField style={{width: "70%"}} id="outlined-basic" label="🔍 Search" variant="outlined"
                        onChange={(e) => setSearchTerm(e.target.value)}/>
-            {packsAmount && <h4>{packsAmount} packs were founded</h4>}
+            {props.searchResult && <h4>{props.searchResult} {props.title}</h4>}
 
         </div>
 

@@ -10,19 +10,21 @@ import Paper from "@mui/material/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@mui/material/Button";
 import {AppStateType} from "../../bll/store";
-import {CardsPack, packsListAPI} from "../../dal/packsListApi";
-import {getCardsTC, PacksParamsType} from "../../bll/packs-reducer";
+import {Pack, packsListAPI} from "../../dal/packsListApi";
+import {getPacksTC} from "../../bll/packs-reducer";
+import {getCardsTC} from "../../bll/cards-reducer";
+import {useNavigate} from "react-router-dom";
 
 
 type PacksPropsType = {
-    packs: Array<CardsPack>
+    packs: Array<Pack>
 }
 
 
 const PacksTable = (props: PacksPropsType) => {
 
     const userID = useSelector<AppStateType, string>(state => state.login.user._id)
-
+    const nav = useNavigate()
 
     const [name, setName] = useState(true)
     const [cardsCount, setCardsCount] = useState(true)
@@ -32,9 +34,9 @@ const PacksTable = (props: PacksPropsType) => {
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getCardsTC({sortPacks: `${1}${sortName}`}))
+            dispatch(getPacksTC({sortPacks: `${1}${sortName}`}))
         } else {
-            dispatch(getCardsTC({sortPacks: `${0}${sortName}`}))
+            dispatch(getPacksTC({sortPacks: `${0}${sortName}`}))
         }
     }
 
@@ -59,7 +61,8 @@ const PacksTable = (props: PacksPropsType) => {
 
     }
     const getCardsHandler = (cardsId: string) => {
-        alert(cardsId)
+        dispatch(getCardsTC({user_id: cardsId}))
+        nav("/cards-list")
     }
 
     const addPackHandler = () => {
@@ -145,7 +148,7 @@ const PacksTable = (props: PacksPropsType) => {
                                 </Button>
                                 <Button
                                     style={styleActionsButton}
-                                    onClick={() => getCardsHandler(row.user_id)}>Cards
+                                    onClick={() => getCardsHandler(row._id)}>Cards
                                 </Button>
                             </TableCell>
                             <TableCell align="left">
