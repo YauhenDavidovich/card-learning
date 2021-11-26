@@ -21,7 +21,7 @@ type CardsPropsType = {
 
 export const CardsTable = (props: CardsPropsType) => {
 
-    const userID = useSelector<AppStateType, string>(state => state.login.user._id)
+    const cardsPack_id = useSelector<AppStateType, string>(state => state.cards.cardsParams.cardsPack_id)
 
     const [name, setName] = useState(true)
     const [cardsCount, setCardsCount] = useState(true)
@@ -33,9 +33,9 @@ export const CardsTable = (props: CardsPropsType) => {
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getCardsTC({sortCards: `${1}${sortName}`}))
+            dispatch(getCardsTC({sortCards: `${1}${sortName}`,cardsPack_id}))
         } else {
-            dispatch(getCardsTC({sortCards: `${0}${sortName}`}))
+            dispatch(getCardsTC({sortCards: `${0}${sortName}`,cardsPack_id}))
         }
     }
 

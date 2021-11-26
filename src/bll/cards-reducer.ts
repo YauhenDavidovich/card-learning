@@ -3,7 +3,7 @@ import {AppStateType} from "./store";
 import {Card, cardsApi, GetCardsParamsType, ResponseCardsType} from "../dal/cardsListApi";
 
 
-const InitialState = {
+const InitialCardsState = {
     cards: [
         {
             answer: "",
@@ -25,12 +25,39 @@ const InitialState = {
         page: 0,
         pageCount: 5,
         sortCards: "",
-        cardsName: "",
-        cardsPack_id: ""
+        cardsPack_id: "",
+        cardAnswer: "",
+        cardQuestion: "",
     },
 }
 
 //types
+/*type InitialCardsStateType = {
+    cards: Card[]
+    cardPacksTotalCount: number
+    cardsParams: CardsParamsType
+    maxGrade: number
+    minGrade: number
+}
+
+export type CardsParamsType = {
+    /!*cardsPack_id: string
+    cardAnswer?: string
+    cardQuestion?: string
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number*!/
+    cardsPack_id: string,
+    max?: number,
+    min?: number,
+    page?: number,
+    pageCount?: number,
+    sortCards?: string,
+    cardAnswer?: string,
+    cardQuestion?: string,
+}*/
 type InitialStateType = {
     cards: Card[]
     cardPacksTotalCount: number
@@ -44,12 +71,14 @@ export type CardsParamsType = {
     page: number,
     pageCount: number,
     sortCards: string,
-    cardsName: string,
     cardsPack_id: string
+    cardAnswer: string
+    cardQuestion: string
+
 }
 
 
-export const cardsReducer = (state = InitialState, action: ActionsType): InitialStateType => {
+export const cardsReducer = (state = InitialCardsState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case GET_CARDS:
             return {
@@ -73,10 +102,6 @@ export const cardsReducer = (state = InitialState, action: ActionsType): Initial
             return {
                 ...state, cardsParams: {...state.cardsParams, page: action.page}
             }
-        case SET_CARDS_SEARCH_NAME:
-            return {
-                ...state, cardsParams: {...state.cardsParams, cardsName: action.cardsName, page: 1}
-            }
         case SET_CARDS_PAGE_COUNT:
             return {
                 ...state, cardsParams: {...state.cardsParams, pageCount: action.pageCount}
@@ -84,6 +109,10 @@ export const cardsReducer = (state = InitialState, action: ActionsType): Initial
         case SET_CARDS_PACK_ID:
             return {
                 ...state, cardsParams: {...state.cardsParams, cardsPack_id: action.cardsPackId}
+            }
+        case SET_CARDS_SEARCH_NAME:
+            return {
+                ...state, cardsParams: {...state.cardsParams, cardQuestion: action.cardQuestion, page: 1}
             }
         default:
             return state;
@@ -94,9 +123,9 @@ export const cardsReducer = (state = InitialState, action: ActionsType): Initial
 const GET_CARDS = "card-learning/cards/GET-CARDS"
 const SET_CARDS_SORT_VALUE = "card-learning/cards/SET-CARDS-SORT-VALUE"
 const SET_CARDS_PAGE = "card-learning/cards/SET-CARDS-PAGE"
-const SET_CARDS_SEARCH_NAME = "card-learning/cards/SET-CARDS-SEARCH-NAME"
 const SET_CARDS_PAGE_COUNT = "card-learning/cards/SET-CARDS-PAGE_COUNT"
 const SET_CARDS_PACK_ID = "card-learning/cards/SET-CARDS-PACK-ID"
+const SET_CARDS_SEARCH_NAME = "card-learning/cards/SET_CARDS_SEARCH_NAME"
 
 export const GetCardsAC = (data: ResponseCardsType) => ({
     type: GET_CARDS,
@@ -119,34 +148,39 @@ export const SetCardsPageCountAC = (pageCount: number) => ({
     pageCount,
 } as const);
 
-export const SetCardsSearchNameAC = (cardsName: string) => ({
-    type: SET_CARDS_SEARCH_NAME,
-    cardsName
-} as const);
 
 export const SetCardsPackIdAC = (cardsPackId: string) => ({
     type: SET_CARDS_PACK_ID,
     cardsPackId
 } as const);
 
+export const SetCardsSearchNameAC = (cardQuestion: string) => ({
+    type: SET_CARDS_SEARCH_NAME,
+    cardQuestion
+} as const);
+
+
 //thunks
 export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, getState) => {
+
     if (data.sortCards && data.sortCards !== getState().cards.cardsParams.sortCards) {
         dispatch(SetCardsSortValueAC(data.sortCards))
     }
     if (data.page) {
         dispatch(SetCardsPageAC(data.page))
     }
-    if (data.cardName || data.cardName === "") {
-        dispatch(SetCardsSearchNameAC(data.cardName))
+    if (data.cardQuestion || data.cardQuestion === "") {
+        dispatch(SetCardsSearchNameAC(data.cardQuestion))
     }
 
     if (data.pageCount && data.pageCount !== getState().cards.cardsParams.pageCount) {
         dispatch(SetCardsPageCountAC(data.pageCount))
     }
-    if (data.user_id) {
-        dispatch(SetCardsPackIdAC(data.user_id))
+
+    if (data.cardsPack_id) {
+        dispatch(SetCardsPackIdAC(data.cardsPack_id))
     }
+
     const state = getState().cards.cardsParams
     cardsApi.getCards(state)
         .then(res => {
@@ -158,16 +192,16 @@ export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, get
 export type GetCardsType = ReturnType<typeof GetCardsAC>
 export type SetCardsSortValueType = ReturnType<typeof SetCardsSortValueAC>
 export type SetCardsPageType = ReturnType<typeof SetCardsPageAC>
-export type SetCardsSearchNameType = ReturnType<typeof SetCardsSearchNameAC>
 export type SetCardsPageCountType = ReturnType<typeof SetCardsPageCountAC>
 export type SetCardsPackIdType = ReturnType<typeof SetCardsPackIdAC>
+export type SetCardsSearchNameType = ReturnType<typeof SetCardsSearchNameAC>
 
 type ActionsType = GetCardsType
     | SetCardsSortValueType
     | SetCardsPageType
-    | SetCardsSearchNameType
     | SetCardsPageCountType
     | SetCardsPackIdType
+    | SetCardsSearchNameType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
