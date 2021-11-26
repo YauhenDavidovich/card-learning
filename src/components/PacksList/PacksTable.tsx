@@ -16,6 +16,7 @@ import {IconButton} from "@mui/material";
 import SchoolIcon from '@mui/icons-material/School';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {Navigate} from "react-router-dom";
 
 type PacksPropsType = {
     packs: Array<CardsPack>
@@ -59,7 +60,7 @@ const PacksTable = (props: PacksPropsType) => {
 
     }
     const getCardsHandler = (cardsId: string) => {
-        alert(cardsId)
+        return <Navigate to={"/cards/"+cardsId}/>
     }
 
     const deletePackHandler = (packId: string) => {
@@ -161,7 +162,7 @@ const PacksTable = (props: PacksPropsType) => {
                                 </IconButton>
                                 <IconButton
                                     style={styleActionsButton}
-                                    onClick={() => getCardsHandler(row.user_id)}>
+                                    onClick={() => getCardsHandler(row._id)}>
                                     <SchoolIcon/>
                                 </IconButton>
                             </TableCell>
