@@ -60,6 +60,7 @@ const PacksTable = (props: PacksPropsType) => {
 
     }
     const getCardsHandler = (cardsId: string) => {
+
         return <Navigate to={"/cards/"+cardsId}/>
     }
 
