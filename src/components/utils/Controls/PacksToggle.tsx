@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC} from "../../../bll/packs-reducer";
+import {getPacksTC} from "../../../bll/packs-reducer";
 import {AppStateType} from "../../../bll/store";
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
@@ -14,10 +14,10 @@ const PacksToggle = () => {
         if (packOwner !== null) {
 
             if (packOwner === "all") {
-                dispatch(getCardsTC({user_id: packOwner}))
+                dispatch(getPacksTC({user_id: packOwner}))
             }
             if (packOwner === "my") {
-                dispatch(getCardsTC({user_id: id}))
+                dispatch(getPacksTC({user_id: id}))
             }
             setPackOwner(packOwner);
 

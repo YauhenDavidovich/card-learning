@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC} from "../../../bll/packs-reducer";
+import {getPacksTC} from "../../../bll/packs-reducer";
 import {AppStateType} from "../../../bll/store";
 import {Slider} from "@mui/material";
 
@@ -12,7 +12,7 @@ const DoubleRange = () => {
     const handleChange = (event: React.SyntheticEvent | Event, newValue: number | Array<number>) => {
         setValue(newValue as number[]);
         // @ts-ignore
-        dispatch(getCardsTC({min: newValue[0], max: newValue[1]}))
+        dispatch(getPacksTC({min: newValue[0], max: newValue[1]}))
     };
     useEffect(() => {
         setValue([min, max])

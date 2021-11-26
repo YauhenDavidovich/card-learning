@@ -7,20 +7,20 @@ import ShowItemsPerPage from "../utils/Controls/ShowItemsPerPage";
 import DoubleRange from "../utils/Controls/DoubleRange";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
-import {getCardsTC} from "../../bll/packs-reducer";
-import {CardsPack} from "../../dal/packsListApi";
 import AddPack from "../utils/Controls/AddPack";
+import {getPacksTC} from "../../bll/packs-reducer";
+import {Pack} from "../../dal/packsListApi";
 
 
 const PacksListsContainer = () => {
-    const packs = useSelector<AppStateType, Array<CardsPack>>(state => state.packs.cardPacks)
+    const packs = useSelector<AppStateType, Array<Pack>>(state => state.packs.cardPacks)
     const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
+    const currentPage: number = useSelector<AppStateType, number>(state => state.packs.packsParams.page)
+    const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
     const dispatch = useDispatch()
-    const getPacks = (searchTerm: string) => dispatch(getCardsTC({packName: searchTerm}))
-    // const dispatch = useDispatch()
-    // useEffect(() => {
-    //     dispatch(getCardsTC({}))
-    // }, [])
+    const getPacks = (searchTerm: string) => dispatch(getPacksTC({packName: searchTerm}))
+    const changePagePacks = (page: number) => dispatch(getPacksTC({page}))
+    const setItemsCountOnPage = (pageCount: number)=> dispatch(getPacksTC({pageCount}))
 
     return (
         <div className={"main"}>
@@ -31,11 +31,11 @@ const PacksListsContainer = () => {
                     <AddPack/>
                 </div>
                 <div>
-                    <Search getSearchResult={getPacks} searchResult={packsAmount}/>
+                    <Search getSearchResult={getPacks} searchResult={packsAmount} title={"packs were founded"}/>
                     <PacksTable packs={packs}/>
                     <div className={"bottom__panel"}>
-                        <Paginator/>
-                        <ShowItemsPerPage/>
+                        <Paginator changePage={changePagePacks} currentPage={currentPage} />
+                        <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount} />
                     </div>
                 </div>
             </div>

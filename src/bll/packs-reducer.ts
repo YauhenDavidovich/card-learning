@@ -1,4 +1,4 @@
-import {CardsPack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
+import {Pack, GetPacksParamsType, packsListAPI, ResponsePacksType} from "../dal/packsListApi";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk"
 import {setAppStatusAC} from "./app-reducer";
@@ -20,7 +20,7 @@ const InitialState = {
         max: 0,
         min: 0,
         page: 0,
-        pageCount: 10,
+        pageCount: 5,
         sortPacks: "",
         user_id: "",
         packName: "",
@@ -31,7 +31,7 @@ const InitialState = {
 
 //types
 type InitialStateType = {
-    cardPacks: CardsPack[]
+    cardPacks: Pack[]
     cardPacksTotalCount: number
     packsParams: PacksParamsType
     maxCardsCount: number
@@ -84,7 +84,7 @@ export const packsReducer = (state = InitialState, action: ActionsType): Initial
             }
         case SET_PAGE_COUNT:
             return {
-                ...state, packsParams:{...state.packsParams, pageCount:action.pageCount}
+                ...state, packsParams: {...state.packsParams, pageCount: action.pageCount}
             }
         case DELETE_PACK:
             return {
@@ -170,7 +170,7 @@ export const getCardsTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
-    if( data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
+    if (data.pageCount && data.pageCount !== getState().packs.packsParams.pageCount) {
         dispatch(SetPageCountAC(data.pageCount))
     }
     const state = getState().packs.packsParams
