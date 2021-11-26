@@ -7,15 +7,17 @@ import cn from "classnames";
 type PaginatorPropsType ={
     changePage:(page: number) => void
     currentPage: number
+    pageCount: number
+    itemTotalCount: number
 }
 
 const Paginator = (props: PaginatorPropsType) => {
-    const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
-    const cardPacksTotalCount: number = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
+    //const pageCount: number = useSelector<AppStateType, number>(state => state.packs.packsParams.pageCount)
+    //const cardPacksTotalCount: number = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
     //const currentPage: number = useSelector<AppStateType, number>(state => state.packs.packsParams.page)
 
 
-    let pagesCount = Math.ceil(cardPacksTotalCount / pageCount)
+    let pagesCount = Math.ceil(props.itemTotalCount / props.pageCount)
     let pages = []
 
     for (let i = 1; i < pagesCount; i++) {

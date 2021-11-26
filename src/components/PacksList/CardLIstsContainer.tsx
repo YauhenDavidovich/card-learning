@@ -14,11 +14,8 @@ import {SuperButton} from "../utils/Controls/SuperButton";
 const CardListsContainer = () => {
 
     const cards = useSelector<AppStateType, Array<Card>>(state => state.cards.cards)
-
     const packsAmount = useSelector<AppStateType, number>(state => state.cards.cardPacksTotalCount)
-
     const currentPage: number = useSelector<AppStateType, number>(state => state.cards.cardsParams.page)
-
     const pageCount: number = useSelector<AppStateType, number>(state => state.cards.cardsParams.pageCount)
     const dispatch = useDispatch()
     const nav = useNavigate()
@@ -30,10 +27,8 @@ const CardListsContainer = () => {
         dispatch(getCardsTC({cardsPack_id: packId}))
     }, [])
     const getCards = (searchTerm: string) => dispatch(getCardsTC({cardQuestion: searchTerm, cardsPack_id: packId}))
-    //@ts-ignore
-    const changePageCards = (page: number) => dispatch(getCardsTC({page}))
-    //@ts-ignore
-    const setItemsCountOnPage = (pageCount: number) => dispatch(getCardsTC({pageCount}))
+    const changePageCards = (page: number) => dispatch(getCardsTC({page, cardsPack_id: packId}))
+    const setItemsCountOnPage = (pageCount: number) => dispatch(getCardsTC({pageCount, cardsPack_id: packId}))
     const getBackPacksTableHandler = () => {
         nav("/packs-list")
     }
@@ -46,7 +41,7 @@ const CardListsContainer = () => {
                     <Search getSearchResult={getCards} searchResult={packsAmount} title={"cards were founded"}/>
                     <CardsTable cards={cards}/>
                     <div>
-                        <Paginator changePage={changePageCards} currentPage={currentPage}/>
+                        <Paginator changePage={changePageCards} currentPage={currentPage}  pageCount={pageCount} itemTotalCount={packsAmount}/>
                         <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount}/>
                     </div>
                 </div>

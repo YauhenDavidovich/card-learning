@@ -34,7 +34,7 @@ const PacksListsContainer = () => {
                     <Search getSearchResult={getPacks} searchResult={packsAmount} title={"packs were founded"}/>
                     <PacksTable packs={packs}/>
                     <div className={"bottom__panel"}>
-                        <Paginator changePage={changePagePacks} currentPage={currentPage} />
+                        <Paginator changePage={changePagePacks} currentPage={currentPage} pageCount={pageCount} itemTotalCount={packsAmount}/>
                         <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount} />
                     </div>
                 </div>
