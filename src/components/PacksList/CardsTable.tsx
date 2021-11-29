@@ -23,12 +23,12 @@ export const CardsTable = (props: CardsPropsType) => {
 
     const cardsPack_id = useSelector<AppStateType, string>(state => state.cards.cardsParams.cardsPack_id)
 
+
     const [name, setName] = useState(true)
     const [cardsCount, setCardsCount] = useState(true)
     const [created, setCreated] = useState(true)
     const [updated, setUpdated] = useState(true)
     const dispatch = useDispatch()
-
 
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
@@ -90,6 +90,9 @@ export const CardsTable = (props: CardsPropsType) => {
                                 <Button style={styleHeaderButton} variant="text"
                                         onClick={() => onSortHandler("updated")}>Grade⮃</Button>
                             </TableCell>
+                            <TableCell align="left">
+                                ACTIONS
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -114,7 +117,9 @@ export const CardsTable = (props: CardsPropsType) => {
                                         readOnly
                                     />
                                 </TableCell>
+                                <TableCell align="left">
 
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

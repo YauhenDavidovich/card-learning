@@ -27,7 +27,6 @@ const InitialState = {
 }
 
 
-
 //types
 type InitialStateType = {
     cardPacks: Pack[]
@@ -102,8 +101,8 @@ const SET_PACKS_PAGE = "card-learning/packs/SET_PACKS_PAGE"
 const SET_PACKS_CARD_RANGE = "card-learning/packs/SET_PACKS_CARD_RANGE"
 const SET_PACKS_CARD_OWNER_FILTER = "card-learning/packs/SET_PACKS_CARD_OWNER_FILTER"
 const SET_PACKS_SEARCH_NAME = "card-learning/packs/SET_PACKS_SEARCH_NAME"
-const SET_PAGE_COUNT = 'card-learning/packs/SET-PAGE_COUNT'
-const DELETE_PACK = 'card-learning/packs/DELETE_PACK'
+const SET_PAGE_COUNT = "card-learning/packs/SET-PAGE_COUNT"
+const DELETE_PACK = "card-learning/packs/DELETE_PACK"
 
 export const GetPacksAC = (data: ResponsePacksType) => ({
     type: GET_PACKS,
@@ -146,8 +145,6 @@ export const DeletePackAC = (packId: string) => ({
 } as const)
 
 
-
-
 export const getPacksTC = (data: GetPacksParamsType): GetThunk => (dispatch, getState) => {
     if (data.sortPacks && data.sortPacks !== getState().packs.packsParams.sortPacks) {
         dispatch(SetSortValueAC(data.sortPacks))
@@ -165,7 +162,7 @@ export const getPacksTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
             dispatch(SetPacksCardOwnerFilterAC(data.user_id))
         }
     }
-    if (data.packName || data.packName==="") {
+    if (data.packName || data.packName === "") {
         dispatch(SetPacksSearchNameAC(data.packName))
     }
 
@@ -173,20 +170,19 @@ export const getPacksTC = (data: GetPacksParamsType): GetThunk => (dispatch, get
         dispatch(SetPageCountAC(data.pageCount))
     }
     const state = getState().packs.packsParams
-    // @ts-ignore
+
     packsListAPI.getPacks(state)
         .then(res => {
             dispatch(GetPacksAC(res.data))
-            // @ts-ignore
 
         })
 }
 
-export const deletePackTC = (packId: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+export const deletePackTC = (packId: string): GetThunk => (dispatch, getState: () => AppStateType) => {
     const userId = getState().login.user._id
     packsListAPI.deletePack(packId)
         .then(() => {
-            dispatch(DeletePackAC(packId))
+            //dispatch(DeletePackAC(packId))
             dispatch(getPacksTC({user_id: userId}))
         })
         .catch(error => {
@@ -195,9 +191,9 @@ export const deletePackTC = (packId: string):GetThunk => (dispatch, getState: ()
         })
 }
 
-export const updatePackTC = (_id: string, name: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+export const updatePackTC = (_id: string, name: string): GetThunk => (dispatch, getState: () => AppStateType) => {
     const userId = getState().login.user._id
-    packsListAPI.updatePack({name:name, _id: _id})
+    packsListAPI.updatePack({name: name, _id: _id})
         .then(() => {
             dispatch(getPacksTC({}))
         })
@@ -207,9 +203,9 @@ export const updatePackTC = (_id: string, name: string):GetThunk => (dispatch, g
         })
 }
 
-export const addPackTC = (name: string):GetThunk => (dispatch, getState: () => AppStateType) => {
+export const addPackTC = (name: string): GetThunk => (dispatch, getState: () => AppStateType) => {
 
-    packsListAPI.addPack({cardsPack:{name:name}} )
+    packsListAPI.addPack({cardsPack: {name: name}})
         .then(() => {
             dispatch(getPacksTC({}))
         })

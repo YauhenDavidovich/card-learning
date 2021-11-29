@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store";
-import {Card, cardsApi, GetCardsParamsType, ResponseCardsType} from "../dal/cardsListApi";
+import {AddCardParamsType, Card, cardsApi, GetCardsParamsType, ResponseCardsType} from "../dal/cardsListApi";
 
 
 const InitialCardsState = {
@@ -15,6 +15,7 @@ const InitialCardsState = {
             cardsCount: 0,
             created: "",
             updated: "",
+            _id: "",
         }],
     cardPacksTotalCount: 0,
     maxGrade: 0,
@@ -32,32 +33,7 @@ const InitialCardsState = {
 }
 
 //types
-/*type InitialCardsStateType = {
-    cards: Card[]
-    cardPacksTotalCount: number
-    cardsParams: CardsParamsType
-    maxGrade: number
-    minGrade: number
-}
 
-export type CardsParamsType = {
-    /!*cardsPack_id: string
-    cardAnswer?: string
-    cardQuestion?: string
-    min?: number
-    max?: number
-    sortCards?: string
-    page?: number
-    pageCount?: number*!/
-    cardsPack_id: string,
-    max?: number,
-    min?: number,
-    page?: number,
-    pageCount?: number,
-    sortCards?: string,
-    cardAnswer?: string,
-    cardQuestion?: string,
-}*/
 type InitialStateType = {
     cards: Card[]
     cardPacksTotalCount: number
@@ -188,7 +164,19 @@ export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, get
         })
 }
 
+export const addCardTC = (data: AddCardParamsType): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.addCard(data)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
 
+//types
 export type GetCardsType = ReturnType<typeof GetCardsAC>
 export type SetCardsSortValueType = ReturnType<typeof SetCardsSortValueAC>
 export type SetCardsPageType = ReturnType<typeof SetCardsPageAC>
