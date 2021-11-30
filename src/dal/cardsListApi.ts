@@ -56,6 +56,10 @@ export type UpdateCardParamsType = {
     }
 
 }
+export type GradeCardParamsType = {
+        card_id: string
+        grade: number
+}
 
 export const cardsApi = {
     getCards(params: GetCardsParamsType) {
@@ -69,5 +73,10 @@ export const cardsApi = {
     },
     updateCard(params: UpdateCardParamsType) {
         return instance.put<UpdateCardParamsType, AxiosResponse<ResponseCardsType>>("cards/card", params)
+    },
+    gradeCard(params:GradeCardParamsType){
+        return instance.put<GradeCardParamsType, AxiosResponse<ResponseCardsType>>("cards/grade", params)
     }
 }
+
+
