@@ -41,7 +41,32 @@ const InitialCardsState = {
 }
 
 //types
+/*type InitialCardsStateType = {
+    cards: Card[]
+    cardPacksTotalCount: number
+    cardsParams: CardsParamsType
+    maxGrade: number
+    minGrade: number
+}
 
+export type CardsParamsType = {
+    /!*cardsPack_id: string
+    cardAnswer?: string
+    cardQuestion?: string
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number*!/
+    cardsPack_id: string,
+    max?: number,
+    min?: number,
+    page?: number,
+    pageCount?: number,
+    sortCards?: string,
+    cardAnswer?: string,
+    cardQuestion?: string,
+}*/
 type InitialStateType = {
     cards: Card[]
     cardPacksTotalCount: number
