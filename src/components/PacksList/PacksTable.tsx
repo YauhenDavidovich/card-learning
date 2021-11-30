@@ -62,7 +62,7 @@ const PacksTable = (props: PacksPropsType) => {
     }
     const getCardsHandler = (cardsId: string) => {
         //return <Navigate to={"/cards-list/"+cardsId}/>
-        nav("/cards-list/"+cardsId)
+        nav("/learn-page/"+cardsId)
     }
 
     const deletePackHandler = (packId: string) => {

@@ -15,7 +15,8 @@ const InitialCardsState = {
             cardsCount: 0,
             created: "",
             updated: "",
-        }],
+        }
+        ],
     cardPacksTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,

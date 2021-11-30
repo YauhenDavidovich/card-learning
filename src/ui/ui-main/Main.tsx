@@ -9,6 +9,7 @@ import NotFound from "../../components/notFound/NotFound";
 import CheckEmail from "../../components/forgotPassword/CheckEmail";
 import PacksListsContainer from "../../components/PacksList/PackLIstsContainer";
 import CardListsContainer from "../../components/PacksList/CardLIstsContainer";
+import {LearnPageContainer} from '../../components/PacksList/LearnPageContainer';
 
 const Main = () => {
 
@@ -25,6 +26,7 @@ const Main = () => {
             <Route path='/404' element={<NotFound/>}/>
             <Route path='/check-email/:email' element={<CheckEmail/>}/>
             <Route path="*" element={<Navigate to="/404" />}/>
+            <Route path='/learn-page/:packId' element={<LearnPageContainer/>}/>
         </Routes>
     )
 }
