@@ -6,32 +6,39 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import AddIcon from "@mui/icons-material/Add";
-import Fab from "@mui/material/Fab";
 import {useDispatch, useSelector} from "react-redux";
-import {addCardTC} from "../../bll/cards-reducer";
 import {AppStateType} from "../../bll/store";
+import {Card} from "../../dal/cardsListApi";
+import {updateCardTC} from "../../bll/cards-reducer";
+import EditIcon from "@mui/icons-material/Edit";
+import {IconButton} from "@mui/material";
 
 
 type ModalUpdateCardPropsType = {
     cardId: string
+    cards: Array<Card>
 }
 
 export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
 
-    const cardsPack_id = useSelector<AppStateType, string>(state => state.cards.cardsParams.cardsPack_id)
+
+    const cardUserId = props.cards.filter(c => c._id === props.cardId)[0]
+    const card= props.cards.filter(c => c._id === props.cardId)[0]
+
+    const userId = useSelector<AppStateType, string>(state => state.login.user._id)
     const [open, setOpen] = React.useState(false);
-    const [question, setQuestion] = React.useState("");
-    const [answer, setAnswer] = React.useState("");
+    const [question, setQuestion] = React.useState(card.question);
+    const [answer, setAnswer] = React.useState(card.answer);
     const dispatch = useDispatch()
+
+
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleAddCard = () => {
-
-        dispatch(addCardTC({question, answer, cardsPack_id}))
+    const handleUpdateCard = () => {
+        dispatch(updateCardTC({card: {question, answer, _id: props.cardId}}))
         setOpen(false);
     }
 
@@ -45,13 +52,18 @@ export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
         setAnswer(event.currentTarget.value)
     }
 
+
     return (
         <div>
-            <Fab color="primary" aria-label="add">
-                <AddIcon onClick={handleClickOpen}/>
-            </Fab>
+
+            {/*<SuperButton callback={handleClickOpen} title={"Update"}/>*/}
+            <IconButton disabled={userId !== cardUserId.user_id}
+                        onClick={handleClickOpen}>
+                <EditIcon/>
+            </IconButton>
+
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Create card</DialogTitle>
+                <DialogTitle>Update card</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -62,6 +74,7 @@ export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
                         fullWidth
                         variant="standard"
                         onChange={onQuestionHandler}
+                        value={question}
                     />
                     <TextField
                         autoFocus
@@ -72,11 +85,12 @@ export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
                         fullWidth
                         variant="standard"
                         onChange={onAnswerHandler}
+                        value={answer}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleAddCard}>Add</Button>
+                    <Button onClick={handleUpdateCard}>Update</Button>
                 </DialogActions>
             </Dialog>
         </div>

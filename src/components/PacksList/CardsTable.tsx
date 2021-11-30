@@ -10,13 +10,14 @@ import * as React from "react";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
-import {getCardsTC} from "../../bll/cards-reducer";
+import {getCardsTC, SetCardIdAC} from "../../bll/cards-reducer";
 import {Card} from "../../dal/cardsListApi";
 import Rating from "@mui/material/Rating";
+import {ModalUpdateCard} from "../utils/ModalUpdateCard";
+import {ModalDeleteCard} from "../utils/ModalDeleteCard";
 
 type CardsPropsType = {
     cards: Array<Card>
-
 }
 
 export const CardsTable = (props: CardsPropsType) => {
@@ -33,9 +34,9 @@ export const CardsTable = (props: CardsPropsType) => {
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getCardsTC({sortCards: `${1}${sortName}`,cardsPack_id}))
+            dispatch(getCardsTC({sortCards: `${1}${sortName}`, cardsPack_id}))
         } else {
-            dispatch(getCardsTC({sortCards: `${0}${sortName}`,cardsPack_id}))
+            dispatch(getCardsTC({sortCards: `${0}${sortName}`, cardsPack_id}))
         }
     }
 
@@ -60,6 +61,10 @@ export const CardsTable = (props: CardsPropsType) => {
 
     }
 
+    const updateCardHandler = (cardId: string) => {
+        dispatch(SetCardIdAC(cardId))
+    }
+
 
     const styleHeaderButton = {
         color: "black"
@@ -70,7 +75,8 @@ export const CardsTable = (props: CardsPropsType) => {
     }
     return (
         <div>
-            <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1350, maxWidth: 1350, marginTop: 20}}>
+            <TableContainer component={Paper}
+                            style={{maxHeight: 500, minHeight: 500, minWidth: 1350, maxWidth: 1350, marginTop: 20}}>
                 <Table aria-label="simple table">
                     <TableHead style={{backgroundColor: "#8CE0EB"}}>
                         <TableRow>
@@ -117,8 +123,9 @@ export const CardsTable = (props: CardsPropsType) => {
                                         readOnly
                                     />
                                 </TableCell>
-                                <TableCell align="left">
-
+                                <TableCell align="left" style={{display: "flex"}}>
+                                    <ModalUpdateCard cardId={row._id} cards={props.cards}/>
+                                    <ModalDeleteCard cardId={row._id} cards={props.cards}/>
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -1,6 +1,13 @@
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store";
-import {AddCardParamsType, Card, cardsApi, GetCardsParamsType, ResponseCardsType} from "../dal/cardsListApi";
+import {
+    AddCardParamsType,
+    Card,
+    cardsApi,
+    GetCardsParamsType,
+    ResponseCardsType,
+    UpdateCardParamsType
+} from "../dal/cardsListApi";
 
 
 const InitialCardsState = {
@@ -30,6 +37,7 @@ const InitialCardsState = {
         cardAnswer: "",
         cardQuestion: "",
     },
+    cardId: "",
 }
 
 //types
@@ -40,6 +48,7 @@ type InitialStateType = {
     cardsParams: CardsParamsType
     maxGrade: number
     minGrade: number
+    cardId: string
 }
 export type CardsParamsType = {
     max: number,
@@ -90,6 +99,8 @@ export const cardsReducer = (state = InitialCardsState, action: ActionsType): In
             return {
                 ...state, cardsParams: {...state.cardsParams, cardQuestion: action.cardQuestion, page: 1}
             }
+        case SET_CARD_ID:
+            return {...state, cardId: action.cardId}
         default:
             return state;
     }
@@ -102,6 +113,7 @@ const SET_CARDS_PAGE = "card-learning/cards/SET-CARDS-PAGE"
 const SET_CARDS_PAGE_COUNT = "card-learning/cards/SET-CARDS-PAGE_COUNT"
 const SET_CARDS_PACK_ID = "card-learning/cards/SET-CARDS-PACK-ID"
 const SET_CARDS_SEARCH_NAME = "card-learning/cards/SET_CARDS_SEARCH_NAME"
+const SET_CARD_ID = "card-learning/cards/SET_CARD_ID"
 
 export const GetCardsAC = (data: ResponseCardsType) => ({
     type: GET_CARDS,
@@ -133,6 +145,11 @@ export const SetCardsPackIdAC = (cardsPackId: string) => ({
 export const SetCardsSearchNameAC = (cardQuestion: string) => ({
     type: SET_CARDS_SEARCH_NAME,
     cardQuestion
+} as const);
+
+export const SetCardIdAC = (cardId: string) => ({
+    type: SET_CARD_ID,
+    cardId
 } as const);
 
 
@@ -176,6 +193,29 @@ export const addCardTC = (data: AddCardParamsType): GetThunk => (dispatch, getSt
         })
 }
 
+export const updateCardTC = (data: UpdateCardParamsType): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.updateCard(data)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+export const deleteCardTC = (cardId: string): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.deleteCard(cardId)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+
 //types
 export type GetCardsType = ReturnType<typeof GetCardsAC>
 export type SetCardsSortValueType = ReturnType<typeof SetCardsSortValueAC>
@@ -183,6 +223,7 @@ export type SetCardsPageType = ReturnType<typeof SetCardsPageAC>
 export type SetCardsPageCountType = ReturnType<typeof SetCardsPageCountAC>
 export type SetCardsPackIdType = ReturnType<typeof SetCardsPackIdAC>
 export type SetCardsSearchNameType = ReturnType<typeof SetCardsSearchNameAC>
+export type SetCardIdType = ReturnType<typeof SetCardIdAC>
 
 type ActionsType = GetCardsType
     | SetCardsSortValueType
@@ -190,6 +231,7 @@ type ActionsType = GetCardsType
     | SetCardsPageCountType
     | SetCardsPackIdType
     | SetCardsSearchNameType
+    | SetCardIdType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>

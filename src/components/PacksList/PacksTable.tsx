@@ -16,7 +16,7 @@ import {IconButton} from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type PacksPropsType = {
     packs: Array<Pack>
