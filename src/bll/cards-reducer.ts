@@ -4,10 +4,11 @@ import {
     AddCardParamsType,
     Card,
     cardsApi,
-    GetCardsParamsType,
+    GetCardsParamsType, GradeCardParamsType,
     ResponseCardsType,
     UpdateCardParamsType
 } from "../dal/cardsListApi";
+import {setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 
 
 const InitialCardsState = {
@@ -180,7 +181,6 @@ export const SetCardIdAC = (cardId: string) => ({
 
 //thunks
 export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, getState) => {
-
     if (data.sortCards && data.sortCards !== getState().cards.cardsParams.sortCards) {
         dispatch(SetCardsSortValueAC(data.sortCards))
     }
@@ -241,6 +241,13 @@ export const deleteCardTC = (cardId: string): GetThunk => (dispatch, getState: (
         })
 }
 
+export const answerCardTC = (card:GradeCardParamsType, packId: string): GetThunk => (dispatch, getState: () => AppStateType) => {
+        cardsApi.gradeCard(card)
+            .then(()=> {
+            dispatch(getCardsTC({cardsPack_id:packId}))
+            })
+}
+
 //types
 export type GetCardsType = ReturnType<typeof GetCardsAC>
 export type SetCardsSortValueType = ReturnType<typeof SetCardsSortValueAC>
@@ -257,6 +264,7 @@ type ActionsType = GetCardsType
     | SetCardsPackIdType
     | SetCardsSearchNameType
     | SetCardIdType
+    |SetAppStatusActionType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>

@@ -17,6 +17,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useNavigate} from "react-router-dom";
+import StyleIcon from '@mui/icons-material/Style';
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -64,6 +65,10 @@ const PacksTable = (props: PacksPropsType) => {
         nav("/cards-list/" + cardsId)
     }
 
+    const learnHandler = (cardsId: string)=> {
+        nav("/learn-page/" + cardsId)
+    }
+
     const deletePackHandler = (packId: string) => {
         dispatch(deletePackTC(packId))
 
@@ -102,7 +107,7 @@ const PacksTable = (props: PacksPropsType) => {
     };
 
     return (
-        <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000, marginTop: 20}}>
+        <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000,maxWidth:1000, marginTop: 20}}>
             <Table aria-label="simple table" stickyHeader={true}>
                 <TableHead>
                     <TableRow style={{}}>
@@ -169,8 +174,13 @@ const PacksTable = (props: PacksPropsType) => {
                                 </IconButton>
                                 <IconButton
                                     style={styleActionsButton}
-                                    onClick={() => getCardsHandler(row._id)}>
+                                    onClick={()=> learnHandler(row._id)}>
                                     <SchoolIcon/>
+                                </IconButton>
+                                <IconButton
+                                    style={styleActionsButton}
+                                    onClick={() => getCardsHandler(row._id)}>
+                                    <StyleIcon/>
                                 </IconButton>
                             </TableCell>
                         </TableRow>

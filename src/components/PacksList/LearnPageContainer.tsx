@@ -22,5 +22,5 @@ export const LearnPageContainer = () => {
 
     }, [])
 
-    return <div><LearnPage cards={cards}/></div>
+    return <div><LearnPage cards={cards} packId={packId}/></div>
 }
