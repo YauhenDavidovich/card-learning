@@ -1,6 +1,14 @@
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store";
-import {Card, cardsApi, GetCardsParamsType, ResponseCardsType} from "../dal/cardsListApi";
+import {
+    AddCardParamsType,
+    Card,
+    cardsApi,
+    GetCardsParamsType, GradeCardParamsType,
+    ResponseCardsType,
+    UpdateCardParamsType
+} from "../dal/cardsListApi";
+import {setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 
 
 const InitialCardsState = {
@@ -15,6 +23,7 @@ const InitialCardsState = {
             cardsCount: 0,
             created: "",
             updated: "",
+            _id: "",
         }],
     cardPacksTotalCount: 0,
     maxGrade: 0,
@@ -29,6 +38,7 @@ const InitialCardsState = {
         cardAnswer: "",
         cardQuestion: "",
     },
+    cardId: "",
 }
 
 //types
@@ -64,6 +74,7 @@ type InitialStateType = {
     cardsParams: CardsParamsType
     maxGrade: number
     minGrade: number
+    cardId: string
 }
 export type CardsParamsType = {
     max: number,
@@ -114,6 +125,8 @@ export const cardsReducer = (state = InitialCardsState, action: ActionsType): In
             return {
                 ...state, cardsParams: {...state.cardsParams, cardQuestion: action.cardQuestion, page: 1}
             }
+        case SET_CARD_ID:
+            return {...state, cardId: action.cardId}
         default:
             return state;
     }
@@ -126,6 +139,7 @@ const SET_CARDS_PAGE = "card-learning/cards/SET-CARDS-PAGE"
 const SET_CARDS_PAGE_COUNT = "card-learning/cards/SET-CARDS-PAGE_COUNT"
 const SET_CARDS_PACK_ID = "card-learning/cards/SET-CARDS-PACK-ID"
 const SET_CARDS_SEARCH_NAME = "card-learning/cards/SET_CARDS_SEARCH_NAME"
+const SET_CARD_ID = "card-learning/cards/SET_CARD_ID"
 
 export const GetCardsAC = (data: ResponseCardsType) => ({
     type: GET_CARDS,
@@ -159,10 +173,14 @@ export const SetCardsSearchNameAC = (cardQuestion: string) => ({
     cardQuestion
 } as const);
 
+export const SetCardIdAC = (cardId: string) => ({
+    type: SET_CARD_ID,
+    cardId
+} as const);
+
 
 //thunks
 export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, getState) => {
-
     if (data.sortCards && data.sortCards !== getState().cards.cardsParams.sortCards) {
         dispatch(SetCardsSortValueAC(data.sortCards))
     }
@@ -188,13 +206,56 @@ export const getCardsTC = (data: GetCardsParamsType): GetThunk => (dispatch, get
         })
 }
 
+export const addCardTC = (data: AddCardParamsType): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.addCard(data)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
 
+export const updateCardTC = (data: UpdateCardParamsType): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.updateCard(data)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+export const deleteCardTC = (cardId: string): GetThunk => (dispatch, getState: () => AppStateType) => {
+    cardsApi.deleteCard(cardId)
+        .then(() => {
+            const cardsPackId = getState().cards.cardsParams.cardsPack_id
+            dispatch(getCardsTC({cardsPack_id: cardsPackId}))
+        })
+        .catch(error => {
+            // dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            // dispatch(setForgotStatus("failed"))
+        })
+}
+
+export const answerCardTC = (card:GradeCardParamsType, packId: string): GetThunk => (dispatch, getState: () => AppStateType) => {
+        cardsApi.gradeCard(card)
+            .then(()=> {
+            dispatch(getCardsTC({cardsPack_id:packId}))
+            })
+}
+
+//types
 export type GetCardsType = ReturnType<typeof GetCardsAC>
 export type SetCardsSortValueType = ReturnType<typeof SetCardsSortValueAC>
 export type SetCardsPageType = ReturnType<typeof SetCardsPageAC>
 export type SetCardsPageCountType = ReturnType<typeof SetCardsPageCountAC>
 export type SetCardsPackIdType = ReturnType<typeof SetCardsPackIdAC>
 export type SetCardsSearchNameType = ReturnType<typeof SetCardsSearchNameAC>
+export type SetCardIdType = ReturnType<typeof SetCardIdAC>
 
 type ActionsType = GetCardsType
     | SetCardsSortValueType
@@ -202,6 +263,8 @@ type ActionsType = GetCardsType
     | SetCardsPageCountType
     | SetCardsPackIdType
     | SetCardsSearchNameType
+    | SetCardIdType
+    |SetAppStatusActionType
 
 
 export type GetThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>

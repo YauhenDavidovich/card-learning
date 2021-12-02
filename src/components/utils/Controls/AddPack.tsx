@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import {packsListAPI} from "../../../dal/packsListApi";
 import {useDispatch} from "react-redux";
 import {addPackTC} from "../../../bll/packs-reducer";
 

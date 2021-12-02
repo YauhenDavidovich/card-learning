@@ -1,0 +1,39 @@
+.learnBlock{
+    border-radius: 8px;
+    max-width: 600px;
+    min-height: 900px;
+    margin: 0 auto;
+    background-color: #F9F9FE;
+}
+.container{
+    max-width: 500px;
+    margin: 0 auto;
+}
+.answerBlock{
+   opacity: 0;
+}
+
+.questionBlock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    min-height: 500px;
+}
+
+.gradesBlock{
+
+}
+.buttonBlock{
+    display: flex;
+    justify-content: space-around;
+    min-width: 400px;
+    margin-top: 40px;
+}
+.radioBlock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}

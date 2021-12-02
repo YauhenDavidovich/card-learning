@@ -13,10 +13,11 @@ import {AppStateType} from "../../bll/store";
 import {Pack} from "../../dal/packsListApi";
 import {deletePackTC, getPacksTC, updatePackTC} from "../../bll/packs-reducer";
 import {IconButton} from "@mui/material";
-import SchoolIcon from '@mui/icons-material/School';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {Navigate, useNavigate} from "react-router-dom";
+import SchoolIcon from "@mui/icons-material/School";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {useNavigate} from "react-router-dom";
+import StyleIcon from '@mui/icons-material/Style';
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -61,18 +62,19 @@ const PacksTable = (props: PacksPropsType) => {
 
     }
     const getCardsHandler = (cardsId: string) => {
-        nav("/cards-list/"+cardsId)
+        nav("/cards-list/" + cardsId)
+    }
+
+    const learnHandler = (cardsId: string)=> {
+        nav("/learn-page/" + cardsId)
     }
 
     const deletePackHandler = (packId: string) => {
-        return props.packs.map(pack => {
-            if(pack.user_id === userID) {
-                dispatch(deletePackTC(packId))
-            }
-        })
+        dispatch(deletePackTC(packId))
+
     }
-    const updatePackHandler = (_id:string, name:string) => {
-                dispatch(updatePackTC(_id,name))
+    const updatePackHandler = (_id: string, name: string) => {
+        dispatch(updatePackTC(_id, name))
     }
 
     const styleHeaderButton = {
@@ -87,18 +89,25 @@ const PacksTable = (props: PacksPropsType) => {
     }
 
     interface DateTimeFormatOptions {
-        weekday?: "long" | "short" | "narrow";
+        weekday?: "long" | "short" | "narrow";
         year?: "numeric" | "2-digit";
-        month?: "numeric" | "2-digit" |"long" | "short" | "narrow";
+        month?: "numeric" | "2-digit" | "long" | "short" | "narrow";
         day?: "numeric" | "2-digit";
         hour?: "numeric" | "2-digit";
         minute?: "numeric" | "2-digit";
     }
 
-    const dateOptions:DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long',day:"numeric", hour: "numeric", minute: "numeric" };
+    const dateOptions: DateTimeFormatOptions = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+    };
 
     return (
-        <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000, marginTop: 20}}>
+        <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000,maxWidth:1000, marginTop: 20}}>
             <Table aria-label="simple table" stickyHeader={true}>
                 <TableHead>
                     <TableRow style={{}}>
@@ -143,8 +152,10 @@ const PacksTable = (props: PacksPropsType) => {
                                 {row.name}
                             </TableCell>
                             <TableCell align="left">{row.cardsCount}</TableCell>
-                            <TableCell align="left">{new Date(row.created).toLocaleDateString("en-US",dateOptions)}</TableCell>
-                            <TableCell align="left">{new Date(row.updated).toLocaleDateString("en-US",dateOptions)}</TableCell>
+                            <TableCell
+                                align="left">{new Date(row.created).toLocaleDateString("en-US", dateOptions)}</TableCell>
+                            <TableCell
+                                align="left">{new Date(row.updated).toLocaleDateString("en-US", dateOptions)}</TableCell>
                             <TableCell align="left">
                                 <IconButton style={row.user_id !== userID
                                     ?
@@ -163,8 +174,13 @@ const PacksTable = (props: PacksPropsType) => {
                                 </IconButton>
                                 <IconButton
                                     style={styleActionsButton}
-                                    onClick={() => getCardsHandler(row._id)}>
+                                    onClick={()=> learnHandler(row._id)}>
                                     <SchoolIcon/>
+                                </IconButton>
+                                <IconButton
+                                    style={styleActionsButton}
+                                    onClick={() => getCardsHandler(row._id)}>
+                                    <StyleIcon/>
                                 </IconButton>
                             </TableCell>
                         </TableRow>

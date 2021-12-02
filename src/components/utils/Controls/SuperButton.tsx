@@ -10,7 +10,7 @@ type SuperButtonPropsType = {
 export const SuperButton: React.FC<SuperButtonPropsType> = ({callback, title}) => {
 
     return (<>
-            <Button style={{backgroundColor: "white", color: "#2D2E46"}} onClick={callback}>{title}</Button>
+            <Button style={{backgroundColor: "white", color: "#2D2E46"}} onClick={callback} variant={"contained"}>{title}</Button>
         </>
 
     )
