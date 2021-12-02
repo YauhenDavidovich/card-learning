@@ -18,6 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useNavigate} from "react-router-dom";
 import StyleIcon from '@mui/icons-material/Style';
+import {ModalUpdatePack} from "../utils/ModalUpdatePack";
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -168,10 +169,12 @@ const PacksTable = (props: PacksPropsType) => {
                                             disabled={row.user_id !== userID}
                                             onClick={() => deletePackHandler(row._id)}><DeleteIcon/>
                                 </IconButton>
-                                <IconButton style={styleActionsButton} disabled={row.user_id !== userID}
-                                            onClick={() => updatePackHandler(row._id, "super new Pack_name")}>
-                                    <EditIcon/>
-                                </IconButton>
+                                <ModalUpdatePack packId={row._id} packs={props.packs}/>
+                                {/*<IconButton style={styleActionsButton} disabled={row.user_id !== userID}*/}
+                                {/*            onClick={() => updatePackHandler(row._id, "super new Pack_name")}>*/}
+                                {/*    <EditIcon/>*/}
+                                {/*</IconButton>*/}
+
                                 <IconButton
                                     style={styleActionsButton}
                                     onClick={()=> learnHandler(row._id)}>
