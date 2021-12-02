@@ -56,10 +56,12 @@ export const Learn = (props: LearnPropsType) => {
         // @ts-ignore
         const value = gradesObj[gradeChoose]
         dispatch(answerCardTC({grade: value, card_id: props.card._id}, props.packId))
-        nav("/learn-page/" + packId)
         setShowAnswer(false)
         setGradeChoose("")
     }
+
+
+
     const resetQuestionHandler = () => {
         dispatch(getCardsTC({cardsPack_id: props.packId}))
         setGradeChoose("")
@@ -104,7 +106,7 @@ export const Learn = (props: LearnPropsType) => {
                                     >
                                         {props.grades.map((grade, index) => {
                                             return (
-                                                <Box>
+                                                <Box key={index}>
                                                     <FormControlLabel value={grade} control={<Radio/>} label={grade}/>
                                                 </Box>)
                                         })}

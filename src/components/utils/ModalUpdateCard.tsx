@@ -21,17 +21,13 @@ type ModalUpdateCardPropsType = {
 
 export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
 
-
     const cardUserId = props.cards.filter(c => c._id === props.cardId)[0]
     const card= props.cards.filter(c => c._id === props.cardId)[0]
-
     const userId = useSelector<AppStateType, string>(state => state.login.user._id)
     const [open, setOpen] = React.useState(false);
     const [question, setQuestion] = React.useState(card.question);
     const [answer, setAnswer] = React.useState(card.answer);
     const dispatch = useDispatch()
-
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -56,7 +52,6 @@ export const ModalUpdateCard = (props: ModalUpdateCardPropsType) => {
     return (
         <div>
 
-            {/*<SuperButton callback={handleClickOpen} title={"Update"}/>*/}
             <IconButton disabled={userId !== cardUserId.user_id}
                         onClick={handleClickOpen}>
                 <EditIcon/>

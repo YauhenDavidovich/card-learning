@@ -5,10 +5,14 @@ import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {getCardsTC} from "../../bll/cards-reducer";
 import {LearnPage} from "./LearnPage";
+import Preloader from "../utils/Preloader";
 
 
 export const LearnPageContainer = () => {
     const cards = useSelector<AppStateType, Array<Card>>(state => state.cards.cards)
+    const totalCardsAmount = useSelector<AppStateType, number>(state => state.cards.cardPacksTotalCount)
+    const maxGrade = useSelector<AppStateType, number>(state => state.cards.maxGrade)
+    const minGrade = useSelector<AppStateType, number>(state => state.cards.minGrade)
 
     const {packId} = useParams() as {
         packId: string;
@@ -18,9 +22,13 @@ export const LearnPageContainer = () => {
 
 
     useEffect(() => {
-        dispatch(getCardsTC({cardsPack_id: packId}))
-
+        dispatch(getCardsTC({cardsPack_id: packId, pageCount:totalCardsAmount}))
     }, [])
 
-    return <div><LearnPage cards={cards} packId={packId}/></div>
+    if(!cards[0]._id) {
+        return <Preloader/>
+    }
+
+
+    return <div><LearnPage cards={cards} packId={packId} maxGrade={maxGrade} minGrade={minGrade}/></div>
 }
