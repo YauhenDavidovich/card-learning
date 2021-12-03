@@ -1,7 +1,6 @@
 import React from "react";
 import Search from "../utils/Controls/Search";
 import PacksToggle from "../utils/Controls/PacksToggle";
-import Paginator from "../utils/Controls/Paginator";
 import PacksTable from "./PacksTable";
 import ShowItemsPerPage from "../utils/Controls/ShowItemsPerPage";
 import DoubleRange from "../utils/Controls/DoubleRange";
@@ -10,6 +9,7 @@ import {AppStateType} from "../../bll/store";
 import AddPack from "../utils/Controls/AddPack";
 import {getPacksTC} from "../../bll/packs-reducer";
 import {Pack} from "../../dal/packsListApi";
+import {PaginationPage} from "../utils/Controls/PaginationPage";
 
 
 const PacksListsContainer = () => {
@@ -34,7 +34,7 @@ const PacksListsContainer = () => {
                     <Search getSearchResult={getPacks} searchResult={packsAmount} title={"packs were founded"}/>
                     <PacksTable packs={packs}/>
                     <div className={"bottom__panel"}>
-                        <Paginator changePage={changePagePacks} currentPage={currentPage} pageCount={pageCount} itemTotalCount={packsAmount}/>
+                        <PaginationPage changePage={changePagePacks} currentPage={currentPage} pageCount={pageCount} itemTotalCount={packsAmount}/>
                         <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount} />
                     </div>
                 </div>
