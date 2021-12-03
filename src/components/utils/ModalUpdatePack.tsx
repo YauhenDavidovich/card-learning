@@ -53,7 +53,17 @@ export const ModalUpdatePack= (props: ModalUpdatePackPropsType) => {
 
     return (
         <div>
-            <IconButton disabled={userId !== packUserId.user_id}
+            <IconButton
+                style={userId !== packUserId.user_id
+                    ?
+                    {
+                        color: "blue",
+                        opacity: 0.3
+                    }
+                    :
+                    {color: "blue"}}
+
+                disabled={userId !== packUserId.user_id}
                         onClick={handleClickOpen}>
                 <EditIcon/>
             </IconButton>

@@ -6,19 +6,16 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import Button from "@mui/material/Button";
-import {AppStateType} from "../../bll/store";
 import {Pack} from "../../dal/packsListApi";
-import {deletePackTC, getPacksTC, updatePackTC} from "../../bll/packs-reducer";
-import {IconButton} from "@mui/material";
+import {getPacksTC} from "../../bll/packs-reducer";
+import {IconButton, Paper} from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {useNavigate} from "react-router-dom";
 import StyleIcon from '@mui/icons-material/Style';
 import {ModalUpdatePack} from "../utils/ModalUpdatePack";
+import {ModalDeletePack} from "../utils/ModalDeletePack";
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -26,7 +23,6 @@ type PacksPropsType = {
 
 const PacksTable = (props: PacksPropsType) => {
 
-    const userID = useSelector<AppStateType, string>(state => state.login.user._id)
     const [name, setName] = useState(true)
     const [cardsCount, setCardsCount] = useState(true)
     const [created, setCreated] = useState(true)
@@ -70,14 +66,6 @@ const PacksTable = (props: PacksPropsType) => {
         nav("/learn-page/" + cardsId)
     }
 
-    const deletePackHandler = (packId: string) => {
-        dispatch(deletePackTC(packId))
-
-    }
-    const updatePackHandler = (_id: string, name: string) => {
-        dispatch(updatePackTC(_id, name))
-    }
-
     const styleHeaderButton = {
         color: "black"
     }
@@ -108,7 +96,7 @@ const PacksTable = (props: PacksPropsType) => {
     };
 
     return (
-        <TableContainer component={Paper} style={{maxHeight: 500, minHeight: 500, minWidth: 1000,maxWidth:1000, marginTop: 20}}>
+        <TableContainer component={Paper}>
             <Table aria-label="simple table" stickyHeader={true}>
                 <TableHead>
                     <TableRow style={{}}>
@@ -158,22 +146,8 @@ const PacksTable = (props: PacksPropsType) => {
                             <TableCell
                                 align="left">{new Date(row.updated).toLocaleDateString("en-US", dateOptions)}</TableCell>
                             <TableCell align="left">
-                                <IconButton style={row.user_id !== userID
-                                    ?
-                                    {
-                                        color: "red",
-                                        opacity: 0.3
-                                    }
-                                    :
-                                    {color: "red"}}
-                                            disabled={row.user_id !== userID}
-                                            onClick={() => deletePackHandler(row._id)}><DeleteIcon/>
-                                </IconButton>
+                                <ModalDeletePack packId={row._id} packUserID={row.user_id}/>
                                 <ModalUpdatePack packId={row._id} packs={props.packs}/>
-                                {/*<IconButton style={styleActionsButton} disabled={row.user_id !== userID}*/}
-                                {/*            onClick={() => updatePackHandler(row._id, "super new Pack_name")}>*/}
-                                {/*    <EditIcon/>*/}
-                                {/*</IconButton>*/}
 
                                 <IconButton
                                     style={styleActionsButton}

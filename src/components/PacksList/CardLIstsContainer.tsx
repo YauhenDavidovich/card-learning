@@ -15,8 +15,6 @@ import {ModalAddCard} from "../utils/ModalAddCard";
 const CardListsContainer = () => {
 
     const cards = useSelector<AppStateType, Array<Card>>(state => state.cards.cards)
-    const cardId = useSelector<AppStateType, string>(state => state.cards.cardId)
-    //const showModal = useSelector<AppStateType, boolean>(state => state.cards.isShow)
     const packsAmount = useSelector<AppStateType, number>(state => state.cards.cardPacksTotalCount)
     const currentPage: number = useSelector<AppStateType, number>(state => state.cards.cardsParams.page)
     const pageCount: number = useSelector<AppStateType, number>(state => state.cards.cardsParams.pageCount)
@@ -41,13 +39,9 @@ const CardListsContainer = () => {
         <div className={"main"}>
             <div className="mainBlock">
                 <div>
-                    <SuperButton callback={getBackPacksTableHandler} title={"← Pack Name"}/>
+                    <SuperButton callback={getBackPacksTableHandler} title={"← Go to packs"}/>
                     <Search getSearchResult={getCards} searchResult={packsAmount} title={"cards were founded"}/>
-                    {/*<Fab color="primary" aria-label="add">*/}
-                    {/*    <AddIcon onClick={addCardHandler}/>*/}
-                    {/*</Fab>*/}
                     <ModalAddCard/>
-
                     <CardsTable cards={cards}/>
                     <div>
                         <Paginator changePage={changePageCards} currentPage={currentPage} pageCount={pageCount}

@@ -30,9 +30,11 @@ const PacksListsContainer = () => {
                     <DoubleRange/>
                     <AddPack/>
                 </div>
-                <div>
+                <div className={"center__panel"}>
                     <Search getSearchResult={getPacks} searchResult={packsAmount} title={"packs were founded"}/>
+                    <div className={"table__panel"}>
                     <PacksTable packs={packs}/>
+                    </div>
                     <div className={"bottom__panel"}>
                         <Paginator changePage={changePagePacks} currentPage={currentPage} pageCount={pageCount} itemTotalCount={packsAmount}/>
                         <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount} />
