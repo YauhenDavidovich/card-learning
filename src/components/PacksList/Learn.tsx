@@ -1,4 +1,4 @@
-import React from "react"
+import React, {ChangeEvent} from "react"
 import Grid from "@mui/material/Grid";
 import style from "./Learn.module.css"
 import {useNavigate, useParams} from "react-router-dom";
@@ -36,7 +36,7 @@ type LearnPropsType = {
 export const Learn = (props: LearnPropsType) => {
     const isLoading = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
     const [showAnswer, setShowAnswer] = React.useState(false)
-    const [gradeChoose, setGradeChoose] = React.useState<string>("")
+    const [gradeChoose, setGradeChoose] = React.useState<keyof typeof gradesObj>("не знал")
     const dispatch = useDispatch();
     const nav = useNavigate();
     const gradesObj = {
@@ -53,19 +53,19 @@ export const Learn = (props: LearnPropsType) => {
     }
 
     const gradeHandler = () => {
-        // @ts-ignore
         const value = gradesObj[gradeChoose]
         dispatch(answerCardTC({grade: value, card_id: props.card._id}, props.packId))
         nav("/learn-page/" + packId)
         setShowAnswer(false)
-        setGradeChoose("")
+        setGradeChoose("не знал")
     }
     const resetQuestionHandler = () => {
         dispatch(getCardsTC({cardsPack_id: props.packId}))
-        setGradeChoose("")
+        setGradeChoose("не знал")
     }
-    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setGradeChoose((event.target as HTMLInputElement).value)
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>, value: string) => {
+        //@ts-ignore
+        setGradeChoose(value)
     }
 
     const showAnswerHandler = () => {
@@ -113,8 +113,7 @@ export const Learn = (props: LearnPropsType) => {
                             </div>
                             <div className={style.buttonBlock}>
                                 <Button variant={"contained"} onClick={resetQuestionHandler}>Cancel</Button>
-                                <Button onClick={gradeHandler} variant={"contained"}
-                                        disabled={gradeChoose === ""}>Next</Button>
+                                <Button onClick={gradeHandler} variant={"contained"}>Next</Button>
                             </div>
                         </div>
 
