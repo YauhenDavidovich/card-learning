@@ -104,7 +104,7 @@ export const Learn = (props: LearnPropsType) => {
                                     >
                                         {props.grades.map((grade, index) => {
                                             return (
-                                                <Box>
+                                                <Box key={index}>
                                                     <FormControlLabel value={grade} control={<Radio/>} label={grade}/>
                                                 </Box>)
                                         })}

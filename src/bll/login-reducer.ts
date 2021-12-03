@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {authApi, LoginParamsType, ResponseUserType} from "../dal/authApi";
 import {setAppStatusAC} from "./app-reducer";
+import {profileApi, ProfileDataParamsType} from "../dal/profileApi";
 
 let initialState:LoginInitialStateType = {
     isAuth: false,
@@ -77,6 +78,14 @@ export const logOutTC=()=>(dispatch: Dispatch)=>{
             dispatch(SetUserAC(res.data))
         })}
 
+
+export const updateProfileDataTC = (data: ProfileDataParamsType) => (dispatch: Dispatch) => {
+    profileApi.updateProfileData(data)
+        .then((res) => {
+            //@ts-ignore
+            dispatch(SetUserAC(res.data.updatedUser))
+        })
+}
 
 export type SetUserType = ReturnType<typeof SetUserAC>
 export type SetIsLoggedInType = ReturnType<typeof SetIsLoggedIn>;
