@@ -32,9 +32,9 @@ const PacksTable = (props: PacksPropsType) => {
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
         if (value) {
-            dispatch(getPacksTC({sortPacks: `${1}${sortName}`}))
-        } else {
             dispatch(getPacksTC({sortPacks: `${0}${sortName}`}))
+        } else {
+            dispatch(getPacksTC({sortPacks: `${1}${sortName}`}))
         }
     }
 
