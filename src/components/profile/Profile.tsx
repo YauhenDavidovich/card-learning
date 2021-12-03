@@ -26,7 +26,7 @@ const Profile = () => {
     return (
         <div className={"main"}>
             <div className="mainBlock">
-                <Grid container justifyContent={"center"}>
+                <Grid container justifyContent={"center"} alignItems={"center"}>
                     <Grid item justifyContent={"center"}>
                         {editProfile
                             ?
