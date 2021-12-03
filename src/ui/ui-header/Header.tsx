@@ -15,7 +15,7 @@ const Header = () => {
 
     return (
         <div className={"header"}>
-            <NavLink to="/profile">Profile</NavLink>
+            <NavLink to="/profile">Profile</NavLink>s
             <NavLink to="/packs-list">Packs List</NavLink>
             {isAuth && <Button color='inherit' onClick={handleLogout}>Logout</Button>}
         </div>
