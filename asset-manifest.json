@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/card-learning/static/css/main.547521e9.chunk.css",
-    "main.js": "/card-learning/static/js/main.00b5b317.chunk.js",
-    "main.js.map": "/card-learning/static/js/main.00b5b317.chunk.js.map",
-    "runtime-main.js": "/card-learning/static/js/runtime-main.d66d4974.js",
-    "runtime-main.js.map": "/card-learning/static/js/runtime-main.d66d4974.js.map",
-    "static/js/2.dfb9dcdc.chunk.js": "/card-learning/static/js/2.dfb9dcdc.chunk.js",
-    "static/js/2.dfb9dcdc.chunk.js.map": "/card-learning/static/js/2.dfb9dcdc.chunk.js.map",
-    "static/js/3.2f6c5866.chunk.js": "/card-learning/static/js/3.2f6c5866.chunk.js",
-    "static/js/3.2f6c5866.chunk.js.map": "/card-learning/static/js/3.2f6c5866.chunk.js.map",
+    "main.css": "/card-learning/static/css/main.48dc63bb.chunk.css",
+    "main.js": "/card-learning/static/js/main.31ab5213.chunk.js",
+    "main.js.map": "/card-learning/static/js/main.31ab5213.chunk.js.map",
+    "runtime-main.js": "/card-learning/static/js/runtime-main.f9de32e4.js",
+    "runtime-main.js.map": "/card-learning/static/js/runtime-main.f9de32e4.js.map",
+    "static/js/2.3dc88370.chunk.js": "/card-learning/static/js/2.3dc88370.chunk.js",
+    "static/js/2.3dc88370.chunk.js.map": "/card-learning/static/js/2.3dc88370.chunk.js.map",
+    "static/js/3.0c02ca7c.chunk.js": "/card-learning/static/js/3.0c02ca7c.chunk.js",
+    "static/js/3.0c02ca7c.chunk.js.map": "/card-learning/static/js/3.0c02ca7c.chunk.js.map",
     "index.html": "/card-learning/index.html",
-    "static/css/main.547521e9.chunk.css.map": "/card-learning/static/css/main.547521e9.chunk.css.map",
-    "static/js/2.dfb9dcdc.chunk.js.LICENSE.txt": "/card-learning/static/js/2.dfb9dcdc.chunk.js.LICENSE.txt"
+    "static/css/main.48dc63bb.chunk.css.map": "/card-learning/static/css/main.48dc63bb.chunk.css.map",
+    "static/js/2.3dc88370.chunk.js.LICENSE.txt": "/card-learning/static/js/2.3dc88370.chunk.js.LICENSE.txt",
+    "static/media/profile-picture.e5117e8e.png": "/card-learning/static/media/profile-picture.e5117e8e.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.d66d4974.js",
-    "static/js/2.dfb9dcdc.chunk.js",
-    "static/css/main.547521e9.chunk.css",
-    "static/js/main.00b5b317.chunk.js"
+    "static/js/runtime-main.f9de32e4.js",
+    "static/js/2.3dc88370.chunk.js",
+    "static/css/main.48dc63bb.chunk.css",
+    "static/js/main.31ab5213.chunk.js"
   ]
 }
