@@ -1,28 +1,54 @@
-import React from "react";
-import {ResponseUserType} from "../../dal/authApi";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {Navigate} from "react-router-dom";
-import defaultPhotoProfile from "../../assets/profile-picture.png"
+import ProfileInfo from "./ProfileInfo";
+import ProfileDataForm from "./ProfileDataForm";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 
 const Profile = () => {
-    const user = useSelector<AppStateType, ResponseUserType>(state => state.login.user)
+    const name = useSelector<AppStateType, string>(state => state.login.user.name)
+    const avatar = useSelector<AppStateType, string | undefined>(state => state.login.user.avatar)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.isAuth)
+    const [editProfile, setEditProfile] = useState(false)
+
+    const offEditModeHandler = (value: boolean) => {
+        setEditProfile(value)
+    }
 
     if (!isAuth) {
         return <Navigate to={"/login"}/>
     }
 
+
     return (
         <div className={"main"}>
             <div className="mainBlock">
-                <div>
-                    <h4>{user.name}</h4>
-                    <div><img src={user.avatar ? user.avatar : defaultPhotoProfile}/></div>
-                </div>
+                <Grid container justifyContent={"center"}>
+                    <Grid item justifyContent={"center"}>
+                        {editProfile
+                            ?
+                            <ProfileDataForm avatar={avatar} offEditMode={(value) => {
+                                offEditModeHandler(value)
+                            }}/>
+                            :
+                            <div>
+                                <ProfileInfo name={name} avatar={avatar}/>
+                                <Button
+                                    variant={"contained"}
+                                    color={"secondary"}
+                                    onClick={() => {
+                                        setEditProfile(true)
+                                    }}>Edit profile</Button>
+                            </div>
+                        }
+                    </Grid>
+                </Grid>
             </div>
         </div>
+
     )
 }
 
