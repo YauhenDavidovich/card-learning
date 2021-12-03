@@ -21,7 +21,7 @@ const Search = (props: SearchType) => {
 
 
     return (
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", margin: 10}}>
             <TextField style={{width: "70%"}} id="outlined-basic" label="🔍 Search" variant="outlined"
                        onChange={(e) => setSearchTerm(e.target.value)}/>
             {props.searchResult && <h4>{props.searchResult} {props.title}</h4>}

@@ -11,7 +11,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background: #F9F9FE;
+    background: #D2CCB1;
+    color: white;
+    max-width: 1200px;
+    margin: auto;
+
+}
+
+.header a {
+    text-decoration: none;
+    color: white;
 }
 
 .main {
@@ -21,6 +30,7 @@
     justify-content: center;
     background: linear-gradient(180deg,  #8CE0EB 0%, #D2CCB1 100%);
     height: calc(100vh - 60px);
+
 }
 
 .mainBlock{
@@ -32,20 +42,28 @@
     box-shadow: 0px 4px 18px rgba(115, 146, 108, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
     height: 100%;
     position: relative;
+    max-width: 1200px;
+    margin: auto;
 
 
 }
 
 
-@media only screen and (min-width: 375px) and (max-width: 767px) {
+@media only screen and (min-width: 375px) and (max-width: 900px) {
     .mainBlock {
         flex-direction: column;
     }
+    .left__panel {
+        flex-direction: row;
+    }
+
 }
 
 .left__panel {
     min-width: 240px;
     padding: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
 .center__panel {
@@ -53,7 +71,7 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    margin: 0 auto;
+    margin: 5px;
     position: relative;
 }
 
@@ -62,19 +80,22 @@
     height: 100%;
     min-width: 600px;
     width: 100%;
-    margin-top: 20px;
-    position: relative;
-
+    padding-top: 20px;
 }
-
-
 
 
 .bottom__panel {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    padding-top: 15px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.MuiTableContainer-root {
+    min-height: 300px;
+    height: 100%;
+    min-width: 600px;
+    width: 100%;
 }
 
 

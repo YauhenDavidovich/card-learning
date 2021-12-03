@@ -96,7 +96,7 @@ const PacksTable = (props: PacksPropsType) => {
     };
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper }>
             <Table aria-label="simple table" stickyHeader={true}>
                 <TableHead>
                     <TableRow style={{}}>
