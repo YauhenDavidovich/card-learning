@@ -1,6 +1,5 @@
 import React from "react";
 import Search from "../utils/Controls/Search";
-import Paginator from "../utils/Controls/Paginator";
 import ShowItemsPerPage from "../utils/Controls/ShowItemsPerPage";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
@@ -10,6 +9,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getCardsTC} from "../../bll/cards-reducer";
 import {SuperButton} from "../utils/Controls/SuperButton";
 import {ModalAddCard} from "../utils/ModalAddCard";
+import {PaginationPage} from "../utils/Controls/PaginationPage";
 
 
 const CardListsContainer = () => {
@@ -43,15 +43,12 @@ const CardListsContainer = () => {
                 <div>
                     <SuperButton callback={getBackPacksTableHandler} title={"← Pack Name"}/>
                     <Search getSearchResult={getCards} searchResult={packsAmount} title={"cards were founded"}/>
-                    {/*<Fab color="primary" aria-label="add">*/}
-                    {/*    <AddIcon onClick={addCardHandler}/>*/}
-                    {/*</Fab>*/}
                     <ModalAddCard/>
 
                     <CardsTable cards={cards}/>
-                    <div>
-                        <Paginator changePage={changePageCards} currentPage={currentPage} pageCount={pageCount}
-                                   itemTotalCount={packsAmount}/>
+                    <div className={"bottom__panel"}>
+                        <PaginationPage changePage={changePageCards} currentPage={currentPage} pageCount={pageCount}
+                                        itemTotalCount={packsAmount}/>
                         <ShowItemsPerPage setPageCount={setItemsCountOnPage} pageCount={pageCount}/>
                     </div>
                 </div>

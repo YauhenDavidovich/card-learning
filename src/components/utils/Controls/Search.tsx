@@ -10,9 +10,8 @@ type SearchType = {
 
 const Search = (props: SearchType) => {
     const [searchTerm, setSearchTerm] = useState("")
-    //const packsAmount = useSelector<AppStateType, number>(state => state.packs.cardPacksTotalCount)
-
     useEffect(() => {
+
         const delayDebounceFn = setTimeout(() => {
             props.getSearchResult(searchTerm)
         }, 700)
