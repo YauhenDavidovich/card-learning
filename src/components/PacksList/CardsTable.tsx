@@ -21,18 +21,14 @@ type CardsPropsType = {
 }
 
 export const CardsTable = (props: CardsPropsType) => {
-
     const cardsPack_id = useSelector<AppStateType, string>(state => state.cards.cardsParams.cardsPack_id)
 
-
-    const [name, setName] = useState(true)
-    const [cardsCount, setCardsCount] = useState(true)
-    const [created, setCreated] = useState(true)
-    const [updated, setUpdated] = useState(true)
+    const [sorts, setSorts] = useState(true)
     const dispatch = useDispatch()
 
 
     const sort = (value: boolean, sortName: string, dispatch: any) => {
+        debugger
         if (value) {
             dispatch(getCardsTC({sortCards: `${1}${sortName}`, cardsPack_id}))
         } else {
@@ -41,24 +37,14 @@ export const CardsTable = (props: CardsPropsType) => {
     }
 
     const onSortHandler = (sortName: string) => {
-        if (sortName === "name") {
-            setName(!name)
-            sort(name, sortName, dispatch)
+        const sortNames = {
+            question: "question",
+            answer: "answer",
+            created: "created",
+            updated: "updated",
         }
-        if (sortName === "cardsCount") {
-            setCardsCount(!cardsCount)
-            sort(cardsCount, sortName, dispatch)
-
-        }
-        if (sortName === "created") {
-            setCreated(!created)
-            sort(created, sortName, dispatch)
-        }
-        if (sortName === "updated") {
-            setUpdated(!updated)
-            sort(updated, sortName, dispatch)
-        }
-
+        setSorts(!sorts)
+        sort(sorts, sortName, dispatch)
     }
 
     const updateCardHandler = (cardId: string) => {
@@ -82,11 +68,11 @@ export const CardsTable = (props: CardsPropsType) => {
                         <TableRow>
                             <TableCell align="left">
                                 <Button style={styleHeaderButton} variant="text"
-                                        onClick={() => onSortHandler("name")}>Question⮃</Button>
+                                        onClick={() => onSortHandler("question")}>Question⮃</Button>
                             </TableCell>
                             <TableCell align="left">
                                 <Button style={styleHeaderButton} variant="text"
-                                        onClick={() => onSortHandler("cardsCount")}>Answer⮃</Button>
+                                        onClick={() => onSortHandler("answer")}>Answer⮃</Button>
                             </TableCell>
                             <TableCell align="left">
                                 <Button style={styleHeaderButton} variant="text"
