@@ -36,10 +36,11 @@ type LearnPropsType = {
 export const Learn = (props: LearnPropsType) => {
     const isLoading = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
     const [showAnswer, setShowAnswer] = React.useState(false)
-    const [gradeChoose, setGradeChoose] = React.useState<keyof typeof gradesObj>("не знал")
+    const [gradeChoose, setGradeChoose] = React.useState<keyof typeof gradesObj>("")
     const dispatch = useDispatch();
     const nav = useNavigate();
     const gradesObj = {
+        "": 0,
         "не знал": 1,
         "знал, но забыл": 2,
         "сомневался": 3,
@@ -60,10 +61,8 @@ export const Learn = (props: LearnPropsType) => {
     }
 
 
-
-    const resetQuestionHandler = () => {
-        dispatch(getCardsTC({cardsPack_id: props.packId}))
-        setGradeChoose("не знал")
+    const goToPacksListHandler = () => {
+        nav("/packs-list")
     }
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>, value: string) => {
         //@ts-ignore
@@ -114,7 +113,7 @@ export const Learn = (props: LearnPropsType) => {
                                 </FormControl>
                             </div>
                             <div className={style.buttonBlock}>
-                                <Button variant={"contained"} onClick={resetQuestionHandler}>Cancel</Button>
+                                <Button variant={"contained"} onClick={goToPacksListHandler}>Cancel</Button>
                                 <Button onClick={gradeHandler} variant={"contained"}>Next</Button>
                             </div>
                         </div>
