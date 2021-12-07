@@ -226,7 +226,7 @@ export type SetPageCountType = ReturnType<typeof SetPageCountAC>
 export type DeletePackType = ReturnType<typeof DeletePackAC>
 
 
-type ActionsType = GetPacksType
+export type ActionsType = GetPacksType
     | SetSortValueType
     | SetPacksPageType
     | SetPacksCardRangeType

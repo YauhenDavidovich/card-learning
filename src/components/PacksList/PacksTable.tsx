@@ -9,13 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import {useDispatch} from "react-redux";
 import Button from "@mui/material/Button";
 import {Pack} from "../../dal/packsListApi";
-import {getPacksTC} from "../../bll/packs-reducer";
+import {ActionsType, getPacksTC, GetThunk} from "../../bll/packs-reducer";
 import {IconButton, Paper} from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import {useNavigate} from "react-router-dom";
-import StyleIcon from '@mui/icons-material/Style';
+import StyleIcon from "@mui/icons-material/Style";
 import {ModalUpdatePack} from "../utils/ModalUpdatePack";
 import {ModalDeletePack} from "../utils/ModalDeletePack";
+import {Dispatch} from "redux";
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -23,10 +24,7 @@ type PacksPropsType = {
 
 const PacksTable = (props: PacksPropsType) => {
 
-    const [name, setName] = useState(true)
-    const [cardsCount, setCardsCount] = useState(true)
-    const [created, setCreated] = useState(true)
-    const [updated, setUpdated] = useState(true)
+    const [sorts, setSorts] = useState(true)
     const dispatch = useDispatch()
     const nav = useNavigate()
 
@@ -39,30 +37,16 @@ const PacksTable = (props: PacksPropsType) => {
     }
 
     const onSortHandler = (sortName: string) => {
-        if (sortName === "name") {
-            setName(!name)
-            sort(name, sortName, dispatch)
-        }
-        if (sortName === "cardsCount") {
-            setCardsCount(!cardsCount)
-            sort(cardsCount, sortName, dispatch)
+        setSorts(!sorts)
+        sort(sorts, sortName, dispatch)
 
-        }
-        if (sortName === "created") {
-            setCreated(!created)
-            sort(created, sortName, dispatch)
-        }
-        if (sortName === "updated") {
-            setUpdated(!updated)
-            sort(updated, sortName, dispatch)
-        }
 
     }
     const getCardsHandler = (cardsId: string) => {
         nav("/cards-list/" + cardsId)
     }
 
-    const learnHandler = (cardsId: string)=> {
+    const learnHandler = (cardsId: string) => {
         nav("/learn-page/" + cardsId)
     }
 
@@ -96,7 +80,7 @@ const PacksTable = (props: PacksPropsType) => {
     };
 
     return (
-        <TableContainer component={Paper }>
+        <TableContainer component={Paper}>
             <Table aria-label="simple table" stickyHeader={true}>
                 <TableHead>
                     <TableRow style={{}}>
@@ -151,7 +135,7 @@ const PacksTable = (props: PacksPropsType) => {
 
                                 <IconButton
                                     style={styleActionsButton}
-                                    onClick={()=> learnHandler(row._id)}>
+                                    onClick={() => learnHandler(row._id)}>
                                     <SchoolIcon/>
                                 </IconButton>
                                 <IconButton

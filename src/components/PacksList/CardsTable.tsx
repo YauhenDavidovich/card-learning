@@ -37,12 +37,6 @@ export const CardsTable = (props: CardsPropsType) => {
     }
 
     const onSortHandler = (sortName: string) => {
-        const sortNames = {
-            question: "question",
-            answer: "answer",
-            created: "created",
-            updated: "updated",
-        }
         setSorts(!sorts)
         sort(sorts, sortName, dispatch)
     }
@@ -76,6 +70,10 @@ export const CardsTable = (props: CardsPropsType) => {
                             </TableCell>
                             <TableCell align="left">
                                 <Button style={styleHeaderButton} variant="text"
+                                        onClick={() => onSortHandler("created")}>Created⮃</Button>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Button style={styleHeaderButton} variant="text"
                                         onClick={() => onSortHandler("created")}>Last Updated⮃</Button>
                             </TableCell>
                             <TableCell align="left">
@@ -103,6 +101,7 @@ export const CardsTable = (props: CardsPropsType) => {
                                 </TableCell>
                                 <TableCell align="left">{row.answer}</TableCell>
                                 <TableCell align="left">{row.created.substring(0, 10)}</TableCell>
+                                <TableCell align="left">{row.updated.substring(0, 10)}</TableCell>
                                 <TableCell align="left">
                                     <Rating
                                         value={row.grade}
