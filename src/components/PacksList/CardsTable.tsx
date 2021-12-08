@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import * as React from "react";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../bll/store";
+import {AppDispatch, AppStateType} from "../../bll/store";
 import {getCardsTC, SetCardIdAC} from "../../bll/cards-reducer";
 import {Card} from "../../dal/cardsListApi";
 import Rating from "@mui/material/Rating";
@@ -27,7 +27,7 @@ export const CardsTable = (props: CardsPropsType) => {
     const dispatch = useDispatch()
 
 
-    const sort = (value: boolean, sortName: string, dispatch: any) => {
+    const sort = (value: boolean, sortName: string, dispatch: AppDispatch) => {
         debugger
         if (value) {
             dispatch(getCardsTC({sortCards: `${1}${sortName}`, cardsPack_id}))

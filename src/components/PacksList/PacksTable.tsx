@@ -9,14 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import {useDispatch} from "react-redux";
 import Button from "@mui/material/Button";
 import {Pack} from "../../dal/packsListApi";
-import {ActionsType, getPacksTC, GetThunk} from "../../bll/packs-reducer";
+import {getPacksTC} from "../../bll/packs-reducer";
 import {IconButton, Paper} from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import {useNavigate} from "react-router-dom";
 import StyleIcon from "@mui/icons-material/Style";
 import {ModalUpdatePack} from "../utils/ModalUpdatePack";
 import {ModalDeletePack} from "../utils/ModalDeletePack";
-import {Dispatch} from "redux";
+import {AppDispatch} from "../../bll/store";
 
 type PacksPropsType = {
     packs: Array<Pack>
@@ -28,7 +28,7 @@ const PacksTable = (props: PacksPropsType) => {
     const dispatch = useDispatch()
     const nav = useNavigate()
 
-    const sort = (value: boolean, sortName: string, dispatch: any) => {
+    const sort = (value: boolean, sortName: string, dispatch: AppDispatch) => {
         if (value) {
             dispatch(getPacksTC({sortPacks: `${0}${sortName}`}))
         } else {
