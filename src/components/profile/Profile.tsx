@@ -30,7 +30,7 @@ const Profile = () => {
                     <Grid item justifyContent={"center"}>
                         {editProfile
                             ?
-                            <ProfileDataForm avatar={avatar} offEditMode={(value) => {
+                            <ProfileDataForm name={name} avatar={avatar} offEditMode={(value) => {
                                 offEditModeHandler(value)
                             }}/>
                             :

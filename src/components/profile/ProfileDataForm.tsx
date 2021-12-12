@@ -19,6 +19,7 @@ type FormikErrorType = {
 type UpdateProfileDataPropsType = {
     offEditMode: (value: boolean) => void
     avatar: string | undefined
+    name: string
 }
 
 const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
@@ -26,7 +27,7 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
 
     const formik = useFormik({
         initialValues: {
-            fullName: "",
+            fullName: props.name,
         },
         onSubmit: values => {
             if(values.fullName){
