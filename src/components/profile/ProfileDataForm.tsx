@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import FormControl from "@mui/material/FormControl";
@@ -28,10 +28,11 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
     const formik = useFormik({
         initialValues: {
             fullName: props.name,
+            avatar: "",
         },
         onSubmit: values => {
-            if(values.fullName){
-                dispatch(updateProfileDataTC({name: values.fullName}))
+            if (values.fullName) {
+                dispatch(updateProfileDataTC({name: values.fullName, avatar: values.avatar}))
                 formik.resetForm()
                 props.offEditMode(false)
             }
@@ -42,6 +43,11 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
     const resetHandler = () => {
         formik.resetForm()
         props.offEditMode(false)
+    }
+
+    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const newFile = e.target.files && e.target.files[0];
+        formik.setFieldValue("avatar", newFile)
     }
 
 
@@ -55,7 +61,7 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
                                 <Grid container justifyContent={"center"}>
                                     <Grid item justifyContent={"center"}>
                                         <img style={{maxWidth: "150px", maxHeight: "150px"}}
-                                             src={props.avatar ? props.avatar :defaultPhotoProfile}/>
+                                             src={props.avatar ? props.avatar : defaultPhotoProfile}/>
                                         <Grid container justifyContent={"center"}>
                                             <Grid item justifyContent={"center"}>
                                             </Grid>
@@ -69,6 +75,7 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
                                            margin="normal" {...formik.getFieldProps("fullName")}/>
                                 {formik.touched.fullName && formik.errors.fullName &&
                                 <div style={{color: "red"}}>{formik.errors.fullName}</div>}
+                                <input id="file" name="avatar" type="file" onChange={uploadHandler}/>
                                 <Box>
                                     <Grid container justifyContent={"space-between"}>
                                         <Button onClick={resetHandler} variant={"contained"}

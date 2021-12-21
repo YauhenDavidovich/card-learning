@@ -66,7 +66,7 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
             dispatch(SetUserAC(res.data))
             dispatch(setAppStatusAC("succeeded"))
         })
-        .catch(err => {
+        .catch(() => {
             dispatch(setAppStatusAC("failed"))
         })
 }
