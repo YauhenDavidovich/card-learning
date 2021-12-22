@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import FormControl from "@mui/material/FormControl";
@@ -12,6 +12,7 @@ import {useFormik} from "formik";
 import defaultPhotoProfile from "../../assets/profile-picture.png";
 import {updateProfileDataTC} from "../../bll/login-reducer";
 
+
 type FormikErrorType = {
     fullName?: string
 }
@@ -23,6 +24,7 @@ type UpdateProfileDataPropsType = {
 }
 
 const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
+    const [fileUrl, setFileUrl] = useState()
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -45,10 +47,35 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
         props.offEditMode(false)
     }
 
-    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+    const upload = (e: ChangeEvent<HTMLInputElement>) => {
+        // e.preventDefault();
+        const reader = new FileReader();
         const newFile = e.target.files && e.target.files[0];
-        formik.setFieldValue("avatar", newFile)
-    }
+        // @ts-ignore
+        reader.readAsDataURL(newFile);
+        reader.onload = function () {
+            console.log(reader.result)
+            formik.setFieldValue("avatar", reader.result)
+        };
+
+    };
+
+
+    /*const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const reader = new FileReader()
+        const newFile = e.target.files && e.target.files[0];
+        // @ts-ignore
+        reader.readAsDataURL(newFile)
+        console.log(reader.result)
+        if (newFile) {
+            //@ts-ignore
+            setFileUrl(window.URL.createObjectURL(newFile))
+            console.log(fileUrl)
+            formik.setFieldValue("avatar", fileUrl)
+        }
+
+    }*/
 
 
     return (
@@ -75,7 +102,7 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
                                            margin="normal" {...formik.getFieldProps("fullName")}/>
                                 {formik.touched.fullName && formik.errors.fullName &&
                                 <div style={{color: "red"}}>{formik.errors.fullName}</div>}
-                                <input id="file" name="avatar" type="file" onChange={uploadHandler}/>
+                                <input id="file" name="avatar" type="file" onChange={upload}/>
                                 <Box>
                                     <Grid container justifyContent={"space-between"}>
                                         <Button onClick={resetHandler} variant={"contained"}
