@@ -1,5 +1,5 @@
 import React from "react";
-import defaultPhotoProfile from "../../assets/profile-picture.png"
+import defaultPhotoProfile from "assets/profile-picture.png"
 import Grid from "@material-ui/core/Grid";
 
 type ProfileInfoPropsType = {

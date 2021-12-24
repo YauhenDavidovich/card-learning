@@ -9,8 +9,8 @@ import Button from "@material-ui/core/Button";
 import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
 
-import defaultPhotoProfile from "../../assets/profile-picture.png";
-import {updateProfileDataTC} from "../../bll/login-reducer";
+import defaultPhotoProfile from "assets/profile-picture.png";
+import {updateProfileDataTC} from "bll/login-reducer";
 
 
 type FormikErrorType = {
@@ -48,34 +48,19 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
     }
 
 
-    const upload = (e: ChangeEvent<HTMLInputElement>) => {
+    const onUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
         // e.preventDefault();
         const reader = new FileReader();
         const newFile = e.target.files && e.target.files[0];
-        // @ts-ignore
-        reader.readAsDataURL(newFile);
+        if (newFile) {
+            reader.readAsDataURL(newFile);
+        }
         reader.onload = function () {
             console.log(reader.result)
             formik.setFieldValue("avatar", reader.result)
         };
 
     };
-
-
-    /*const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const reader = new FileReader()
-        const newFile = e.target.files && e.target.files[0];
-        // @ts-ignore
-        reader.readAsDataURL(newFile)
-        console.log(reader.result)
-        if (newFile) {
-            //@ts-ignore
-            setFileUrl(window.URL.createObjectURL(newFile))
-            console.log(fileUrl)
-            formik.setFieldValue("avatar", fileUrl)
-        }
-
-    }*/
 
 
     return (
@@ -102,7 +87,7 @@ const UpdateProfileData = (props: UpdateProfileDataPropsType) => {
                                            margin="normal" {...formik.getFieldProps("fullName")}/>
                                 {formik.touched.fullName && formik.errors.fullName &&
                                 <div style={{color: "red"}}>{formik.errors.fullName}</div>}
-                                <input id="file" name="avatar" type="file" onChange={upload}/>
+                                <input id="file" name="avatar" type="file" onChange={onUploadChange}/>
                                 <Box>
                                     <Grid container justifyContent={"space-between"}>
                                         <Button onClick={resetHandler} variant={"contained"}
